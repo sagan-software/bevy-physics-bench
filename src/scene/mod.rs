@@ -84,6 +84,20 @@ pub(crate) fn describe(settings: &Settings) -> serde_json::Value {
     serde_json::json!({ "bodies": encoded, "floor_half_extents": floor.to_array() })
 }
 
+/// Serialize the reserved floor with unchanged initial bodies and stable order.
+pub(crate) fn describe_capacity(
+    settings: &Settings,
+    capacity: crate::BodyCount,
+) -> Result<serde_json::Value, crate::BenchError> {
+    // Validate capacity before encoding any geometry for external adapters.
+    let scene = InitialScene::with_capacity(settings, capacity)?;
+    // Preserve body order and metre units in the common fingerprint payload.
+    let encoded = encode_bodies(scene.bodies());
+    Ok(
+        serde_json::json!({ "bodies": encoded, "floor_half_extents": scene.floor_half_extents().to_array() }),
+    )
+}
+
 /// Encode shared primitives for browser adapters in stable creation order.
 pub(crate) fn encode_bodies(bodies: &[Body]) -> Vec<serde_json::Value> {
     // Stable body order also defines every serialized joint parent index.

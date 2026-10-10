@@ -148,7 +148,12 @@ Coordinates in metres are `x = (i % 8) * 1.1 - 3.85`,
 `y = 10 + floor(i / (8 * d)) * 1.1`, and
 `z = (floor(i / 8) % d) * 1.1 - (d - 1) * 0.55`.
 
-The scene's original floor remains in place. The total cannot exceed 32768 bodies.
+When maximum capacity exceeds the initial box or ball count, the floor has
+1000 m horizontal half extents and 0.5 m half thickness. Its top remains at zero
+height. This floor keeps growing piles from spilling over the initial arena's
+edge. The initial-scene fingerprint includes the reserved floor. Fixed-size
+worlds retain their original floor and fingerprint. The total cannot exceed 32768 bodies.
+
 Different frame rates also advance different amounts of simulation time per
 wall-clock second because capacity uses one step per update.
 
@@ -164,5 +169,6 @@ Nonfinite poses, incorrect body counts, dynamic centres below -0.25 m, backend
 failures, or frame waits longer than two seconds invalidate capacity results.
 An interrupted retry does not retain its incomplete level. Cancellation, leaving
 the playground, hiding the page, or resizing it prevents saving a partial run.
-The hidden-preview test produced an explicit frame-stall error. No rendered FPS
-capacity score from that preview is published.
+The hidden-preview test produced an explicit frame-stall error. Hidden-preview
+runs are discarded; published capacity measurements require continuous visible
+frame delivery.

@@ -17,6 +17,31 @@ pub struct InitialScene {
 }
 
 impl InitialScene {
+    /// Preserve initial bodies and reserve a larger floor for future insertions.
+    /// Spare box or ball capacity selects 1000 metre horizontal half extents.
+    pub fn with_capacity(
+        settings: &Settings,
+        capacity: crate::BodyCount,
+    ) -> Result<Self, crate::BenchError> {
+        // Reject insufficient capacity before allocating initial geometry.
+        let count = settings.input().count;
+        if capacity.get() < count.get() {
+            return Err(crate::BenchError::InvalidSetting(
+                "capacity is smaller than the initial scene",
+            ));
+        }
+        // Keep the original bodies and enlarge only supported growth arenas.
+        let mut scene = Self::new(settings);
+        if capacity.get() > count.get()
+            && matches!(
+                settings.input().scenario,
+                crate::Scenario::Boxes | crate::Scenario::Balls
+            )
+        {
+            scene.floor = Vec3::new(1000.0, 0.5, 1000.0);
+        }
+        Ok(scene)
+    }
     /// Generate the next box or ball batch on a fixed eight-wide lattice.
     /// Stable indices determine positions in metres, independent of engine poses.
     pub fn drop_batch(

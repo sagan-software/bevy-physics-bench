@@ -21,13 +21,10 @@ impl BrowserSimulation {
     pub fn growing(engine: &str, settings: &str, capacity: u32) -> Result<Self, JsValue> {
         let engine = engine.parse().map_err(js_error)?;
         let settings = settings.parse().map_err(js_error)?;
-        let fingerprint = crate::SceneFingerprint::of(&settings).map_err(js_error)?;
-        let simulation = Simulation::with_capacity(
-            engine,
-            settings,
-            crate::BodyCount::try_from(capacity).map_err(js_error)?,
-        )
-        .map_err(js_error)?;
+        let capacity = crate::BodyCount::try_from(capacity).map_err(js_error)?;
+        let fingerprint =
+            crate::SceneFingerprint::with_capacity(&settings, capacity).map_err(js_error)?;
+        let simulation = Simulation::with_capacity(engine, settings, capacity).map_err(js_error)?;
         Ok(Self {
             simulation,
             fingerprint,
@@ -107,6 +104,22 @@ pub fn describe_scene(settings: &str) -> Result<String, JsValue> {
     let mut scene = crate::scene::describe(&settings);
     scene["fingerprint"] =
         serde_json::json!(crate::SceneFingerprint::of(&settings).map_err(js_error)?);
+    serde_json::to_string(&scene).map_err(js_error)
+}
+
+/// Export the reserved floor and its fingerprint for browser adapters and rendering.
+/// Invalid settings or capacity return JavaScript errors before any physics
+/// world is created.
+#[wasm_bindgen]
+pub fn describe_growing(settings: &str, capacity: u32) -> Result<String, JsValue> {
+    // Validate both serialized inputs before allocating the shared description.
+    let settings = settings.parse().map_err(js_error)?;
+    let capacity = crate::BodyCount::try_from(capacity).map_err(js_error)?;
+    let mut scene = crate::scene::describe_capacity(&settings, capacity).map_err(js_error)?;
+    // Use the same reserved-floor identity as the native and GPU worlds.
+    scene["fingerprint"] = serde_json::json!(
+        crate::SceneFingerprint::with_capacity(&settings, capacity).map_err(js_error)?
+    );
     serde_json::to_string(&scene).map_err(js_error)
 }
 

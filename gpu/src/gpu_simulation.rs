@@ -247,7 +247,7 @@ fn describe_growing(
         ));
     }
     crate::scene::validate_growth(settings, capacity)?;
-    describe_validated(settings)
+    describe_validated(settings, capacity)
 }
 
 /// Upload configured state and complete its initial readback before exposure.
@@ -302,9 +302,15 @@ fn is_finite_pose(pose: &Pose) -> bool {
 }
 
 /// Validate the local capability profile before creating immutable initial inputs.
-fn describe_validated(settings: &Settings) -> Result<(InitialScene, SceneFingerprint), BenchError> {
+fn describe_validated(
+    settings: &Settings,
+    capacity: bevy_physics_bench::BodyCount,
+) -> Result<(InitialScene, SceneFingerprint), BenchError> {
     crate::scene::validate(settings)?;
-    Ok((InitialScene::new(settings), SceneFingerprint::of(settings)?))
+    Ok((
+        InitialScene::with_capacity(settings, capacity)?,
+        SceneFingerprint::with_capacity(settings, capacity)?,
+    ))
 }
 
 #[cfg(test)]

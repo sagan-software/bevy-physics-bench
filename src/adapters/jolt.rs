@@ -93,6 +93,7 @@ pub(super) fn build(
     settings: &Settings,
     bodies: &[Body],
     capacity: crate::BodyCount,
+    floor: Vec3,
 ) -> Result<Vec<Entity>, BenchError> {
     let input = settings.input();
     // Published Oxijolt exposes full substeps; Jolt retains ten velocity and two position passes.
@@ -102,7 +103,7 @@ pub(super) fn build(
         .gravity(jolt::Vec3::new(0.0, -input.gravity, 0.0));
     // Allocate the native world and its floor before adding scenario bodies.
     let mut world = PhysicsWorld::new(configuration).map_err(integration_error)?;
-    create_floor(&mut world, settings, bodies)?;
+    create_floor(&mut world, settings, floor)?;
     let (handles, entities) = create_bodies(app, &mut world, bodies, &input)?;
     // Shared anchors use local centre-of-mass coordinates for primitive shapes.
     attach_joints(&mut world, bodies, &handles)?;
@@ -281,11 +282,10 @@ fn rotation(value: Quat) -> jolt::Quat {
 fn create_floor(
     world: &mut PhysicsWorld,
     settings: &Settings,
-    bodies: &[Body],
+    floor_extents: Vec3,
 ) -> Result<(), BenchError> {
     let input = settings.input();
     // The shared extent includes scenario-specific margins, including CCD projectiles.
-    let floor_extents = crate::scene::floor_half_extents(bodies, settings);
     let extent = floor_extents.x;
     let thickness = floor_extents.y * 2.0;
     let floor = jolt::Shape::new_box_with_convex_radius(

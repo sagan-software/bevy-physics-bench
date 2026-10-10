@@ -7,6 +7,7 @@ import { PhysicsView } from './view';
 import { LiveChart } from './live-chart';
 import { runCapacity, type CapacityMeasurement, type CapacityPlan } from './capacity';
 import { validateCapacityRecord, type CapacityRecord } from './capacity-records';
+import capacitySamples from '../data/capacity.json';
 import { DEFAULT_PLAN, RunCoordinator, runComparison } from './benchmark';
 import { comparable, validateRun, type Measurement, type Plan, type RunFile } from './results';
 
@@ -34,6 +35,7 @@ let physicsTimes: number[] = [];
 let queuedKicks: { index: number; delta: [number, number, number] }[] = [];
 let capacityAbort: AbortController | undefined;
 let capacityRecords: CapacityRecord[] = [];
+const publishedCapacity = capacitySamples.map(validateCapacityRecord);
 try {
   const stored: unknown = JSON.parse(localStorage.getItem('bevy-capacity-v1') ?? '[]');
   if (Array.isArray(stored)) capacityRecords = stored.slice(0, 20).flatMap(record => { try { return [validateCapacityRecord(record)]; } catch { return []; } });
@@ -391,16 +393,17 @@ function applyKick(index: number, delta: [number, number, number]): void {
 /** Preserve isolated capacity outcomes independently of fixed-scene timing records. */
 function showCapacity(): void {
   for (const id of ['capacity-results', 'capacity-results-history']) renderCapacity(element(id));
+  renderCapacity(element('published-capacity-results'), publishedCapacity, 'Published capacity runs');
 }
-function renderCapacity(root: HTMLElement): void {
+function renderCapacity(root: HTMLElement, records = capacityRecords, title = 'Saved capacity runs'): void {
   root.replaceChildren();
-  if (!capacityRecords.length) return;
-  const heading = document.createElement('h3'); heading.textContent = 'Capacity runs on this device'; root.append(heading);
+  if (!records.length) return;
+  const heading = document.createElement('h3'); heading.textContent = title; root.append(heading);
   const scroll = document.createElement('div'); scroll.className = 'table-scroll';
   const table = document.createElement('table'); table.className = 'capacity-history';
   const row = table.createTHead().insertRow();
   for (const title of ['Engine', 'Score', 'Target', 'Outcome', 'Result']) { const th = document.createElement('th'); th.textContent = title; th.scope = 'col'; row.append(th); }
-  for (const record of capacityRecords) for (const measurement of record.measurements) {
+  for (const record of records) for (const measurement of record.measurements) {
     const row = table.createTBody().insertRow();
     for (const text of [ENGINES[measurement.engine].name, measurement.outcome === 'error' ? '—' : `${measurement.score} bodies`, `${measurement.plan.target_fps} FPS (${measurement.plan.tolerance_percent}% tolerance)`, measurement.outcome === 'threshold' ? 'FPS limit' : measurement.outcome === 'limit' ? 'Body limit reached' : 'Run error']) row.insertCell().textContent = text;
     const button = document.createElement('button'); button.textContent = 'JSON'; button.setAttribute('aria-label', `Export ${ENGINES[measurement.engine].name} capacity run`);
@@ -434,7 +437,7 @@ async function measureCapacity(): Promise<void> {
   element('live-note').textContent = 'Capacity FPS includes rendering and one fixed physics step per frame. Each engine runs alone.';
   stepping = (async () => {
     try {
-      const metadata = await runtimeMetadata(), floor = await floorExtents(configured), measurements: CapacityMeasurement[] = [];
+      const metadata = await runtimeMetadata(), floor = await floorExtents(configured, plan.maximum), measurements: CapacityMeasurement[] = [];
       for (const [index, engine] of engines.entries()) {
         controller.signal.throwIfAborted();
         container.dataset.active = index ? 'right' : 'left';

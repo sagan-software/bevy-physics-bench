@@ -3,6 +3,69 @@
 use bevy_physics_bench::{BodyKick, Engine, Settings, Simulation, StepCount};
 
 #[test]
+fn growing_floor_retains_bodies_beyond_the_fixed_arena() {
+    let settings: Settings = r#"{"scenario":"boxes","count":1}"#.parse().unwrap();
+    let capacity = 2.try_into().unwrap();
+    let fixed = bevy_physics_bench::InitialScene::new(&settings);
+    let growing = bevy_physics_bench::InitialScene::with_capacity(&settings, capacity).unwrap();
+    assert_eq!(fixed.floor_half_extents().x, 20.0);
+    assert_eq!(
+        growing.floor_half_extents().to_array(),
+        [1000.0, 0.5, 1000.0]
+    );
+    assert_eq!(fixed.bodies()[0].position(), growing.bodies()[0].position());
+    assert_ne!(
+        bevy_physics_bench::SceneFingerprint::of(&settings).unwrap(),
+        bevy_physics_bench::SceneFingerprint::with_capacity(&settings, capacity).unwrap()
+    );
+    for engine in [Engine::Avian, Engine::Rapier, Engine::Jolt] {
+        if engine == Engine::Jolt && !cfg!(feature = "jolt") {
+            continue;
+        }
+        let mut world = Simulation::with_capacity(engine, settings, capacity).unwrap();
+        world
+            .kick(BodyKick::try_from((0, [20.0, 0.0, 0.0])).unwrap())
+            .unwrap();
+        world.advance(StepCount::try_from(180).unwrap()).unwrap();
+        let body = &world.snapshot().bodies[0];
+        assert!(body.position[0] > 20.0, "{engine:?}: {body:?}");
+        assert!(body.position[1] >= -0.25, "{engine:?}: {body:?}");
+    }
+}
+
+#[test]
+fn capacity_geometry_validates_bounds_and_preserves_fixed_fingerprints() {
+    use bevy_physics_bench::{BenchError, InitialScene, SceneFingerprint};
+    for scenario in ["boxes", "balls", "pyramid"] {
+        let settings: Settings = format!(r#"{{"scenario":"{scenario}","count":2}}"#)
+            .parse()
+            .unwrap();
+        let count = 2.try_into().unwrap();
+        assert_eq!(
+            SceneFingerprint::of(&settings).unwrap(),
+            SceneFingerprint::with_capacity(&settings, count).unwrap()
+        );
+        assert!(matches!(
+            InitialScene::with_capacity(&settings, 1.try_into().unwrap()),
+            Err(BenchError::InvalidSetting(
+                "capacity is smaller than the initial scene"
+            ))
+        ));
+        assert!(matches!(
+            SceneFingerprint::with_capacity(&settings, 1.try_into().unwrap()),
+            Err(BenchError::InvalidSetting(
+                "capacity is smaller than the initial scene"
+            ))
+        ));
+        let grown = InitialScene::with_capacity(&settings, 3.try_into().unwrap()).unwrap();
+        assert_eq!(
+            grown.floor_half_extents().x,
+            if scenario == "pyramid" { 20.0 } else { 1000.0 }
+        );
+    }
+}
+
+#[test]
 fn kick_validation_rejects_malformed_values_and_disallowed_targets_before_mutation() {
     for delta in [
         [f32::NAN, 0.0, 0.0],

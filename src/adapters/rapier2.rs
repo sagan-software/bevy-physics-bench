@@ -11,6 +11,7 @@ pub(super) fn build(
     app: &mut App,
     settings: &Settings,
     bodies: &[Body],
+    floor: Vec3,
 ) -> Result<Vec<Entity>, crate::BenchError> {
     // Set engine-specific solver effort without claiming equivalent solver work.
     let input = settings.input();
@@ -31,7 +32,7 @@ pub(super) fn build(
         dt: settings.timestep().as_secs_f32(),
         substeps: 1,
     });
-    spawn_floor(app.world_mut(), settings, bodies);
+    spawn_floor(app.world_mut(), settings, floor);
     // Stable creation order lets joint descriptions refer to prior bodies.
     let entities: Vec<Entity> = bodies
         .iter()
@@ -169,10 +170,9 @@ fn query_rays(
 }
 
 /// Construct the same finite floor used by the other engine adapters.
-fn spawn_floor(world: &mut World, settings: &Settings, bodies: &[Body]) {
-    // Compute a finite floor from the shared initial geometry.
+fn spawn_floor(world: &mut World, settings: &Settings, floor: Vec3) {
+    // Use the shared floor selected before backend construction.
     let input = settings.input();
-    let floor = crate::scene::floor_half_extents(bodies, settings);
     let extent = floor.x;
     let thickness = floor.y * 2.0;
     // Place the upper surface at zero metres and preserve material coefficients.

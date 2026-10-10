@@ -2,6 +2,7 @@ import { expect, it } from 'vitest';
 import { validateCapacityRecord, type CapacityRecord } from '../src/capacity-records';
 import { DEFAULT_SETTINGS } from '../src/types';
 import run from '../public/results/2026-10-10-5950x-ccd-3d.json' with { type: 'json' };
+import publishedCapacity from '../data/capacity.json';
 
 function record(): CapacityRecord {
   return { kind: 'capacity-v1', created_at: '2026-10-10T00:00:00.000Z', machine: 'test', browser: 'test', os: 'test', logical_cores: 1, viewport: [800, 400], pixel_ratio: 1,
@@ -78,4 +79,7 @@ it('rejects missing members and additional members at each object boundary', () 
   }
   for (const key of Object.keys(gpu)) reject(value => { value.measurements[0].engine = 'nexus'; value.measurements[0].gpu = { ...gpu }; delete (value.measurements[0].gpu as any)[key]; });
   reject(value => { (value.measurements[0].gpu as any) = { ...gpu, extra: true }; });
+});
+it('validates every published capacity record before the site uses it', () => {
+  for (const record of publishedCapacity) expect(() => validateCapacityRecord(record)).not.toThrow();
 });

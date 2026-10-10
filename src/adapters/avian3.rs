@@ -11,13 +11,14 @@ pub(super) fn build(
     app: &mut App,
     settings: &Settings,
     bodies: &[Body],
+    floor: Vec3,
 ) -> Result<Vec<Entity>, crate::BenchError> {
     // Configure the schedule before constructing any body or joint.
     let input = settings.input();
     app.add_plugins(PhysicsPlugins::new(PostUpdate));
     app.insert_resource(SubstepCount(input.solver_effort));
     app.insert_resource(Gravity(Vec3::NEG_Y * input.gravity));
-    spawn_floor(app.world_mut(), settings, bodies);
+    spawn_floor(app.world_mut(), settings, floor);
     // Body order is shared with the renderer and every joint parent index.
     let entities: Vec<Entity> = bodies
         .iter()
@@ -164,10 +165,9 @@ fn query_rays(
 }
 
 /// Construct the same finite floor used by the other engine adapters.
-fn spawn_floor(world: &mut World, settings: &Settings, bodies: &[Body]) {
-    // Compute a finite floor from the shared initial geometry.
+fn spawn_floor(world: &mut World, settings: &Settings, floor: Vec3) {
+    // Use the shared floor selected before backend construction.
     let input = settings.input();
-    let floor = crate::scene::floor_half_extents(bodies, settings);
     let extent = floor.x;
     let thickness = floor.y * 2.0;
     // Place the upper surface at zero metres and preserve material coefficients.

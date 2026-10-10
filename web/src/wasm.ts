@@ -5,6 +5,7 @@ interface WasmModule {
   default(): Promise<unknown>;
   BrowserSimulation: { new (engine: string, settings: string): Simulation; growing(engine: string, settings: string, capacity: number): Simulation };
   describe_scene(settings: string): string;
+  describe_growing(settings: string, capacity: number): string;
   describe_drop(settings: string, count: number, existing: number): string;
   build_metadata(): string;
   BrowserGpu?: { create(settings: string): Promise<GpuWorld>; growing(settings: string, capacity: number): Promise<GpuWorld> };
@@ -32,7 +33,8 @@ export async function createSimulation(engine: Engine, settings: Settings, capac
   }
   if (engine === 'jolt') {
     const { createJoltSimulation } = await import('./jolt');
-    return createJoltSimulation(settings, JSON.parse(module.describe_scene(JSON.stringify(settings))), capacity,
+    const scene = capacity === undefined ? module.describe_scene(JSON.stringify(settings)) : module.describe_growing(JSON.stringify(settings), capacity);
+    return createJoltSimulation(settings, JSON.parse(scene), capacity,
       (count, existing) => JSON.parse(module.describe_drop(JSON.stringify(settings), count, existing)));
   }
   return capacity === undefined ? new module.BrowserSimulation(engine, JSON.stringify(settings)) : module.BrowserSimulation.growing(engine, JSON.stringify(settings), capacity);
@@ -44,8 +46,10 @@ export async function runtimeMetadata(): Promise<Pick<RunFile, 'build' | 'versio
 }
 
 /** Read the generated floor dimensions once for rendering outside the measured operation. */
-export async function floorExtents(settings: Settings): Promise<[number, number, number]> {
-  return JSON.parse((await runtime()).describe_scene(JSON.stringify(settings))).floor_half_extents;
+export async function floorExtents(settings: Settings, capacity?: number): Promise<[number, number, number]> {
+  const module = await runtime();
+  const scene = capacity === undefined ? module.describe_scene(JSON.stringify(settings)) : module.describe_growing(JSON.stringify(settings), capacity);
+  return JSON.parse(scene).floor_half_extents;
 }
 
 /** Probe both the compiled adapter and the browser device before enabling GPU selection. */

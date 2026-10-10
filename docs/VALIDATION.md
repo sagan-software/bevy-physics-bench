@@ -41,8 +41,8 @@ window input, display errors, impossible private Bevy resource loss, upstream Jo
 failure callbacks, optimized accessor instantiations, and the WASM-only exports.
 The native viewer's exported PPM exercises its renderer without a window.
 
-The current CPU report has 2,236 of 2,368 source lines and 245 of 284 branches hit.
-The GPU report has 536 of 735 source lines and 36 of 50 branches hit.
+The current CPU report has 2,284 of 2,416 source lines and 249 of 288 branches hit.
+The GPU report has 540 of 739 source lines and 36 of 50 branches hit.
 Unlike the earlier report, this GPU report runs the prescribed test command
 without additional instrumented CLI collections. The unchanged GPU CLI therefore
 has fewer recorded hits. These totals
@@ -77,9 +77,9 @@ exercise kicks in both dimensions, malformed values, static and absent targets,
 unsupported scenes, deterministic planar growth, and pose/tick retention.
 Nexus hardware tests cover boxes and balls, kicks on appended bodies, static and
 absent targets, retained poses, capacity rejection, and unsupported growth profiles.
-All seven GPU integration tests pass on the RTX 5070 Ti, including 10000 bodies.
+All eight GPU integration tests pass on the RTX 5070 Ti, including 10000 bodies.
 
-The 62 frontend tests pass. Seven measured modules have 100% coverage:
+The 63 frontend tests pass. Seven measured modules have 100% coverage:
 310 statements, 260 branches, 46 functions, and 215 lines. Cases include transient
 FPS dips, two-window failure, capped growth, aborted in-flight work, invalid poses,
 wrong body counts, frame stalls, interrupted retries, strict records, and bounded
@@ -108,11 +108,12 @@ readout to 7.00 ms; that temporary widget was removed.
 At a device pixel ratio of 1.45, repeated draws retain the canvas backing store.
 A width change resizes it once; subsequent draws retain the new dimensions.
 
-The T3 preview remains invisible and returns no WebGPU adapter. Its frame delivery
-cannot establish a rendered FPS score or smooth visible playback. No new capacity
-score is published from that environment. The actual frame-stall test exports an
-error with no valid score. Earlier exploratory hidden-preview scores were removed
-from local test storage; the 342 historical measurements remain unchanged.
+The T3 preview initially stalled while hidden. Those runs produced errors and
+were discarded. After the preview became visible, Avian, Rapier, and Jolt
+completed threshold runs with continuously updating charts. These functional
+checks ran during local builds and are not published comparison scores.
+The preview still returns no WebGPU adapter, so Nexus browser execution remains
+unverified. The 342 historical step-timing measurements remain unchanged.
 
 Desktop and 390-pixel mobile captures cover the controls, charts, saved error,
 and capacity settings. The finish reviewer found overlapping support text and
@@ -129,3 +130,15 @@ These DOM/WebGL checks remain outside the measured unit-coverage modules.
 Jolt binding tests run the actual WASM module. They reject invalid capacity,
 non-dynamic kicks, invalid velocity components, unsupported growth, and calls after
 release. Valid insertion preserves ticks and registers the new body with physics.
+
+A visible growth run exposed bodies leaving the original 20 m floor half-width.
+The corrected growth profile reserves 1000 m horizontal half extents before
+constructing any engine. Native Avian, Rapier, Jolt, and Nexus regression tests
+kick a body beyond x = 20 m and verify that it remains above the floor.
+Public geometry tests reject insufficient capacity and preserve fixed-scene
+fingerprints. Browser Avian, Rapier, and Jolt report identical growth fingerprints.
+
+All added native floor and fingerprint branches have coverage hits. Browser
+exports and the published-capacity DOM section remain outside native and unit
+coverage; browser checks cover the actual WASM floor and engine construction.
+The frontend suite validates every bundled published capacity record.

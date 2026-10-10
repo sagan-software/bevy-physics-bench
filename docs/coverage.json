@@ -326,7 +326,7 @@
         "hit_lines": 340,
         "uncovered_lines": [
           67,
-          152,
+          153,
           323,
           324,
           326,
@@ -344,7 +344,7 @@
             "1"
           ],
           [
-            "151",
+            "152",
             "0",
             "0"
           ],
@@ -365,16 +365,16 @@
         "path": "src/adapters/mod.rs",
         "branches": 8,
         "hit_branches": 7,
-        "lines": 157,
-        "hit_lines": 152,
+        "lines": 161,
+        "hit_lines": 156,
         "uncovered_lines": [
-          92,
-          93,
-          105
+          95,
+          96,
+          108
         ],
         "uncovered_branches": [
           [
-            "99",
+            "102",
             "0",
             "0"
           ]
@@ -388,11 +388,11 @@
         "lines": 166,
         "hit_lines": 165,
         "uncovered_lines": [
-          168
+          169
         ],
         "uncovered_branches": [
           [
-            "156",
+            "157",
             "0",
             "1"
           ]
@@ -406,11 +406,11 @@
         "lines": 167,
         "hit_lines": 166,
         "uncovered_lines": [
-          170
+          171
         ],
         "uncovered_branches": [
           [
-            "158",
+            "159",
             "0",
             "1"
           ]
@@ -421,8 +421,8 @@
         "path": "src/fingerprint.rs",
         "branches": 6,
         "hit_branches": 6,
-        "lines": 25,
-        "hit_lines": 25,
+        "lines": 34,
+        "hit_lines": 34,
         "uncovered_lines": [],
         "uncovered_branches": []
       },
@@ -552,10 +552,10 @@
       },
       {
         "path": "src/scene/initial_scene.rs",
-        "branches": 4,
-        "hit_branches": 4,
-        "lines": 42,
-        "hit_lines": 42,
+        "branches": 8,
+        "hit_branches": 8,
+        "lines": 61,
+        "hit_lines": 61,
         "uncovered_lines": [],
         "uncovered_branches": []
       },
@@ -563,8 +563,8 @@
         "path": "src/scene/mod.rs",
         "branches": 16,
         "hit_branches": 16,
-        "lines": 102,
-        "hit_lines": 102,
+        "lines": 112,
+        "hit_lines": 112,
         "uncovered_lines": [],
         "uncovered_branches": []
       },
@@ -581,8 +581,8 @@
         "path": "src/simulation.rs",
         "branches": 4,
         "hit_branches": 4,
-        "lines": 55,
-        "hit_lines": 55,
+        "lines": 61,
+        "hit_lines": 61,
         "uncovered_lines": [],
         "uncovered_branches": []
       },
@@ -880,8 +880,8 @@
         "path": "gpu/src/gpu_simulation.rs",
         "branches": 12,
         "hit_branches": 12,
-        "lines": 218,
-        "hit_lines": 213,
+        "lines": 222,
+        "hit_lines": 217,
         "uncovered_lines": [
           221,
           222,

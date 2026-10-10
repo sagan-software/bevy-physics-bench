@@ -14,6 +14,20 @@ use std::{fmt, str::FromStr};
 pub struct SceneFingerprint([u8; 32]);
 
 impl SceneFingerprint {
+    /// Hash the actual initial geometry, including a reserved growth floor.
+    /// Equal initial count and capacity retain the fixed-scene fingerprint.
+    /// Insufficient capacity returns a setting error before hashing.
+    pub fn with_capacity(
+        settings: &Settings,
+        capacity: crate::BodyCount,
+    ) -> Result<Self, BenchError> {
+        // Validate capacity and generate the selected floor before serialization.
+        let scene = crate::scene::describe_capacity(settings, capacity)?;
+        // The floor is part of geometry, so growing and fixed scenes cannot collide.
+        let payload = serde_json::json!({ "profile": 1, "settings": settings, "scene": scene });
+        let encoded = serde_json::to_vec(&payload)?;
+        Ok(Self(Sha256::digest(encoded).into()))
+    }
     /// Hash settings and generated geometry before simulation or
     /// measurement can change either.
     /// The payload profile is documented with the public result schema

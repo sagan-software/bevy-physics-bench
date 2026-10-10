@@ -48,6 +48,7 @@ impl Adapter {
         settings: &Settings,
         bodies: &[Body],
         capacity: crate::BodyCount,
+        floor: Vec3,
     ) -> Result<Self, crate::BenchError> {
         let is_ik = settings.input().scenario == crate::Scenario::InverseKinematics;
         if is_ik != (engine == Engine::Bevy) {
@@ -64,7 +65,9 @@ impl Adapter {
         insert_query_origins(&mut app, bodies);
         // Build the selected backend before finishing plugin initialization.
         let dimension = settings.input().dimension;
-        let entities = build_engine(&mut app, engine, dimension, settings, bodies, capacity)?;
+        let entities = build_engine(
+            &mut app, engine, dimension, settings, bodies, capacity, floor,
+        )?;
         app.finish();
         app.cleanup();
         // Rapier initializes its context outside the measured schedule.
@@ -194,13 +197,14 @@ fn build_engine(
     settings: &Settings,
     bodies: &[Body],
     capacity: crate::BodyCount,
+    floor: Vec3,
 ) -> Result<Vec<Entity>, crate::BenchError> {
     let _ = capacity; // Native Jolt allocates its bounded body registry up front.
     match (engine, dimension) {
-        (Engine::Avian, Dimension::Two) => avian2::build(app, settings, bodies),
-        (Engine::Avian, Dimension::Three) => avian3::build(app, settings, bodies),
-        (Engine::Rapier, Dimension::Two) => rapier2::build(app, settings, bodies),
-        (Engine::Rapier, Dimension::Three) => rapier3::build(app, settings, bodies),
+        (Engine::Avian, Dimension::Two) => avian2::build(app, settings, bodies, floor),
+        (Engine::Avian, Dimension::Three) => avian3::build(app, settings, bodies, floor),
+        (Engine::Rapier, Dimension::Two) => rapier2::build(app, settings, bodies, floor),
+        (Engine::Rapier, Dimension::Three) => rapier3::build(app, settings, bodies, floor),
         (Engine::Bevy, _) => Ok(ik::build(app, settings, bodies)),
         (Engine::Jolt, Dimension::Two) => Err(crate::BenchError::Unsupported(
             "Jolt supports only 3D scenes",
@@ -208,7 +212,7 @@ fn build_engine(
         (Engine::Jolt, Dimension::Three) => {
             #[cfg(all(feature = "jolt", not(target_arch = "wasm32")))]
             {
-                jolt::build(app, settings, bodies, capacity)
+                jolt::build(app, settings, bodies, capacity, floor)
             }
             #[cfg(not(all(feature = "jolt", not(target_arch = "wasm32"))))]
             {

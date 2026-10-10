@@ -187,3 +187,9 @@ or disabled. Import uses the same validator and a 20 MB file limit. Capacity
 records appear locally on both the Playground and Results pages. They are not
 included in the historical step-timing manifest or its CLI submission validator.
 A future incompatible capacity profile requires a new `kind` value.
+
+Published capacity records live in `web/data/capacity.json`. The Results page
+renders these records separately from saved runs, with the same settings,
+viewport, score, outcome, and JSON export controls. Loading a published record
+does not copy it into local storage. The frontend test suite validates every
+published record against the capacity schema and scoring rules.

@@ -5,6 +5,32 @@ use bevy_physics_bench_gpu::GpuSimulation;
 
 #[test]
 #[ignore = "requires a working GPU adapter"]
+fn growing_floor_retains_bodies_beyond_the_fixed_arena() {
+    futures::executor::block_on(async {
+        let settings: Settings = r#"{"scenario":"boxes","count":1}"#.parse().unwrap();
+        let capacity = 2.try_into().unwrap();
+        let mut world = GpuSimulation::with_capacity(settings, capacity)
+            .await
+            .unwrap();
+        assert_eq!(
+            world.fingerprint(),
+            bevy_physics_bench::SceneFingerprint::with_capacity(&settings, capacity).unwrap()
+        );
+        world
+            .kick(bevy_physics_bench::BodyKick::try_from((0, [20.0, 0.0, 0.0])).unwrap())
+            .await
+            .unwrap();
+        for _ in 0..180 {
+            world.advance().await.unwrap();
+        }
+        let body = &world.snapshot().bodies[0];
+        assert!(body.position[0] > 20.0, "{body:?}");
+        assert!(body.position[1] >= -0.25, "{body:?}");
+    });
+}
+
+#[test]
+#[ignore = "requires a working GPU adapter"]
 fn interactions_and_growth_preserve_the_existing_gpu_world() {
     futures::executor::block_on(async {
         for scenario in ["boxes", "balls"] {

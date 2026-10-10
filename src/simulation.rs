@@ -44,8 +44,14 @@ impl Simulation {
             ));
         }
         // Generate one immutable input description before constructing the selected backend.
-        let bodies = crate::scene::generate(&settings);
-        let adapter = crate::adapters::Adapter::new(engine, &settings, &bodies, capacity)?;
+        let scene = crate::InitialScene::with_capacity(&settings, capacity)?;
+        let adapter = crate::adapters::Adapter::new(
+            engine,
+            &settings,
+            scene.bodies(),
+            capacity,
+            scene.floor_half_extents(),
+        )?;
         Ok(Self {
             adapter,
             settings,
