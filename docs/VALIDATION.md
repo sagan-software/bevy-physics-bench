@@ -55,6 +55,11 @@ rendered hierarchy. Design tokens and the accepted layout are recorded in DESIGN
 The 13 published records also loaded in desktop and mobile Results views. Filters
 selected the two native pyramid records, and history displayed one series per engine.
 
+Precision tests cover each physical coefficient's `f32` rounding, direct settings
+serialization, result-value expansion, round trip, and near-limit validation order.
+All 342 published measurements agree on scene fingerprints after that conversion:
+29 configurations are represented, including 28 in both native and browser records.
+
 Coverage is execution evidence. Physical assertions, identical generated inputs,
 raw timing samples, and result validation establish separate properties. Release
 measurements must come from uninstrumented binaries with a clean source revision.

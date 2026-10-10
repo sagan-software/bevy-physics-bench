@@ -79,6 +79,34 @@ fn settings_accept_and_preserve_valid_boundaries() {
 }
 
 #[test]
+fn each_material_or_gravity_value_rounds_to_f32_before_rust_validation() {
+    for field in ["gravity", "friction", "restitution"] {
+        let source = format!(r#"{{"{field}":0.10000000000000001}}"#);
+        let settings = source.parse::<Settings>().unwrap();
+        let value = serde_json::to_value(settings).unwrap();
+        assert_eq!(value[field].to_string(), "0.10000000149011612");
+        let encoded = serde_json::to_string(&settings).unwrap();
+        assert!(encoded.contains(&format!(r#""{field}":0.1"#)));
+        assert_eq!(encoded.parse::<Settings>().unwrap(), settings);
+    }
+}
+
+#[test]
+fn rust_bounds_apply_after_decimal_input_rounds_to_f32() {
+    for (field, accepted, rejected, expected) in [
+        ("gravity", "50.0000001", "50.00001", 50.0),
+        ("friction", "2.00000001", "2.000001", 2.0),
+        ("restitution", "1.00000001", "1.000001", 1.0),
+    ] {
+        let source = format!(r#"{{"{field}":{accepted}}}"#);
+        let settings = source.parse::<Settings>().unwrap();
+        assert_eq!(serde_json::to_value(settings).unwrap()[field], expected);
+        let source = format!(r#"{{"{field}":{rejected}}}"#);
+        assert!(source.parse::<Settings>().is_err());
+    }
+}
+
+#[test]
 fn direct_construction_rejects_nonfinite_coefficients_and_step_bounds() {
     use bevy_physics_bench::{BenchError, SettingsInput};
     for value in [f32::NAN, f32::INFINITY, f32::NEG_INFINITY] {

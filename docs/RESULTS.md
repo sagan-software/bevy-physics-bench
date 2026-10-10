@@ -67,6 +67,18 @@ or `continuous`. The schema enumerates all 13 scenario identifiers. CLI settings
 files may omit fields and receive documented Rust defaults; result files require
 the complete settings object. Unknown fields and invalid values remain errors.
 
+Rust stores gravity, friction, and restitution as `f32` and validates their bounds
+after decimal input rounds to that type. The browser schema validates the entered
+JavaScript number before Rust conversion. For example, Rust accepts gravity
+`50.0000001` as `50`, while the browser rejects that entered value above `50`.
+Focused tests cover this rounding boundary independently for all three fields.
+
+Direct Rust settings serialization emits the shortest decimal for each `f32` value.
+Native result objects serialize those values through `serde_json::Value`, which
+exposes their `f64` expansion. Browser result objects retain the entered JavaScript
+numbers. Thus default gravity appears as `9.810000419616699` in native records and
+`9.81` in browser records. Both scene fingerprints use the validated Rust settings.
+
 The plan requires 1–600 warmup steps, 5–1000 samples per repeat, 1–60 steps per
 sample, and 1–9 repeats. Samples retain collection order across repeats.
 Sample count must equal samples per repeat multiplied by repeats. Durations use
