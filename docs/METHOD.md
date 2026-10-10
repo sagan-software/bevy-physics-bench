@@ -93,3 +93,76 @@ and native records remain separate. History fixes machine facts, compiler,
 build flags, enabled features, settings, plan, fingerprint, scope, and engine while
 allowing dependency versions and source revisions to change. Different environments
 never form a single regression line.
+
+## Interactive playback and capacity
+
+A click adds a world-space velocity change to one dynamic body. It preserves the
+body's prior velocity and wakes sleeping bodies. Paired views use the same stable
+body index and velocity change even after their poses diverge.
+
+In 3D, the kick adds
+12 m/s along the camera's horizontal viewing direction and 6 m/s upward. In 2D,
+it adds either -12 or 12 m/s horizontally and 6 m/s upward, with zero Z velocity.
+When a 3D camera ray is vertical, the horizontal kick is zero.
+
+A gesture that ever moves more than five CSS pixels from its starting point does
+not kick, even if it returns. Physics interactions are disabled
+during measured runs. A kick from a paused view advances one shared step.
+
+The ten-second area chart records completed visible updates. FPS is
+`1000 / interval_ms`, where the interval is the elapsed time between completed
+updates and 1000 converts milliseconds to seconds. Physics time divides elapsed
+step time in milliseconds by the number of fixed steps. Paired views share FPS;
+each retains its own physics time. Manual steps and pauses do not contribute FPS.
+
+The chart retains at most 2400 points and redraws on animation frames. Its numeric
+readout averages points from the latest 500 milliseconds.
+
+Capacity runs own one simulation at a time and free it before measuring the next
+engine. Each frame performs one fixed physics step, snapshot transfer, and render
+submission. The measured update rate includes browser scheduling and those
+operations. It approximates rendered throughput; it does not measure physical
+display presentation or isolated GPU kernel execution. The browser schedules
+animation frames near display refresh and can suspend hidden pages.
+Sources: [requestAnimationFrame](https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame)
+and [performance.now](https://developer.mozilla.org/en-US/docs/Web/API/Performance/now).
+
+Each load has a settling interval followed by a measurement window. A window's
+FPS is `frames * 1000 / elapsed_ms`: `frames` counts completed updates,
+`elapsed_ms` measures the whole window in milliseconds, and 1000 converts units.
+Allocation, insertion, and settling are excluded from that window.
+
+A window
+passes when FPS is at least `target_fps * (1 - tolerance_percent / 100)`.
+The default 60 FPS target and 3% tolerance require 58.2 FPS.
+
+A missed window gets
+one retry at the same load. Two misses stop the run. The score is the last passing
+body count, or zero if the initial load fails. A maximum-count outcome is a lower
+bound, not a measured failure threshold. Higher targets can exceed display refresh.
+
+Growth retains existing poses, velocities, and ticks. Added boxes or balls use
+unit-density colliders and a deterministic eight-column lattice, independent of
+current engine poses. For stable body index `i`, depth `d` is 1 in 2D and 8 in 3D.
+Coordinates in metres are `x = (i % 8) * 1.1 - 3.85`,
+`y = 10 + floor(i / (8 * d)) * 1.1`, and
+`z = (floor(i / 8) % d) * 1.1 - (d - 1) * 0.55`.
+
+The scene's original floor remains in place. The total cannot exceed 32768 bodies.
+Different frame rates also advance different amounts of simulation time per
+wall-clock second because capacity uses one step per update.
+
+Nexus 0.6.0's incremental buffers use `RbdState::empty` and `append_bodies`.
+The empty constructor fixes 60 Hz and four solver iterations; this growth profile
+rejects other settings. The fixed-scene adapter keeps its configurable solver
+profile. GPU kicks read velocities, preserve angular velocity, and write the
+selected linear velocity between steps. These transfers occur outside measurement.
+Sources: [Nexus state](https://docs.rs/nexus_rbd3d/0.6.0/nexus_rbd3d/pipeline/struct.RbdState.html)
+and [incremental insertion](https://docs.rs/nexus_rbd3d/0.6.0/src/nexus_rbd3d/pipeline/insertion_removal.rs.html).
+
+Nonfinite poses, incorrect body counts, dynamic centres below -0.25 m, backend
+failures, or frame waits longer than two seconds invalidate capacity results.
+An interrupted retry does not retain its incomplete level. Cancellation, leaving
+the playground, hiding the page, or resizing it prevents saving a partial run.
+The hidden-preview test produced an explicit frame-stall error. No rendered FPS
+capacity score from that preview is published.

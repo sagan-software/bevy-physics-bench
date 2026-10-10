@@ -17,6 +17,35 @@ passive joint chains, ragdolls, and inverse kinematics. Engine dropdowns reset b
 worlds to the same seed. Settings control body count, timestep, materials, gravity,
 sleeping, collision detection, solver effort, and sampling.
 
+## Interact and find capacity
+
+Click a dynamic body to kick the same body in both engines. Drag to move the
+shared camera. Enter or Space kicks the body at the centre of a focused canvas.
+The View selector switches between side-by-side and one-engine playback.
+Changing an engine recreates the configured scene; saved results remain available.
+
+Each view has a moving ten-second area chart with FPS and physics-time metrics.
+Paired views share an update rate because both engines run in the same loop.
+Choose one engine to inspect its update rate in isolation.
+
+Choose Grow to FPS limit for box or ball workloads. Set the target FPS,
+tolerance, batch size, maximum body count, settling time, and measurement window.
+The runner adds bodies to the existing world and tests each engine separately.
+Two consecutive missed windows stop growth. The score is the last passing count;
+reaching the maximum reports a lower bound. Errors have no valid score.
+
+Capacity runs include rendering and retain settings, raw windows, browser,
+viewport, versions, and machine metadata. Results appear beneath the views and
+on the Results page. JSON export and import preserve individual runs.
+Keep the page visible and its size fixed during collection. Display refresh rate
+limits the measured update rate. The hidden T3 preview could verify behavior but
+could not supply a valid published rendered-capacity score.
+
+Nexus growth requires WebGPU, 3D boxes or balls, 60 Hz, solver effort 4,
+disabled sleeping, and discrete collision detection. Its current incremental
+constructor fixes the timestep and iteration count. Device memory and buffer
+limits can require a smaller maximum. Jolt uses its official JavaScript binding.
+
 ## Run native benchmarks
 
 Install Rust through rustup. The repository pins Rust 1.98.1 and its components.

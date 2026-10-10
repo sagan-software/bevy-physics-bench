@@ -80,7 +80,7 @@ fn attach_joints(
 
 /// Convert one primitive and its motion policy into engine components
 /// before simulation starts.
-fn spawn_body(world: &mut World, input: &crate::SettingsInput, body: &Body) -> Entity {
+pub(super) fn spawn_body(world: &mut World, input: &crate::SettingsInput, body: &Body) -> Entity {
     // Preserve the shared primitive dimensions at the collider boundary.
     let collider = match body.shape {
         Shape::Box { half_extents } => {
@@ -185,4 +185,23 @@ fn spawn_floor(world: &mut World, settings: &Settings, bodies: &[Body]) {
         Friction::coefficient(input.friction),
         Restitution::coefficient(input.restitution),
     ));
+}
+
+/// Add world velocity and wake an existing dynamic entity.
+pub(super) fn kick(
+    world: &mut World,
+    entity: Entity,
+    delta: Vec3,
+) -> Result<(), crate::BenchError> {
+    // Resolve the owned entity before modifying either component.
+    let mut body = world
+        .get_entity_mut(entity)
+        .map_err(super::integration_error)?;
+    body.get_mut::<Velocity>()
+        .expect("dynamic velocity exists")
+        .linear += delta;
+    body.get_mut::<Sleeping>()
+        .expect("sleep policy exists")
+        .sleeping = false;
+    Ok(())
 }

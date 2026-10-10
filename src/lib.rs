@@ -16,6 +16,7 @@ mod statistics;
 
 pub use self::fingerprint::SceneFingerprint;
 pub use self::model::body_count::BodyCount;
+pub use self::model::body_kick::BodyKick;
 pub use self::model::body_kind::BodyKind;
 pub use self::model::dimension::Dimension;
 pub use self::model::engine::Engine;

@@ -79,15 +79,21 @@ pub(crate) fn describe(settings: &Settings) -> serde_json::Value {
     // Encode the same geometry consumed by native adapters before any simulation.
     let bodies = generate(settings);
     let floor = floor_half_extents(&bodies, settings);
+    // Keep engine-independent geometry and floor units at the JSON boundary.
+    let encoded = encode_bodies(&bodies);
+    serde_json::json!({ "bodies": encoded, "floor_half_extents": floor.to_array() })
+}
+
+/// Encode shared primitives for browser adapters in stable creation order.
+pub(crate) fn encode_bodies(bodies: &[Body]) -> Vec<serde_json::Value> {
     // Stable body order also defines every serialized joint parent index.
-    let encoded: Vec<_> = bodies.iter().map(|body| serde_json::json!({
+    bodies.iter().map(|body| serde_json::json!({
         "position": body.position.to_array(), "rotation": body.rotation.to_array(),
         "shape": body.shape, "kind": body.kind,
         "velocity": body.velocity.to_array(), "angular_velocity": body.angular_velocity.to_array(),
         "joint": body.joint.map(|joint| serde_json::json!({ "parent": joint.parent,
             "parent_anchor": joint.parent_anchor.to_array(), "child_anchor": joint.child_anchor.to_array() })),
-    })).collect();
-    serde_json::json!({ "bodies": encoded, "floor_half_extents": floor.to_array() })
+    })).collect()
 }
 
 /// Derive an integer lattice ceiling without target-dependent floating root

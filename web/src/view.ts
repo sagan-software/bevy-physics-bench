@@ -18,6 +18,9 @@ export class PhysicsView {
   private grid: THREE.GridHelper;
   private ground: THREE.Mesh;
   onCameraChange?: () => void;
+  onKick?: (index: number, velocity: [number, number, number]) => void;
+  private snapshot?: Snapshot;
+  private dimension: Dimension = '3d';
 
   constructor(private mount: HTMLElement, color: string, label: string) {
     this.color = new THREE.Color(color);
@@ -37,10 +40,24 @@ export class PhysicsView {
     this.controls.enableDamping = false;
     this.controls.addEventListener('change', () => { this.draw(); this.onCameraChange?.(); });
     this.mount.append(this.canvas);
+    let pointer: { x: number; y: number; id: number; dragged: boolean } | undefined;
+    this.canvas.addEventListener('pointerdown', event => { pointer = event.button === 0 && event.isPrimary ? { x: event.clientX, y: event.clientY, id: event.pointerId, dragged: false } : undefined; });
+    this.canvas.addEventListener('pointermove', event => { if (pointer?.id === event.pointerId && !pointer.dragged && Math.hypot(event.clientX - pointer.x, event.clientY - pointer.y) > 5) pointer.dragged = true; });
+    this.canvas.addEventListener('pointercancel', () => { pointer = undefined; });
+    this.canvas.addEventListener('pointerup', event => {
+      if (pointer?.id === event.pointerId && !pointer.dragged && Math.hypot(event.clientX - pointer.x, event.clientY - pointer.y) <= 5) this.pick(event.clientX, event.clientY);
+      pointer = undefined;
+    });
+    this.canvas.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault(); const box = this.canvas.getBoundingClientRect(); this.pick(box.x + box.width / 2, box.y + box.height / 2);
+      }
+    });
     this.observer = new ResizeObserver(() => this.resize()); this.observer.observe(this.mount);
   }
 
-  reset(snapshot: Snapshot, dimension: Dimension, color: string, floor: [number, number, number]): void {
+  reset(snapshot: Snapshot, dimension: Dimension, color: string, floor: [number, number, number], fitCamera = true): void {
+    this.dimension = dimension;
     this.ground.scale.set(floor[0], floor[2], 1);
     this.clearBodies(); this.color.set(color);
     const grouped = new Map<string, number[]>();
@@ -66,10 +83,12 @@ export class PhysicsView {
     this.grid.rotation.x = dimension === '2d' ? Math.PI / 2 : 0;
     this.grid.position.z = dimension === '2d' ? -.7 : 0;
     this.ground.visible = dimension === '3d';
-    this.fit(snapshot, dimension); this.update(snapshot);
+    if (fitCamera) this.fit(snapshot, dimension);
+    this.update(snapshot);
   }
 
   update(snapshot: Snapshot): void {
+    this.snapshot = snapshot;
     const muted = new THREE.Color('#576c78'), active = this.color.clone(), white = new THREE.Color('white');
     for (const { mesh, indices } of this.groups) {
       indices.forEach((bodyIndex, instanceIndex) => {
@@ -93,6 +112,21 @@ export class PhysicsView {
       positions.needsUpdate = true;
     }
     this.draw();
+  }
+
+  /** Pick one visible dynamic body; both engines receive its stable scene index. */
+  private pick(x: number, y: number): void {
+    const box = this.canvas.getBoundingClientRect();
+    const ray = new THREE.Raycaster();
+    ray.setFromCamera(new THREE.Vector2((x - box.x) / box.width * 2 - 1, 1 - (y - box.y) / box.height * 2), this.camera);
+    for (const { mesh } of this.groups) mesh.computeBoundingSphere();
+    for (const hit of ray.intersectObjects(this.groups.map(group => group.mesh))) {
+      const group = this.groups.find(group => group.mesh === hit.object)!;
+      const index = group.indices[hit.instanceId!];
+      if (this.snapshot?.bodies[index].kind !== 'dynamic') continue;
+      const direction = this.dimension === '2d' ? new THREE.Vector3(hit.point.x >= this.controls.target.x ? 1 : -1, 0, 0) : new THREE.Vector3(ray.ray.direction.x, 0, ray.ray.direction.z).normalize();
+      this.onKick?.(index, [direction.x * 12, 6, direction.z * 12]); break;
+    }
   }
 
   syncCamera(other: PhysicsView): void {

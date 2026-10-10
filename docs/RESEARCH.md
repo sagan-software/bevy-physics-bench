@@ -114,5 +114,27 @@ Sources: [Khal 0.4.0](https://docs.rs/khal/0.4.0/khal/) and
 
 The native viewer uses minifb 0.28.0 to present CPU-rendered primitive wireframes.
 The browser uses Three.js for rendering and receives poses from the same seeded
-scene model. Rendering stays outside measured work.
+scene model. Rendering stays outside fixed-scene step timings; capacity runs include it.
 Source: [minifb 0.28.0](https://docs.rs/minifb/0.28.0/minifb/).
+
+## Interactive growth follow-up
+
+The browser comparison retains Avian, Rapier, official JoltPhysics.js, and Nexus.
+JoltPhysics.js exposes body insertion, velocity changes, and activation, so the
+browser adapter can grow and disrupt a retained world. Nexus 0.6.0 exposes
+incremental primitive insertion and velocity buffers. Its Rapier conversion does
+not reserve usable insertion slots by increasing body capacity. The growth
+adapter therefore uses the empty-state constructor, whose solver defaults require
+the documented 60 Hz and four-iteration profile.
+Sources: [JoltPhysics.js](https://github.com/jrouwe/JoltPhysics.js),
+[Nexus state API](https://docs.rs/nexus_rbd3d/0.6.0/nexus_rbd3d/pipeline/struct.RbdState.html),
+and [Nexus simulation parameters](https://docs.rs/nexus_rbd_shaders3d/0.6.0/nexus_rbd_shaders3d/dynamics/struct.RbdSimParams.html).
+
+Two additional candidates have different comparison scopes. `cannon-es` would add
+a JavaScript physics baseline. `ammo.js` would add Bullet compiled with Emscripten.
+
+Neither is implemented here. They would compare browser bindings and rendering
+throughput; their timings would not represent Bevy integration cost. Establish
+matching scene semantics and adapter tests before adding either to the catalog.
+Sources: [cannon-es](https://github.com/pmndrs/cannon-es) and
+[Ammo.js](https://github.com/kripken/ammo.js).

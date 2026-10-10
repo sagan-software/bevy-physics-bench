@@ -1,5 +1,6 @@
 //! Establish a WebGPU device and preserve its reported hardware identity.
 
+use crate::error::failure;
 use bevy_physics_bench::{BenchError, BodyCount};
 use khal::{
     backend::{GpuBackend, WebGpu},
@@ -85,12 +86,6 @@ fn adapter_metadata(name: &str, backend: &str, driver: &str) -> serde_json::Valu
     };
     // Retain the schema's complete member set even when hardware facts are withheld.
     serde_json::json!({ "name": name, "backend": backend, "driver": driver })
-}
-
-/// Keep the original graphics error available through the shared
-/// integration error's source chain.
-pub(crate) fn failure(error: impl std::error::Error + Send + Sync + 'static) -> BenchError {
-    BenchError::Engine(Box::new(error))
 }
 
 #[cfg(test)]

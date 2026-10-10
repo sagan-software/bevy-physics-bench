@@ -30,7 +30,9 @@ manifest filenames are rejected. Rust settings parsing rejects duplicate fields.
 
 The root requires `schema_version`, `created_at`, `source`, `environment`, `build`,
 `versions`, and `measurements`. `schema_version` is the integer 1. `source` is
-`local` or `published`. `measurements` contains 1–500 records in collection order.
+`local` or `published`.
+
+`measurements` contains 1–500 records in collection order.
 The schema defines every exact type, bound, required member, and nullable value.
 
 `environment` requires runtime, machine label, CPU, logical cores, memory bytes,
@@ -114,3 +116,74 @@ There is no network upload endpoint or authentication protocol.
 Browser storage retains up to 30 local runs. Published files are immutable inputs
 reviewed through pull requests. Future incompatible formats require a new schema
 version and explicit reader migration; version 1 has no open extension members.
+
+## Rendered capacity records
+
+[capacity.schema.json](../capacity.schema.json) defines the separate `capacity-v1`
+format using JSON Schema draft 2020-12. The existing `schema_version: 1` step-timing
+format is unchanged. The capacity validator also recomputes level order, retry
+requirements, FPS, score, and outcome. It rejects additional object members,
+missing required members, duplicate engines, and incompatible engine profiles.
+Browser JSON parsing keeps the last value of duplicate textual object keys;
+validation then checks that resulting object. Array order is preserved.
+
+Every top-level member is required. `kind` is exactly `capacity-v1`. `created_at`
+is a valid timestamp spelled `YYYY-MM-DDTHH:mm:ss.sssZ`, with exactly three
+fractional digits and uppercase Z; numeric offsets and normalization are rejected.
+`machine` is a nonblank string of 1 to 120 characters without control characters.
+
+`browser` and `os` are strings up to 2000 characters. `logical_cores` is an integer
+from 1 to 4096. `viewport` is exactly `[width, height]` in CSS pixels, each an
+integer from 1 to 16384. `pixel_ratio` is greater than zero and at most two.
+
+The browser collector trims the machine label; imports preserve accepted values.
+
+`metadata` contains exactly `build`, `versions`, `target`, and `profile`.
+Build and version members follow the bounded string fields in the schema.
+Target is `wasm32-unknown-unknown`; profile is `baseline` or `gpu`.
+
+`measurements` contains one or two engine records, in execution order.
+Engine is `avian`, `rapier`, `jolt`, or `nexus`; Jolt and Nexus require 3D.
+
+Each record requires `settings`, `plan`, `score`, `outcome`, `detail`, `levels`,
+`scene_fingerprint`, and `gpu`. Settings retain the initial body count and the
+existing physical-settings vocabulary. Capacity permits only boxes and balls.
+
+Plan members are integers: `target_fps` is 1 to 240, `tolerance_percent` is 0 to 10,
+`increment` is 1 to 4096, and `maximum` is the initial count through 32768.
+`settle_ms` and `window_ms` are each 100 to 10000 milliseconds.
+
+Each level requires
+its integer body `count` and one or two `windows`. Counts begin at the initial
+count and increase by the increment, clamped once at the maximum. A first failed
+window requires exactly one retry. No level follows a threshold failure or the
+maximum.
+
+Each window requires positive `frames`, `elapsed_ms`, and `fps`.
+Frames are integers through 1000000; elapsed time must cover the configured window.
+FPS must agree with `frames * 1000 / elapsed_ms` within an absolute tolerance of
+`1e-8` FPS. This tolerance permits floating-point serialization round trips.
+
+`score` is an integer from 0 to 32768 and must equal the last passing count.
+`outcome` is exactly `threshold`, `limit`, or `error`. Threshold requires two
+consecutive missed windows. Limit requires a passing maximum.
+
+Error cannot claim
+a completed maximum; its score retains prior passing work for diagnostics, but
+the UI shows no valid score. `detail` is null for threshold and limit, or a nonempty
+error string up to 10000 characters. An error may have no complete levels.
+
+`scene_fingerprint` is 64 lowercase hexadecimal characters identifying the
+initial scene; the plan and recorded levels describe subsequent growth.
+
+CPU records require `gpu: null`. Nexus records require a `gpu` object containing
+exactly `name`, `backend`, and `driver`. Name and backend are strings up to 2000
+characters; driver is a string or null. Nexus capacity records also require
+60 Hz, solver effort 4, disabled sleeping, and discrete collision detection.
+
+The browser retains up to 20 capacity records separately from step timings.
+Storage is best effort; JSON export remains available if browser storage is full
+or disabled. Import uses the same validator and a 20 MB file limit. Capacity
+records appear locally on both the Playground and Results pages. They are not
+included in the historical step-timing manifest or its CLI submission validator.
+A future incompatible capacity profile requires a new `kind` value.

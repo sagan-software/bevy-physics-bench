@@ -8,6 +8,7 @@
 //! and readback. Rendering and JSON serialization remain outside that interval.
 
 mod device;
+mod error;
 mod gpu_simulation;
 mod scene;
 

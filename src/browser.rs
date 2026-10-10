@@ -16,6 +16,38 @@ pub struct BrowserSimulation {
 
 #[wasm_bindgen]
 impl BrowserSimulation {
+    /// Construct a growing world with an explicit maximum scenario-body count.
+    /// The normal constructor retains its original fixed-size allocation policy.
+    pub fn growing(engine: &str, settings: &str, capacity: u32) -> Result<Self, JsValue> {
+        let engine = engine.parse().map_err(js_error)?;
+        let settings = settings.parse().map_err(js_error)?;
+        let fingerprint = crate::SceneFingerprint::of(&settings).map_err(js_error)?;
+        let simulation = Simulation::with_capacity(
+            engine,
+            settings,
+            crate::BodyCount::try_from(capacity).map_err(js_error)?,
+        )
+        .map_err(js_error)?;
+        Ok(Self {
+            simulation,
+            fingerprint,
+        })
+    }
+
+    /// Append validated boxes or balls while retaining every existing body.
+    /// A capacity or unsupported-scene error requires no simulation step.
+    pub fn append(&mut self, count: u32) -> Result<(), JsValue> {
+        self.simulation
+            .append(crate::BodyCount::try_from(count).map_err(js_error)?)
+            .map_err(js_error)
+    }
+    /// Kick one dynamic body using a world-space velocity change in m/s.
+    /// Validation completes before the owned world is mutated.
+    pub fn kick(&mut self, index: usize, x: f32, y: f32, z: f32) -> Result<(), JsValue> {
+        self.simulation
+            .kick(crate::BodyKick::try_from((index, [x, y, z])).map_err(js_error)?)
+            .map_err(js_error)
+    }
     /// Validate an engine identifier and JSON settings before
     /// constructing the world.
     /// Invalid input returns a JavaScript error without retaining a
@@ -76,6 +108,20 @@ pub fn describe_scene(settings: &str) -> Result<String, JsValue> {
     scene["fingerprint"] =
         serde_json::json!(crate::SceneFingerprint::of(&settings).map_err(js_error)?);
     serde_json::to_string(&scene).map_err(js_error)
+}
+
+/// Export a growing batch using the exact geometry consumed by Rust adapters.
+/// Stable indices define positions independently of the engine's evolving poses.
+#[wasm_bindgen]
+pub fn describe_drop(settings: &str, count: u32, existing: u32) -> Result<String, JsValue> {
+    let settings = settings.parse().map_err(js_error)?;
+    let scene = crate::InitialScene::drop_batch(
+        &settings,
+        crate::BodyCount::try_from(count).map_err(js_error)?,
+        crate::BodyCount::try_from(existing).map_err(js_error)?,
+    )
+    .map_err(js_error)?;
+    serde_json::to_string(&crate::scene::encode_bodies(scene.bodies())).map_err(js_error)
 }
 
 /// Export facts from the exact WebAssembly module executing the benchmark's

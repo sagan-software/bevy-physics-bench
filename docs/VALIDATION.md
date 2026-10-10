@@ -29,7 +29,8 @@ warnings, not project configuration. Strict Clippy and personal lint diagnostics
 from project code must be clean.
 
 Frontend coverage enforces 100% statements, branches, functions, and lines for
-benchmark orchestration, record validation, history grouping, and machine identity.
+benchmark orchestration, record validation, history grouping, machine identity,
+capacity orchestration, capacity record validation, and live telemetry.
 The DOM controller, Three.js rendering, and external physics bindings are outside
 that unit coverage scope. Their browser checks do not establish full line coverage.
 
@@ -40,9 +41,13 @@ window input, display errors, impossible private Bevy resource loss, upstream Jo
 failure callbacks, optimized accessor instantiations, and the WASM-only exports.
 The native viewer's exported PPM exercises its renderer without a window.
 
-The recorded CPU report has 2,001 of 2,128 source lines and 221 of 258 branches hit.
-The GPU report has 558 of 567 source lines and 29 of 34 branches hit. These totals
+The current CPU report has 2,236 of 2,368 source lines and 245 of 284 branches hit.
+The GPU report has 536 of 735 source lines and 36 of 50 branches hit.
+Unlike the earlier report, this GPU report runs the prescribed test command
+without additional instrumented CLI collections. The unchanged GPU CLI therefore
+has fewer recorded hits. These totals
 include inline unit tests and exclude build scripts and WASM-only exports.
+
 [The coverage inventory](coverage.json) lists exact remaining lines, branches,
 and reasons. The GPU CLI still lacks focused evidence for invalid machine labels,
 settings-file input, and a device change during collection.
@@ -63,3 +68,64 @@ All 342 published measurements agree on scene fingerprints after that conversion
 Coverage is execution evidence. Physical assertions, identical generated inputs,
 raw timing samples, and result validation establish separate properties. Release
 measurements must come from uninstrumented binaries with a clean source revision.
+
+## Interaction and capacity revision
+
+Failing public-seam tests preceded the new kick, growth, and GPU APIs. CPU tests
+exercise kicks in both dimensions, malformed values, static and absent targets,
+2D Z rejection, IK rejection, sleeping-body activation, capacity bounds,
+unsupported scenes, deterministic planar growth, and pose/tick retention.
+Nexus hardware tests cover boxes and balls, kicks on appended bodies, static and
+absent targets, retained poses, capacity rejection, and unsupported growth profiles.
+All seven GPU integration tests pass on the RTX 5070 Ti, including 10000 bodies.
+
+The 62 frontend tests pass. Seven measured modules have 100% coverage:
+310 statements, 260 branches, 46 functions, and 215 lines. Cases include transient
+FPS dips, two-window failure, capped growth, aborted in-flight work, invalid poses,
+wrong body counts, frame stalls, interrupted retries, strict records, and bounded
+telemetry. Test clocks and worlds are synthetic; they are not benchmark results.
+
+Every changed native Nexus implementation line is hit. WASM-only exports remain
+outside native coverage. Changed CPU production lines
+without hits are `src/adapters/interaction.rs:42,66-68` and
+`src/adapters/jolt.rs:67`. These dispatch defenses require unsupported private
+adapter states or a Jolt character that public target validation already rejects.
+Unhit changed branches are the secondary Bevy predicate at interaction.rs:79 and
+the Character-handle alternative at jolt.rs:61.
+
+The coverage inventory retains
+these gaps rather than claiming whole-project coverage.
+
+The real browser bindings for Avian, Rapier, and Jolt move a body approximately
+one metre after a 6 m/s kick and ten 60 Hz steps. Newly appended bodies also
+move approximately one metre under the same kick. Adding three bodies preserves
+the original pose and tick. A canvas click reports the same body kick in both
+engines. Single-engine selection, switching, chart metric selection, invalid
+capacity import, navigation cancellation, and the frame-stall error were exercised.
+An isolated synthetic chart test rendered filled pixels and changed its numeric
+readout to 7.00 ms; that temporary widget was removed.
+
+At a device pixel ratio of 1.45, repeated draws retain the canvas backing store.
+A width change resizes it once; subsequent draws retain the new dimensions.
+
+The T3 preview remains invisible and returns no WebGPU adapter. Its frame delivery
+cannot establish a rendered FPS score or smooth visible playback. No new capacity
+score is published from that environment. The actual frame-stall test exports an
+error with no valid score. Earlier exploratory hidden-preview scores were removed
+from local test storage; the 342 historical measurements remain unchanged.
+
+Desktop and 390-pixel mobile captures cover the controls, charts, saved error,
+and capacity settings. The finish reviewer found overlapping support text and
+confirmed the spacing fix resolved. The documenter confirmed that the extension
+uses the existing design tokens. The detector ran once; pre-existing palette/type
+advisories and its static-heading false positive were recorded without redesign.
+
+A browser regression test first showed one unwanted kick after dragging 30 pixels
+away and returning to the starting point. The corrected pointer handling records
+whether the gesture ever exceeds five pixels. Browser event checks pass for a
+click, a five-pixel gesture, a longer drag, a drag that returns, and cancellation.
+These DOM/WebGL checks remain outside the measured unit-coverage modules.
+
+Jolt binding tests run the actual WASM module. They reject invalid capacity,
+non-dynamic kicks, invalid velocity components, unsupported growth, and calls after
+release. Valid insertion preserves ticks and registers the new body with physics.

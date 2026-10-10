@@ -3,11 +3,13 @@ import type { Settings, Engine, Simulation } from './types';
 
 interface WasmModule {
   default(): Promise<unknown>;
-  BrowserSimulation: new (engine: string, settings: string) => Simulation;
+  BrowserSimulation: { new (engine: string, settings: string): Simulation; growing(engine: string, settings: string, capacity: number): Simulation };
   describe_scene(settings: string): string;
+  describe_drop(settings: string, count: number, existing: number): string;
   build_metadata(): string;
-  BrowserGpu?: { create(settings: string): Promise<Simulation & { metadata(): string; readback_ms(): number }> };
+  BrowserGpu?: { create(settings: string): Promise<GpuWorld>; growing(settings: string, capacity: number): Promise<GpuWorld> };
 }
+type GpuWorld = Simulation & { metadata(): string; readback_ms(): number };
 let loading: Promise<WasmModule> | undefined;
 
 /** Load one shared WebAssembly module; each instance owns a separate Bevy world. */
@@ -21,18 +23,19 @@ async function runtime(): Promise<WasmModule> {
 }
 
 /** Construct one engine world from the shared validated scene description. */
-export async function createSimulation(engine: Engine, settings: Settings): Promise<Simulation> {
+export async function createSimulation(engine: Engine, settings: Settings, capacity?: number): Promise<Simulation> {
   const module = await runtime();
   if (engine === 'nexus') {
     if (!module.BrowserGpu) throw new Error('This build does not include the experimental GPU adapter.');
-    const simulation = await module.BrowserGpu.create(JSON.stringify(settings));
-    return { fingerprint: () => simulation.fingerprint(), advance: steps => simulation.advance(steps), snapshot: () => simulation.snapshot(), free: () => simulation.free(), readbackMs: () => simulation.readback_ms(), device: () => JSON.parse(simulation.metadata()) };
+    const simulation = capacity === undefined ? await module.BrowserGpu.create(JSON.stringify(settings)) : await module.BrowserGpu.growing(JSON.stringify(settings), capacity);
+    return { fingerprint: () => simulation.fingerprint(), advance: steps => simulation.advance(steps), kick: (...args) => simulation.kick!(...args), append: count => simulation.append!(count), snapshot: () => simulation.snapshot(), free: () => simulation.free(), readbackMs: () => simulation.readback_ms(), device: () => JSON.parse(simulation.metadata()) };
   }
   if (engine === 'jolt') {
     const { createJoltSimulation } = await import('./jolt');
-    return createJoltSimulation(settings, JSON.parse(module.describe_scene(JSON.stringify(settings))));
+    return createJoltSimulation(settings, JSON.parse(module.describe_scene(JSON.stringify(settings))), capacity,
+      (count, existing) => JSON.parse(module.describe_drop(JSON.stringify(settings), count, existing)));
   }
-  return new module.BrowserSimulation(engine, JSON.stringify(settings));
+  return capacity === undefined ? new module.BrowserSimulation(engine, JSON.stringify(settings)) : module.BrowserSimulation.growing(engine, JSON.stringify(settings), capacity);
 }
 
 /** Read provenance from the compiled module that constructs the benchmark scenes. */

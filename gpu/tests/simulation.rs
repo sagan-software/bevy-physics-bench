@@ -4,6 +4,54 @@ use bevy_physics_bench::Settings;
 use bevy_physics_bench_gpu::GpuSimulation;
 
 #[test]
+#[ignore = "requires a working GPU adapter"]
+fn interactions_and_growth_preserve_the_existing_gpu_world() {
+    futures::executor::block_on(async {
+        for scenario in ["boxes", "balls"] {
+            let settings: Settings =
+                serde_json::json!({"scenario": scenario, "count": 1, "gravity": 0})
+                    .to_string()
+                    .parse()
+                    .unwrap();
+            let mut world = GpuSimulation::with_capacity(settings, 4.try_into().unwrap())
+                .await
+                .unwrap();
+            let initial = world.snapshot();
+            assert!(
+                world
+                    .kick(bevy_physics_bench::BodyKick::try_from((4, [1.0, 0.0, 0.0])).unwrap())
+                    .await
+                    .is_err()
+            );
+            assert_eq!(world.snapshot().tick, initial.tick);
+            world
+                .kick(bevy_physics_bench::BodyKick::try_from((0, [6.0, 0.0, 0.0])).unwrap())
+                .await
+                .unwrap();
+            for _ in 0..10 {
+                world.advance().await.unwrap();
+            }
+            assert!(world.snapshot().bodies[0].position[0] > initial.bodies[0].position[0] + 0.9);
+            let before = world.snapshot();
+            world.append(3.try_into().unwrap()).await.unwrap();
+            assert_eq!(world.snapshot().bodies.len(), 4);
+            assert_eq!(world.snapshot().tick, 10);
+            assert_eq!(
+                world.snapshot().bodies[0].position,
+                before.bodies[0].position
+            );
+            assert!(world.append(1.try_into().unwrap()).await.is_err());
+            world
+                .kick(bevy_physics_bench::BodyKick::try_from((3, [1.0, 0.0, 0.0])).unwrap())
+                .await
+                .unwrap();
+            world.advance().await.unwrap();
+            assert_eq!(world.snapshot().tick, 11);
+        }
+    });
+}
+
+#[test]
 #[ignore = "requires a GPU that supports a 717 MB storage buffer"]
 fn ten_thousand_bodies_complete_on_a_capable_device() {
     futures::executor::block_on(async {
@@ -23,6 +71,26 @@ fn rejects_unsupported_profiles_before_requesting_a_device() {
         result,
         Err(bevy_physics_bench::BenchError::Unsupported(_))
     ));
+}
+
+#[test]
+fn growing_profiles_fail_before_requesting_a_device() {
+    futures::executor::block_on(async {
+        for json in [
+            r#"{"scenario":"boxes","hz":30}"#,
+            r#"{"scenario":"boxes","solver_effort":3}"#,
+            r#"{"scenario":"pyramid"}"#,
+        ] {
+            assert!(matches!(
+                GpuSimulation::with_capacity(json.parse().unwrap(), 256.try_into().unwrap()).await,
+                Err(bevy_physics_bench::BenchError::Unsupported(_))
+            ));
+        }
+        assert!(matches!(
+            GpuSimulation::with_capacity(Settings::default(), 1.try_into().unwrap()).await,
+            Err(bevy_physics_bench::BenchError::InvalidSetting(_))
+        ));
+    });
 }
 
 #[test]
@@ -91,5 +159,30 @@ fn every_supported_scene_completes_with_matching_identity_and_metadata() {
                 assert!(!snapshot.joints.is_empty());
             }
         }
+    });
+}
+
+#[test]
+#[ignore = "requires a working GPU adapter"]
+fn static_gpu_bodies_reject_kicks_without_mutation() {
+    futures::executor::block_on(async {
+        let settings: Settings = r#"{"scenario":"static-field","count":12}"#.parse().unwrap();
+        let mut world = GpuSimulation::new(settings).await.unwrap();
+        let before = world.snapshot();
+        let index = before
+            .bodies
+            .iter()
+            .position(|body| body.kind == bevy_physics_bench::BodyKind::Static)
+            .unwrap();
+        let kick = bevy_physics_bench::BodyKick::try_from((index, [1.0, 0.0, 0.0])).unwrap();
+        assert!(matches!(
+            world.kick(kick).await,
+            Err(bevy_physics_bench::BenchError::Unsupported(_))
+        ));
+        assert_eq!(
+            world.snapshot().bodies[index].position,
+            before.bodies[index].position
+        );
+        assert_eq!(world.snapshot().tick, 0);
     });
 }

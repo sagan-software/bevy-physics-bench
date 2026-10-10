@@ -6,6 +6,7 @@ use bevy::{prelude::*, time::TimeUpdateStrategy};
 mod avian2;
 mod avian3;
 mod ik;
+mod interaction;
 mod rapier2;
 mod rapier3;
 
@@ -46,6 +47,7 @@ impl Adapter {
         engine: Engine,
         settings: &Settings,
         bodies: &[Body],
+        capacity: crate::BodyCount,
     ) -> Result<Self, crate::BenchError> {
         let is_ik = settings.input().scenario == crate::Scenario::InverseKinematics;
         if is_ik != (engine == Engine::Bevy) {
@@ -62,7 +64,7 @@ impl Adapter {
         insert_query_origins(&mut app, bodies);
         // Build the selected backend before finishing plugin initialization.
         let dimension = settings.input().dimension;
-        let entities = build_engine(&mut app, engine, dimension, settings, bodies)?;
+        let entities = build_engine(&mut app, engine, dimension, settings, bodies, capacity)?;
         app.finish();
         app.cleanup();
         // Rapier initializes its context outside the measured schedule.
@@ -191,7 +193,9 @@ fn build_engine(
     dimension: Dimension,
     settings: &Settings,
     bodies: &[Body],
+    capacity: crate::BodyCount,
 ) -> Result<Vec<Entity>, crate::BenchError> {
+    let _ = capacity; // Native Jolt allocates its bounded body registry up front.
     match (engine, dimension) {
         (Engine::Avian, Dimension::Two) => avian2::build(app, settings, bodies),
         (Engine::Avian, Dimension::Three) => avian3::build(app, settings, bodies),
@@ -204,7 +208,7 @@ fn build_engine(
         (Engine::Jolt, Dimension::Three) => {
             #[cfg(all(feature = "jolt", not(target_arch = "wasm32")))]
             {
-                jolt::build(app, settings, bodies)
+                jolt::build(app, settings, bodies, capacity)
             }
             #[cfg(not(all(feature = "jolt", not(target_arch = "wasm32"))))]
             {

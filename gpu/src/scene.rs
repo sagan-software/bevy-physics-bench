@@ -53,10 +53,38 @@ pub(crate) fn validate(settings: &Settings) -> Result<(), BenchError> {
     }
 }
 
+/// Validate the published incremental constructor's fixed solver defaults.
+pub(crate) fn validate_growth(
+    settings: &Settings,
+    capacity: bevy_physics_bench::BodyCount,
+) -> Result<(), BenchError> {
+    // Incremental buffers currently retain the constructor defaults.
+    let input = settings.input();
+    let is_growing = capacity.get() > input.count.get();
+    if is_growing
+        && (input.hz != 60
+            || input.solver_effort != 4
+            || !matches!(input.scenario, Scenario::Boxes | Scenario::Balls))
+    {
+        return Err(BenchError::Unsupported(
+            "Nexus growth requires boxes or balls at 60 Hz and solver effort 4",
+        ));
+    }
+    Ok(())
+}
+
 /// Convert the shared initial state once; the GPU owns all evolving
 /// physical state afterward.
-pub(crate) fn upload(backend: &GpuBackend, settings: &Settings, scene: &InitialScene) -> RbdState {
+pub(crate) fn upload(
+    backend: &GpuBackend,
+    settings: &Settings,
+    scene: &InitialScene,
+    capacity: bevy_physics_bench::BodyCount,
+) -> Result<RbdState, BenchError> {
     let input = settings.input();
+    if capacity.get() > input.count.get() {
+        return upload_growth(backend, scene, &input, capacity);
+    }
     let mut bodies = RigidBodySet::new();
     let mut colliders = ColliderSet::new();
     let mut joints = ImpulseJointSet::new();
@@ -71,27 +99,94 @@ pub(crate) fn upload(backend: &GpuBackend, settings: &Settings, scene: &InitialS
         handles.push(handle);
     }
     insert_joints(scene, &handles, &mut joints);
-    let mut parameters = RbdSimParams::tgs_soft();
-    parameters.dt = settings.timestep().as_secs_f32();
-    parameters.num_solver_iterations = input.solver_effort;
+    let parameters = parameters(settings);
     // Bounded buffers are checked after every completed step; overflow
     // invalidates the run.
-    let capacities = RbdCapacities {
-        batches: 1,
-        body_capacity: input.count.get() + 1,
-        collisions_capacity: (input.count.get() + 1) * PAIRS_PER_BODY,
-        mb_contact_constraints_capacity: 256,
-        collisions_resize_policy: RbdResizePolicy::Fixed,
-        solver_colors: 64,
-        solver_colors_resize_policy: RbdResizePolicy::Fixed,
-    };
+    let capacities = capacities(capacity);
     let mut state = RbdState::from_rapier(
         backend,
         &[(&bodies, &colliders, &joints, &multibodies, &parameters)],
         capacities,
     );
     state.set_gravity(backend, [0.0, -input.gravity, 0.0]);
+    Ok(state)
+}
+
+/// Convert the validated timestep and solver effort into Nexus parameters.
+fn parameters(settings: &Settings) -> RbdSimParams {
+    let mut parameters = RbdSimParams::tgs_soft();
+    parameters.dt = settings.timestep().as_secs_f32();
+    parameters.num_solver_iterations = settings.input().solver_effort;
+    parameters
+}
+
+/// Reserve bounded body and contact buffers for one simulation batch.
+fn capacities(capacity: bevy_physics_bench::BodyCount) -> RbdCapacities {
+    RbdCapacities {
+        batches: 1,
+        body_capacity: capacity.get() + 1,
+        collisions_capacity: (capacity.get() + 1) * PAIRS_PER_BODY,
+        mb_contact_constraints_capacity: 256,
+        collisions_resize_policy: RbdResizePolicy::Fixed,
+        solver_colors: 64,
+        solver_colors_resize_policy: RbdResizePolicy::Fixed,
+    }
+}
+
+/// Use Nexus's writable incremental buffers for growing unjointed piles.
+fn upload_growth(
+    backend: &GpuBackend,
+    scene: &InitialScene,
+    input: &SettingsInput,
+    capacity: bevy_physics_bench::BodyCount,
+) -> Result<RbdState, BenchError> {
+    // The empty constructor fixes solver defaults at 60 Hz and four iterations.
+    let mut state = RbdState::empty(backend, capacities(capacity));
+    let floor = scene.floor_half_extents();
+    // Keep the static floor in slot zero before appending dynamic primitives.
+    let ground = RigidBodyBuilder::fixed()
+        .translation(Vec3::new(0.0, -floor.y, 0.0))
+        .build();
+    let collider = ColliderBuilder::cuboid(floor.x, floor.y, floor.z)
+        .friction(input.friction)
+        .restitution(input.restitution)
+        .build();
     state
+        .append_bodies(backend, &[(ground, collider)])
+        .map_err(crate::error::failure)?;
+    // Incremental insertion computes each primitive's mass from its unit-density collider.
+    state
+        .append_bodies(backend, &append_primitives(scene, input))
+        .map_err(crate::error::failure)?;
+    state.set_gravity(backend, [0.0, -input.gravity, 0.0]);
+    Ok(state)
+}
+
+/// Convert an unjointed growth batch for Nexus's primitive insertion API.
+pub(crate) fn append_primitives(
+    scene: &InitialScene,
+    input: &SettingsInput,
+) -> Vec<(RigidBody, Collider)> {
+    scene
+        .bodies()
+        .iter()
+        .map(|body| {
+            let shape = match body.shape() {
+                Shape::Box {
+                    half_extents: [x, y, z],
+                } => ColliderBuilder::cuboid(x, y, z),
+                Shape::Ball { radius } => ColliderBuilder::ball(radius),
+            };
+            (
+                body_builder(body).build(),
+                shape
+                    .density(1.0)
+                    .friction(input.friction)
+                    .restitution(input.restitution)
+                    .build(),
+            )
+        })
+        .collect()
 }
 
 /// Insert the finite shared floor before scene bodies to reserve pose slot zero.

@@ -10,23 +10,60 @@ pub struct Simulation {
     adapter: crate::adapters::Adapter,
     /// Validated settings used for every tick.
     settings: Settings,
+    /// Maximum retained scenario bodies for interactive growth.
+    capacity: crate::BodyCount,
     /// Completed fixed steps.
     tick: u64,
 }
 
 impl Simulation {
+    /// Add a validated velocity change without stepping or replacing the world.
+    /// Missing, static, and kinematic targets are rejected before mutation.
+    pub fn kick(&mut self, kick: crate::BodyKick) -> Result<(), BenchError> {
+        self.adapter.kick(kick)
+    }
     /// Construct an engine world from validated settings and shared initial
     /// geometry before timing starts. Unsupported capabilities and backend
     /// construction failures preserve their diagnostic categories.
     pub fn new(engine: Engine, settings: Settings) -> Result<Self, BenchError> {
+        Self::with_capacity(engine, settings, settings.input().count)
+    }
+
+    /// Reserve a bounded body capacity for growing box or ball workloads.
+    /// The capacity includes scenario bodies only and must cover the initial scene.
+    pub fn with_capacity(
+        engine: Engine,
+        settings: Settings,
+        capacity: crate::BodyCount,
+    ) -> Result<Self, BenchError> {
+        // Reject a capacity that cannot hold the requested initial topology.
+        let initial_count = settings.input().count;
+        if capacity.get() < initial_count.get() {
+            return Err(BenchError::InvalidSetting(
+                "capacity is smaller than the initial scene",
+            ));
+        }
         // Generate one immutable input description before constructing the selected backend.
         let bodies = crate::scene::generate(&settings);
-        let adapter = crate::adapters::Adapter::new(engine, &settings, &bodies)?;
+        let adapter = crate::adapters::Adapter::new(engine, &settings, &bodies, capacity)?;
         Ok(Self {
             adapter,
             settings,
+            capacity,
             tick: 0,
         })
+    }
+
+    /// Append a deterministic batch without resetting existing poses or time.
+    /// Only boxes and balls support growth; insertion is outside timed step samples.
+    pub fn append(&mut self, count: crate::BodyCount) -> Result<(), BenchError> {
+        // Check retained capacity before generating or inserting any new body.
+        let existing = self.adapter.body_count();
+        if existing.get() + count.get() > self.capacity.get() {
+            return Err(BenchError::InvalidSetting("body capacity exceeded"));
+        }
+        let batch = crate::InitialScene::drop_batch(&self.settings, count, existing)?;
+        self.adapter.append(&self.settings, batch.bodies())
     }
 
     /// Advance a validated number of fixed simulation steps without rendering

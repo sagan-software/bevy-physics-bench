@@ -8,4 +8,5 @@ wasm-bindgen --target web --out-dir web/pkg \
     --out-name bevy_physics_bench \
     "${CARGO_TARGET_DIR:-gpu/target}/wasm32-unknown-unknown/release/bevy_physics_bench_gpu.wasm"
 cp results.schema.json web/public/results.schema.json
+cp capacity.schema.json web/public/capacity.schema.json
 npm run build

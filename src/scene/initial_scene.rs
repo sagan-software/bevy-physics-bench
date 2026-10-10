@@ -17,6 +17,45 @@ pub struct InitialScene {
 }
 
 impl InitialScene {
+    /// Generate the next box or ball batch on a fixed eight-wide lattice.
+    /// Stable indices determine positions in metres, independent of engine poses.
+    pub fn drop_batch(
+        settings: &Settings,
+        count: crate::BodyCount,
+        existing: crate::BodyCount,
+    ) -> Result<Self, crate::BenchError> {
+        // Restrict growth to unjointed primitives before allocating any batch.
+        let input = settings.input();
+        if !matches!(
+            input.scenario,
+            crate::Scenario::Boxes | crate::Scenario::Balls
+        ) {
+            return Err(crate::BenchError::Unsupported(
+                "growth requires boxes or balls",
+            ));
+        }
+        crate::BodyCount::try_from(existing.get() + count.get())?;
+        // Eight columns, spaced 1.1 m apart, fit within every shared pile floor.
+        let depth = if input.dimension == crate::Dimension::Two {
+            1
+        } else {
+            8
+        };
+        let bodies = (existing.get()..existing.get() + count.get())
+            .map(|index| {
+                let position = Vec3::new(
+                    (index % 8) as f32 * 1.1 - 3.85,
+                    10.0 + (index / (8 * depth)) as f32 * 1.1,
+                    ((index / 8) % depth) as f32 * 1.1 - (depth - 1) as f32 * 0.55,
+                );
+                super::primitive(position, input.scenario)
+            })
+            .collect();
+        Ok(Self {
+            bodies,
+            floor: Vec3::new(20.0, 0.5, 20.0),
+        })
+    }
     /// Generate an engine-independent scene from validated settings
     /// before simulation or timing begins.
     /// The same settings produce identical initial geometry for every

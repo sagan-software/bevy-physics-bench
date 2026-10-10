@@ -33,6 +33,51 @@ enum Handle {
 /// Execute Jolt jobs on the calling thread for the shared baseline profile.
 struct InlineJobs;
 
+/// Append unjointed primitives while preserving the owned native world.
+pub(super) fn append(
+    app: &mut App,
+    input: &crate::SettingsInput,
+    bodies: &[Body],
+) -> Result<Vec<Entity>, BenchError> {
+    let mut state = app
+        .world_mut()
+        .remove_non_send::<JoltWorld>()
+        .expect("Jolt world exists");
+    let result = create_bodies(app, &mut state.world, bodies, input).map(|(handles, entities)| {
+        state.handles.extend(handles);
+        entities
+    });
+    // Restore ownership even when the backend rejects an allocation.
+    app.insert_non_send(state);
+    result
+}
+
+/// Apply a velocity kick through the native handle, which wakes the body.
+pub(super) fn kick(world: &mut World, kick: crate::BodyKick) -> Result<(), BenchError> {
+    // Resolve the native world and stable handle before changing velocity.
+    let mut state = world
+        .get_non_send_mut::<JoltWorld>()
+        .expect("Jolt world exists");
+    let Handle::Body(id) = state
+        .handles
+        .get(kick.index())
+        .expect("validated Jolt body index")
+        .1
+    else {
+        return Err(BenchError::Unsupported("kick target must be a rigid body"));
+    };
+    // Preserve existing velocity; the native setter wakes a moving body.
+    let mut body = state.world.body_mut(id).map_err(integration_error)?;
+    let old = body.linear_velocity();
+    let delta = kick.delta();
+    body.set_linear_velocity(jolt::Vec3::new(
+        old.x + delta.x,
+        old.y + delta.y,
+        old.z + delta.z,
+    ))
+    .map_err(integration_error)
+}
+
 impl jolt::JobSystem for InlineJobs {
     fn max_concurrency(&self) -> u32 {
         1
@@ -47,11 +92,12 @@ pub(super) fn build(
     app: &mut App,
     settings: &Settings,
     bodies: &[Body],
+    capacity: crate::BodyCount,
 ) -> Result<Vec<Entity>, BenchError> {
     let input = settings.input();
     // Published Oxijolt exposes full substeps; Jolt retains ten velocity and two position passes.
     let configuration = WorldSettings::default()
-        .max_bodies(input.count.get() + 1)
+        .max_bodies(capacity.get() + 1)
         .job_system(Arc::new(InlineJobs))
         .gravity(jolt::Vec3::new(0.0, -input.gravity, 0.0));
     // Allocate the native world and its floor before adding scenario bodies.

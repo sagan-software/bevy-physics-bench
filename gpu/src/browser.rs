@@ -17,6 +17,33 @@ pub struct BrowserGpu {
 
 #[wasm_bindgen]
 impl BrowserGpu {
+    /// Allocate a growing WebGPU world with an explicit scenario-body capacity.
+    /// Device limits are checked against that capacity before allocating buffers.
+    pub async fn growing(settings: &str, capacity: u32) -> Result<BrowserGpu, JsValue> {
+        let settings = settings.parse().map_err(js_error)?;
+        let capacity = bevy_physics_bench::BodyCount::try_from(capacity).map_err(js_error)?;
+        let simulation = GpuSimulation::with_capacity(settings, capacity)
+            .await
+            .map_err(js_error)?;
+        Ok(Self {
+            simulation,
+            readback: std::time::Duration::ZERO,
+        })
+    }
+
+    /// Add a world-space velocity change in m/s after the preceding step completes.
+    /// The promise resolves after the original GPU velocity has been read.
+    pub async fn kick(&mut self, index: usize, x: f32, y: f32, z: f32) -> Result<(), JsValue> {
+        let kick = bevy_physics_bench::BodyKick::try_from((index, [x, y, z])).map_err(js_error)?;
+        self.simulation.kick(kick).await.map_err(js_error)
+    }
+
+    /// Append a primitive batch without replacing the owned GPU world.
+    /// A capacity error rejects the operation before any insertion.
+    pub async fn append(&mut self, count: u32) -> Result<(), JsValue> {
+        let count = bevy_physics_bench::BodyCount::try_from(count).map_err(js_error)?;
+        self.simulation.append(count).await.map_err(js_error)
+    }
     /// Validate settings and request an available WebGPU device before
     /// exposing a simulation.
     /// Device and shader failures reject the promise with their

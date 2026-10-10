@@ -12,3 +12,5 @@
 /rust-coverage.lcov
 /gpu-coverage.lcov
 /release-report.json
+
+web/public/capacity.schema.json

@@ -22,7 +22,7 @@ export interface Body {
   sleeping: boolean;
 }
 export interface Snapshot { tick: number; bodies: Body[]; joints: [number, number][]; queries?: { rays: number; hits: number } }
-export interface Simulation { fingerprint(): string; advance(steps: number): void | Promise<void>; readbackMs?(): number; device?(): { name: string; backend: string; driver: string | null }; snapshot(): string; free(): void }
+export interface Simulation { fingerprint(): string; advance(steps: number): void | Promise<void>; kick?(index: number, x: number, y: number, z: number): void | Promise<void>; append?(count: number): void | Promise<void>; readbackMs?(): number; device?(): { name: string; backend: string; driver: string | null }; snapshot(): string; free(): void }
 export type SimulationFactory = (engine: Engine, settings: Settings) => Promise<Simulation>;
 export const DEFAULT_SETTINGS: Settings = {
   scenario: 'pyramid', dimension: '3d', count: 128, seed: 42, hz: 60,

@@ -6,3 +6,25 @@
 .views[data-single=true]{grid-template-columns:1fr}.views[data-single=true]>.view:nth-child(2){display:none}.engine-dot.bevy,.time-bar.bevy{background:#697d88}
 
 .result-run{padding:1.5rem 0;border-bottom:1px solid var(--line,#dce1df)}.result-run pre{max-height:28rem;overflow:auto;background:#edf0ed;padding:1rem;font-size:.75rem}.result-run details{margin-top:1rem}.filters{flex-wrap:wrap}.filters label{min-width:9rem}.history-chart{display:block;width:min(100%,600px);height:auto}.history-points{display:flex;flex-wrap:wrap;gap:.5rem 2rem;font-size:.75rem;padding-left:1rem}#history-list details{margin:1rem 0}.import-button{position:relative;display:flex;align-items:center;cursor:pointer;border:1px solid #ccd4d0;border-radius:5px;padding:.5rem .75rem;font-size:.8rem}.import-button input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}.import-button:focus-within{outline:2px solid #247666;outline-offset:2px}.views[data-single=true]{grid-template-columns:1fr}.views[data-single=true]>.view:nth-child(2){display:none}
+
+/* Live charts share each simulation's width and engine color. */
+.live-chart{background:#192a35;padding:8px 12px 5px;border-top:1px solid #3d4f5a;color:#c5d3db}
+.chart-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:.75rem;font-variant-numeric:tabular-nums}
+.chart-heading select{min-height:28px;background:#192a35;color:#c5d3db;border-color:#3d4f5a;font-size:.75rem;padding:2px 5px}
+.live-chart canvas{display:block;width:100%;height:84px}
+.views[data-active="left"],.views[data-active="right"]{grid-template-columns:1fr}
+.views[data-active="left"]>.view:last-child,.views[data-active="right"]>.view:first-child{display:none}
+.views[data-active="right"]>.view:last-child{display:block;border-left:0}
+.gpu-help{font-size:.75rem;margin:10px 0;color:var(--muted)}
+.gpu-help p{max-width:70ch}
+.measurement-heading label{display:flex;gap:8px;align-items:center}
+.capacity-history{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:.8125rem}
+.capacity-history th,.capacity-history td{text-align:left;padding:9px 7px;border-bottom:1px solid var(--line)}
+#interaction-status:empty{display:none}
+#capacity-results:empty{display:none}
+#capacity-results{margin-top:16px}
+@media(max-width:680px){.scene-heading{flex-wrap:wrap}.scene-heading>div{flex-basis:100%}.measurement-heading{flex-wrap:wrap}.measurement-heading label{flex:1;min-width:200px}}
+
+#view-mode{width:140px}.dimension-label:has(#view-mode){width:140px}.scene-heading>div{flex:1}.chart-heading select{width:auto}.chart-heading output{white-space:nowrap}
+@media(max-width:680px){.scene-heading>div{flex:0 0 100%}.camera-help{display:block;flex-basis:100%;white-space:normal}}
+#live-note{margin:12px 0}#capacity-settings .field-note{margin:8px 0 0}
