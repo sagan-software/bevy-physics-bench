@@ -1,0 +1,642 @@
+{
+  "tool": "cargo-llvm-cov with branch instrumentation; Rust 1.98.1",
+  "scope": "Local source-file totals include inline unit tests. Build scripts and cfg(wasm32) exports are not instrumented. CPU all-features tests; GPU tests plus real GPU CLI suite and bench.",
+  "reports": {
+    "cpu": [
+      {
+        "path": "runner/src/main.rs",
+        "lines": 215,
+        "hit_lines": 213,
+        "branches": 26,
+        "hit_branches": 25,
+        "uncovered_lines": [
+          312
+        ],
+        "uncovered_branches": [
+          [
+            "310",
+            "0",
+            "1"
+          ]
+        ],
+        "gap_reason": "The nonfinite-height branch was not produced by collected engine poses; finite and below-floor poses were exercised."
+      },
+      {
+        "path": "runner/src/viewer.rs",
+        "lines": 178,
+        "hit_lines": 91,
+        "branches": 44,
+        "hit_branches": 17,
+        "uncovered_lines": [
+          66,
+          89,
+          93,
+          94,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          124,
+          125,
+          126,
+          127,
+          130,
+          131,
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          157,
+          187,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220,
+          221,
+          223,
+          224,
+          225,
+          232,
+          233,
+          234,
+          235,
+          236,
+          237,
+          238,
+          239,
+          240,
+          253,
+          274
+        ],
+        "uncovered_branches": [
+          [
+            "65",
+            "0",
+            "0"
+          ],
+          [
+            "81",
+            "0",
+            "1"
+          ],
+          [
+            "104",
+            "0",
+            "0"
+          ],
+          [
+            "104",
+            "0",
+            "1"
+          ],
+          [
+            "104",
+            "1",
+            "2"
+          ],
+          [
+            "104",
+            "1",
+            "3"
+          ],
+          [
+            "105",
+            "0",
+            "0"
+          ],
+          [
+            "105",
+            "0",
+            "1"
+          ],
+          [
+            "116",
+            "0",
+            "0"
+          ],
+          [
+            "116",
+            "0",
+            "1"
+          ],
+          [
+            "125",
+            "0",
+            "0"
+          ],
+          [
+            "125",
+            "0",
+            "1"
+          ],
+          [
+            "135",
+            "0",
+            "0"
+          ],
+          [
+            "135",
+            "0",
+            "1"
+          ],
+          [
+            "137",
+            "0",
+            "0"
+          ],
+          [
+            "137",
+            "0",
+            "1"
+          ],
+          [
+            "147",
+            "0",
+            "0"
+          ],
+          [
+            "147",
+            "0",
+            "1"
+          ],
+          [
+            "186",
+            "0",
+            "0"
+          ],
+          [
+            "232",
+            "0",
+            "0"
+          ],
+          [
+            "232",
+            "0",
+            "1"
+          ],
+          [
+            "252",
+            "0",
+            "0"
+          ],
+          [
+            "252",
+            "1",
+            "2"
+          ],
+          [
+            "262",
+            "0",
+            "1"
+          ],
+          [
+            "262",
+            "1",
+            "3"
+          ],
+          [
+            "262",
+            "2",
+            "5"
+          ],
+          [
+            "262",
+            "3",
+            "7"
+          ]
+        ],
+        "gap_reason": "Window input and display-failure paths require a live native display; headless PPM tests do not cover every 2D raster edge."
+      },
+      {
+        "path": "src/adapters/avian2.rs",
+        "lines": 139,
+        "hit_lines": 139,
+        "branches": 18,
+        "hit_branches": 18,
+        "uncovered_lines": [],
+        "uncovered_branches": []
+      },
+      {
+        "path": "src/adapters/avian3.rs",
+        "lines": 141,
+        "hit_lines": 141,
+        "branches": 18,
+        "hit_branches": 18,
+        "uncovered_lines": [],
+        "uncovered_branches": []
+      },
+      {
+        "path": "src/adapters/ik.rs",
+        "lines": 78,
+        "hit_lines": 78,
+        "branches": 10,
+        "hit_branches": 7,
+        "uncovered_lines": [],
+        "uncovered_branches": [
+          [
+            "94",
+            "0",
+            "1"
+          ],
+          [
+            "99",
+            "0",
+            "1"
+          ],
+          [
+            "102",
+            "0",
+            "1"
+          ]
+        ],
+        "gap_reason": "Missing private Bevy components cannot occur in the constructed IK hierarchy."
+      },
+      {
+        "path": "src/adapters/jolt.rs",
+        "lines": 316,
+        "hit_lines": 304,
+        "branches": 32,
+        "hit_branches": 29,
+        "uncovered_lines": [
+          106,
+          277,
+          278,
+          280,
+          281,
+          282,
+          312,
+          398,
+          399,
+          400
+        ],
+        "uncovered_branches": [
+          [
+            "105",
+            "0",
+            "0"
+          ],
+          [
+            "279",
+            "0",
+            "1"
+          ],
+          [
+            "397",
+            "0",
+            "0"
+          ]
+        ],
+        "gap_reason": "Upstream step failures, contact-buffer exhaustion, and invalid private generated-joint handles were not induced; optimized callback instantiations also leave line gaps."
+      },
+      {
+        "path": "src/adapters/mod.rs",
+        "lines": 154,
+        "hit_lines": 149,
+        "branches": 8,
+        "hit_branches": 7,
+        "uncovered_lines": [
+          90,
+          91,
+          103
+        ],
+        "uncovered_branches": [
+          [
+            "97",
+            "0",
+            "0"
+          ]
+        ],
+        "gap_reason": "Missing private Bevy time/schedule state and retained upstream engine failures were not induced."
+      },
+      {
+        "path": "src/adapters/rapier2.rs",
+        "lines": 150,
+        "hit_lines": 149,
+        "branches": 20,
+        "hit_branches": 19,
+        "uncovered_lines": [
+          168
+        ],
+        "uncovered_branches": [
+          [
+            "156",
+            "0",
+            "1"
+          ]
+        ],
+        "gap_reason": "Missing private Rapier context cannot occur in the constructed app; coverage also reports an unhit closure line."
+      },
+      {
+        "path": "src/adapters/rapier3.rs",
+        "lines": 151,
+        "hit_lines": 150,
+        "branches": 20,
+        "hit_branches": 19,
+        "uncovered_lines": [
+          170
+        ],
+        "uncovered_branches": [
+          [
+            "158",
+            "0",
+            "1"
+          ]
+        ],
+        "gap_reason": "Missing private Rapier context cannot occur in the constructed app; coverage also reports an unhit closure line."
+      },
+      {
+        "path": "src/fingerprint.rs",
+        "lines": 25,
+        "hit_lines": 25,
+        "branches": 6,
+        "hit_branches": 6,
+        "uncovered_lines": [],
+        "uncovered_branches": []
+      },
+      {
+        "path": "src/model/body_count.rs",
+        "lines": 21,
+        "hit_lines": 21,
+        "branches": 2,
+        "hit_branches": 2,
+        "uncovered_lines": [],
+        "uncovered_branches": []
+      },
+      {
+        "path": "src/model/dimension.rs",
+        "lines": 4,
+        "hit_lines": 4,
+        "branches": 0,
+        "hit_branches": 0,
+        "uncovered_lines": [],
+        "uncovered_branches": []
+      },
+      {
+        "path": "src/model/engine.rs",
+        "lines": 4,
+        "hit_lines": 4,
+        "branches": 0,
+        "hit_branches": 0,
+        "uncovered_lines": [],
+        "uncovered_branches": []
+      },
+      {
+        "path": "src/model/scenario.rs",
+        "lines": 4,
+        "hit_lines": 4,
+        "branches": 0,
+        "hit_branches": 0,
+        "uncovered_lines": [],
+        "uncovered_branches": []
+      },
+      {
+        "path": "src/model/settings/mod.rs",
+        "lines": 77,
+        "hit_lines": 77,
+        "branches": 0,
+        "hit_branches": 0,
+        "uncovered_lines": [],
+        "uncovered_branches": []
+      },
+      {
+        "path": "src/model/settings/parameters.rs",
+        "lines": 77,
+        "hit_lines": 77,
+        "branches": 6,
+        "hit_branches": 6,
+        "uncovered_lines": [],
+        "uncovered_branches": []
+      },
+      {
+        "path": "src/model/step_count.rs",
+        "lines": 11,
+        "hit_lines": 11,
+        "branches": 2,
+        "hit_branches": 2,
+        "uncovered_lines": [],
+        "uncovered_branches": []
+      },
+      {
+        "path": "src/provenance.rs",
+        "lines": 18,
+        "hit_lines": 17,
+        "branches": 0,
+        "hit_branches": 0,
+        "uncovered_lines": [
+          12
+        ],
+        "uncovered_branches": [],
+        "gap_reason": "One optimized build-metadata accessor instantiation has no recorded hit."
+      },
+      {
+        "path": "src/scene/initial_body.rs",
+        "lines": 21,
+        "hit_lines": 9,
+        "branches": 0,
+        "hit_branches": 0,
+        "uncovered_lines": [
+          31,
+          32,
+          33,
+          44,
+          45,
+          46,
+          56,
+          57,
+          58,
+          68,
+          69,
+          70
+        ],
+        "uncovered_branches": [],
+        "gap_reason": "Optimized getter instantiations have no recorded line hits despite callers exercising the values."
+      },
+      {
+        "path": "src/scene/initial_joint.rs",
+        "lines": 9,
+        "hit_lines": 3,
+        "branches": 0,
+        "hit_branches": 0,
+        "uncovered_lines": [
+          22,
+          23,
+          24,
+          34,
+          35,
+          36
+        ],
+        "uncovered_branches": [],
+        "gap_reason": "Optimized getter instantiations have no recorded line hits despite callers exercising the values."
+      },
+      {
+        "path": "src/scene/initial_scene.rs",
+        "lines": 11,
+        "hit_lines": 11,
+        "branches": 0,
+        "hit_branches": 0,
+        "uncovered_lines": [],
+        "uncovered_branches": []
+      },
+      {
+        "path": "src/scene/mod.rs",
+        "lines": 99,
+        "hit_lines": 99,
+        "branches": 16,
+        "hit_branches": 16,
+        "uncovered_lines": [],
+        "uncovered_branches": []
+      },
+      {
+        "path": "src/scene/workloads.rs",
+        "lines": 153,
+        "hit_lines": 153,
+        "branches": 24,
+        "hit_branches": 24,
+        "uncovered_lines": [],
+        "uncovered_branches": []
+      },
+      {
+        "path": "src/simulation.rs",
+        "lines": 30,
+        "hit_lines": 30,
+        "branches": 0,
+        "hit_branches": 0,
+        "uncovered_lines": [],
+        "uncovered_branches": []
+      },
+      {
+        "path": "src/statistics.rs",
+        "lines": 42,
+        "hit_lines": 42,
+        "branches": 6,
+        "hit_branches": 6,
+        "uncovered_lines": [],
+        "uncovered_branches": []
+      }
+    ],
+    "gpu": [
+      {
+        "path": "gpu/runner/src/main.rs",
+        "lines": 201,
+        "hit_lines": 196,
+        "branches": 14,
+        "hit_branches": 9,
+        "uncovered_lines": [
+          139,
+          143,
+          156,
+          228
+        ],
+        "uncovered_branches": [
+          [
+            "138",
+            "0",
+            "0"
+          ],
+          [
+            "138",
+            "1",
+            "2"
+          ],
+          [
+            "142",
+            "0",
+            "0"
+          ],
+          [
+            "155",
+            "1",
+            "2"
+          ],
+          [
+            "222",
+            "0",
+            "1"
+          ]
+        ],
+        "gap_reason": "CLI invalid-machine/settings-file and changed-device paths lack focused evidence. Nonfinite poses are rejected by GpuSimulation before health collection."
+      },
+      {
+        "path": "gpu/src/device.rs",
+        "lines": 91,
+        "hit_lines": 91,
+        "branches": 6,
+        "hit_branches": 6,
+        "uncovered_lines": [],
+        "uncovered_branches": []
+      },
+      {
+        "path": "gpu/src/gpu_simulation.rs",
+        "lines": 131,
+        "hit_lines": 128,
+        "branches": 6,
+        "hit_branches": 6,
+        "uncovered_lines": [
+          135,
+          136,
+          137
+        ],
+        "uncovered_branches": [],
+        "gap_reason": "An optimized metadata accessor instantiation has no recorded line hits; real-device metadata assertions pass."
+      },
+      {
+        "path": "gpu/src/scene.rs",
+        "lines": 144,
+        "hit_lines": 143,
+        "branches": 8,
+        "hit_branches": 8,
+        "uncovered_lines": [
+          168
+        ],
+        "uncovered_branches": [],
+        "gap_reason": "The kinematic builder arm is outside the accepted Nexus scene profile."
+      }
+    ]
+  }
+}

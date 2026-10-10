@@ -4,6 +4,18 @@ use bevy_physics_bench::Settings;
 use bevy_physics_bench_gpu::GpuSimulation;
 
 #[test]
+#[ignore = "requires a GPU that supports a 717 MB storage buffer"]
+fn ten_thousand_bodies_complete_on_a_capable_device() {
+    futures::executor::block_on(async {
+        let settings: Settings = r#"{"scenario":"boxes","count":10000}"#.parse().unwrap();
+        let mut simulation = GpuSimulation::new(settings).await.unwrap();
+        simulation.advance().await.unwrap();
+        assert_eq!(simulation.snapshot().bodies.len(), 10000);
+        assert_eq!(simulation.snapshot().tick, 1);
+    });
+}
+
+#[test]
 fn rejects_unsupported_profiles_before_requesting_a_device() {
     let settings: Settings = r#"{"dimension":"2d"}"#.parse().unwrap();
     let result = futures::executor::block_on(GpuSimulation::new(settings));

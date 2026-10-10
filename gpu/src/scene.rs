@@ -12,6 +12,9 @@ use nexus_rbd3d::{
     shaders::dynamics::RbdSimParams,
 };
 
+/// Collision-pair slots per scene body, including the shared floor in capacity calculations.
+pub(crate) const PAIRS_PER_BODY: u32 = 32;
+
 /// Reject unsupported behavior before a device is requested, including
 /// modes Nexus cannot reproduce.
 pub(crate) fn validate(settings: &Settings) -> Result<(), BenchError> {
@@ -76,7 +79,7 @@ pub(crate) fn upload(backend: &GpuBackend, settings: &Settings, scene: &InitialS
     let capacities = RbdCapacities {
         batches: 1,
         body_capacity: input.count.get() + 1,
-        collisions_capacity: (input.count.get() + 1) * 32,
+        collisions_capacity: (input.count.get() + 1) * PAIRS_PER_BODY,
         mb_contact_constraints_capacity: 256,
         collisions_resize_policy: RbdResizePolicy::Fixed,
         solver_colors: 64,

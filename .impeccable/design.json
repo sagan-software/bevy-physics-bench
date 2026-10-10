@@ -1,0 +1,631 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-10T04:08:28.553413Z",
+  "title": "Design System: Bevy physics bench",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Primary",
+        "tonalRamp": [
+          "oklch(15% 0.07480 178.94)",
+          "oklch(26% 0.07480 178.94)",
+          "oklch(38% 0.07480 178.94)",
+          "oklch(49% 0.07480 178.94)",
+          "oklch(61% 0.07480 178.94)",
+          "oklch(72% 0.07480 178.94)",
+          "oklch(84% 0.07480 178.94)",
+          "oklch(95% 0.07480 178.94)"
+        ]
+      },
+      "primary-hover": {
+        "role": "primary",
+        "displayName": "Primary hover",
+        "tonalRamp": [
+          "oklch(15% 0.06560 178.96)",
+          "oklch(26% 0.06560 178.96)",
+          "oklch(38% 0.06560 178.96)",
+          "oklch(49% 0.06560 178.96)",
+          "oklch(61% 0.06560 178.96)",
+          "oklch(72% 0.06560 178.96)",
+          "oklch(84% 0.06560 178.96)",
+          "oklch(95% 0.06560 178.96)"
+        ]
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Text",
+        "tonalRamp": [
+          "oklch(15% 0.02220 243.22)",
+          "oklch(26% 0.02220 243.22)",
+          "oklch(38% 0.02220 243.22)",
+          "oklch(49% 0.02220 243.22)",
+          "oklch(61% 0.02220 243.22)",
+          "oklch(72% 0.02220 243.22)",
+          "oklch(84% 0.02220 243.22)",
+          "oklch(95% 0.02220 243.22)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "tonalRamp": [
+          "oklch(15% 0.01745 229.24)",
+          "oklch(26% 0.01745 229.24)",
+          "oklch(38% 0.01745 229.24)",
+          "oklch(49% 0.01745 229.24)",
+          "oklch(61% 0.01745 229.24)",
+          "oklch(72% 0.01745 229.24)",
+          "oklch(84% 0.01745 229.24)",
+          "oklch(95% 0.01745 229.24)"
+        ]
+      },
+      "neutral-bg": {
+        "role": "neutral",
+        "displayName": "Neutral bg",
+        "tonalRamp": [
+          "oklch(15% 0.00284 128.49)",
+          "oklch(26% 0.00284 128.49)",
+          "oklch(38% 0.00284 128.49)",
+          "oklch(49% 0.00284 128.49)",
+          "oklch(61% 0.00284 128.49)",
+          "oklch(72% 0.00284 128.49)",
+          "oklch(84% 0.00284 128.49)",
+          "oklch(95% 0.00284 128.49)"
+        ]
+      },
+      "panel": {
+        "role": "neutral",
+        "displayName": "Panel",
+        "tonalRamp": [
+          "oklch(15% 0.00000 0.00)",
+          "oklch(26% 0.00000 0.00)",
+          "oklch(38% 0.00000 0.00)",
+          "oklch(49% 0.00000 0.00)",
+          "oklch(61% 0.00000 0.00)",
+          "oklch(72% 0.00000 0.00)",
+          "oklch(84% 0.00000 0.00)",
+          "oklch(95% 0.00000 0.00)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Line",
+        "tonalRamp": [
+          "oklch(15% 0.00762 164.92)",
+          "oklch(26% 0.00762 164.92)",
+          "oklch(38% 0.00762 164.92)",
+          "oklch(49% 0.00762 164.92)",
+          "oklch(61% 0.00762 164.92)",
+          "oklch(72% 0.00762 164.92)",
+          "oklch(84% 0.00762 164.92)",
+          "oklch(95% 0.00762 164.92)"
+        ]
+      },
+      "focus": {
+        "role": "neutral",
+        "displayName": "Focus",
+        "tonalRamp": [
+          "oklch(15% 0.10547 238.59)",
+          "oklch(26% 0.10547 238.59)",
+          "oklch(38% 0.10547 238.59)",
+          "oklch(49% 0.10547 238.59)",
+          "oklch(61% 0.10547 238.59)",
+          "oklch(72% 0.10547 238.59)",
+          "oklch(84% 0.10547 238.59)",
+          "oklch(95% 0.10547 238.59)"
+        ]
+      },
+      "control-border": {
+        "role": "neutral",
+        "displayName": "Control border",
+        "tonalRamp": [
+          "oklch(15% 0.01549 158.17)",
+          "oklch(26% 0.01549 158.17)",
+          "oklch(38% 0.01549 158.17)",
+          "oklch(49% 0.01549 158.17)",
+          "oklch(61% 0.01549 158.17)",
+          "oklch(72% 0.01549 158.17)",
+          "oklch(84% 0.01549 158.17)",
+          "oklch(95% 0.01549 158.17)"
+        ]
+      },
+      "control-hover": {
+        "role": "neutral",
+        "displayName": "Control hover",
+        "tonalRamp": [
+          "oklch(15% 0.00829 157.09)",
+          "oklch(26% 0.00829 157.09)",
+          "oklch(38% 0.00829 157.09)",
+          "oklch(49% 0.00829 157.09)",
+          "oklch(61% 0.00829 157.09)",
+          "oklch(72% 0.00829 157.09)",
+          "oklch(84% 0.00829 157.09)",
+          "oklch(95% 0.00829 157.09)"
+        ]
+      },
+      "control-hover-border": {
+        "role": "neutral",
+        "displayName": "Control hover border",
+        "tonalRamp": [
+          "oklch(15% 0.02503 157.32)",
+          "oklch(26% 0.02503 157.32)",
+          "oklch(38% 0.02503 157.32)",
+          "oklch(49% 0.02503 157.32)",
+          "oklch(61% 0.02503 157.32)",
+          "oklch(72% 0.02503 157.32)",
+          "oklch(84% 0.02503 157.32)",
+          "oklch(95% 0.02503 157.32)"
+        ]
+      },
+      "scene-bg": {
+        "role": "neutral",
+        "displayName": "Scene bg",
+        "tonalRamp": [
+          "oklch(15% 0.00617 137.77)",
+          "oklch(26% 0.00617 137.77)",
+          "oklch(38% 0.00617 137.77)",
+          "oklch(49% 0.00617 137.77)",
+          "oklch(61% 0.00617 137.77)",
+          "oklch(72% 0.00617 137.77)",
+          "oklch(84% 0.00617 137.77)",
+          "oklch(95% 0.00617 137.77)"
+        ]
+      },
+      "scene-active-bg": {
+        "role": "neutral",
+        "displayName": "Scene active bg",
+        "tonalRamp": [
+          "oklch(15% 0.02079 156.80)",
+          "oklch(26% 0.02079 156.80)",
+          "oklch(38% 0.02079 156.80)",
+          "oklch(49% 0.02079 156.80)",
+          "oklch(61% 0.02079 156.80)",
+          "oklch(72% 0.02079 156.80)",
+          "oklch(84% 0.02079 156.80)",
+          "oklch(95% 0.02079 156.80)"
+        ]
+      },
+      "scene-active-text": {
+        "role": "neutral",
+        "displayName": "Scene active text",
+        "tonalRamp": [
+          "oklch(15% 0.06134 175.89)",
+          "oklch(26% 0.06134 175.89)",
+          "oklch(38% 0.06134 175.89)",
+          "oklch(49% 0.06134 175.89)",
+          "oklch(61% 0.06134 175.89)",
+          "oklch(72% 0.06134 175.89)",
+          "oklch(84% 0.06134 175.89)",
+          "oklch(95% 0.06134 175.89)"
+        ]
+      },
+      "engine-select-bg": {
+        "role": "neutral",
+        "displayName": "Engine select bg",
+        "tonalRamp": [
+          "oklch(15% 0.00508 145.54)",
+          "oklch(26% 0.00508 145.54)",
+          "oklch(38% 0.00508 145.54)",
+          "oklch(49% 0.00508 145.54)",
+          "oklch(61% 0.00508 145.54)",
+          "oklch(72% 0.00508 145.54)",
+          "oklch(84% 0.00508 145.54)",
+          "oklch(95% 0.00508 145.54)"
+        ]
+      },
+      "stage": {
+        "role": "neutral",
+        "displayName": "Stage",
+        "tonalRamp": [
+          "oklch(15% 0.02644 242.26)",
+          "oklch(26% 0.02644 242.26)",
+          "oklch(38% 0.02644 242.26)",
+          "oklch(49% 0.02644 242.26)",
+          "oklch(61% 0.02644 242.26)",
+          "oklch(72% 0.02644 242.26)",
+          "oklch(84% 0.02644 242.26)",
+          "oklch(95% 0.02644 242.26)"
+        ]
+      },
+      "stage-footer": {
+        "role": "neutral",
+        "displayName": "Stage footer",
+        "tonalRamp": [
+          "oklch(15% 0.03048 237.75)",
+          "oklch(26% 0.03048 237.75)",
+          "oklch(38% 0.03048 237.75)",
+          "oklch(49% 0.03048 237.75)",
+          "oklch(61% 0.03048 237.75)",
+          "oklch(72% 0.03048 237.75)",
+          "oklch(84% 0.03048 237.75)",
+          "oklch(95% 0.03048 237.75)"
+        ]
+      },
+      "stage-text": {
+        "role": "neutral",
+        "displayName": "Stage text",
+        "tonalRamp": [
+          "oklch(15% 0.01884 232.55)",
+          "oklch(26% 0.01884 232.55)",
+          "oklch(38% 0.01884 232.55)",
+          "oklch(49% 0.01884 232.55)",
+          "oklch(61% 0.01884 232.55)",
+          "oklch(72% 0.01884 232.55)",
+          "oklch(84% 0.01884 232.55)",
+          "oklch(95% 0.01884 232.55)"
+        ]
+      },
+      "stage-divider": {
+        "role": "neutral",
+        "displayName": "Stage divider",
+        "tonalRamp": [
+          "oklch(15% 0.02908 235.23)",
+          "oklch(26% 0.02908 235.23)",
+          "oklch(38% 0.02908 235.23)",
+          "oklch(49% 0.02908 235.23)",
+          "oklch(61% 0.02908 235.23)",
+          "oklch(72% 0.02908 235.23)",
+          "oklch(84% 0.02908 235.23)",
+          "oklch(95% 0.02908 235.23)"
+        ]
+      },
+      "stage-border": {
+        "role": "neutral",
+        "displayName": "Stage border",
+        "tonalRamp": [
+          "oklch(15% 0.01274 156.96)",
+          "oklch(26% 0.01274 156.96)",
+          "oklch(38% 0.01274 156.96)",
+          "oklch(49% 0.01274 156.96)",
+          "oklch(61% 0.01274 156.96)",
+          "oklch(72% 0.01274 156.96)",
+          "oklch(84% 0.01274 156.96)",
+          "oklch(95% 0.01274 156.96)"
+        ]
+      },
+      "avian-indicator": {
+        "role": "secondary",
+        "displayName": "Avian indicator",
+        "tonalRamp": [
+          "oklch(15% 0.09002 171.75)",
+          "oklch(26% 0.09002 171.75)",
+          "oklch(38% 0.09002 171.75)",
+          "oklch(49% 0.09002 171.75)",
+          "oklch(61% 0.09002 171.75)",
+          "oklch(72% 0.09002 171.75)",
+          "oklch(84% 0.09002 171.75)",
+          "oklch(95% 0.09002 171.75)"
+        ]
+      },
+      "rapier-indicator": {
+        "role": "secondary",
+        "displayName": "Rapier indicator",
+        "tonalRamp": [
+          "oklch(15% 0.10523 71.29)",
+          "oklch(26% 0.10523 71.29)",
+          "oklch(38% 0.10523 71.29)",
+          "oklch(49% 0.10523 71.29)",
+          "oklch(61% 0.10523 71.29)",
+          "oklch(72% 0.10523 71.29)",
+          "oklch(84% 0.10523 71.29)",
+          "oklch(95% 0.10523 71.29)"
+        ]
+      },
+      "avian-metric": {
+        "role": "secondary",
+        "displayName": "Avian metric",
+        "tonalRamp": [
+          "oklch(15% 0.09047 174.23)",
+          "oklch(26% 0.09047 174.23)",
+          "oklch(38% 0.09047 174.23)",
+          "oklch(49% 0.09047 174.23)",
+          "oklch(61% 0.09047 174.23)",
+          "oklch(72% 0.09047 174.23)",
+          "oklch(84% 0.09047 174.23)",
+          "oklch(95% 0.09047 174.23)"
+        ]
+      },
+      "rapier-metric": {
+        "role": "secondary",
+        "displayName": "Rapier metric",
+        "tonalRamp": [
+          "oklch(15% 0.10326 72.04)",
+          "oklch(26% 0.10326 72.04)",
+          "oklch(38% 0.10326 72.04)",
+          "oklch(49% 0.10326 72.04)",
+          "oklch(61% 0.10326 72.04)",
+          "oklch(72% 0.10326 72.04)",
+          "oklch(84% 0.10326 72.04)",
+          "oklch(95% 0.10326 72.04)"
+        ]
+      },
+      "jolt-indicator": {
+        "role": "secondary",
+        "displayName": "Jolt indicator",
+        "tonalRamp": [
+          "oklch(15% 0.10202 268.18)",
+          "oklch(26% 0.10202 268.18)",
+          "oklch(38% 0.10202 268.18)",
+          "oklch(49% 0.10202 268.18)",
+          "oklch(61% 0.10202 268.18)",
+          "oklch(72% 0.10202 268.18)",
+          "oklch(84% 0.10202 268.18)",
+          "oklch(95% 0.10202 268.18)"
+        ]
+      },
+      "bevy-indicator": {
+        "role": "secondary",
+        "displayName": "Bevy indicator",
+        "tonalRamp": [
+          "oklch(15% 0.02891 232.01)",
+          "oklch(26% 0.02891 232.01)",
+          "oklch(38% 0.02891 232.01)",
+          "oklch(49% 0.02891 232.01)",
+          "oklch(61% 0.02891 232.01)",
+          "oklch(72% 0.02891 232.01)",
+          "oklch(84% 0.02891 232.01)",
+          "oklch(95% 0.02891 232.01)"
+        ]
+      },
+      "avian-body": {
+        "role": "secondary",
+        "displayName": "Avian body",
+        "tonalRamp": [
+          "oklch(15% 0.10162 170.57)",
+          "oklch(26% 0.10162 170.57)",
+          "oklch(38% 0.10162 170.57)",
+          "oklch(49% 0.10162 170.57)",
+          "oklch(61% 0.10162 170.57)",
+          "oklch(72% 0.10162 170.57)",
+          "oklch(84% 0.10162 170.57)",
+          "oklch(95% 0.10162 170.57)"
+        ]
+      },
+      "rapier-body": {
+        "role": "secondary",
+        "displayName": "Rapier body",
+        "tonalRamp": [
+          "oklch(15% 0.10005 73.46)",
+          "oklch(26% 0.10005 73.46)",
+          "oklch(38% 0.10005 73.46)",
+          "oklch(49% 0.10005 73.46)",
+          "oklch(61% 0.10005 73.46)",
+          "oklch(72% 0.10005 73.46)",
+          "oklch(84% 0.10005 73.46)",
+          "oklch(95% 0.10005 73.46)"
+        ]
+      },
+      "nexus-body": {
+        "role": "secondary",
+        "displayName": "Nexus body",
+        "tonalRamp": [
+          "oklch(15% 0.08557 309.53)",
+          "oklch(26% 0.08557 309.53)",
+          "oklch(38% 0.08557 309.53)",
+          "oklch(49% 0.08557 309.53)",
+          "oklch(61% 0.08557 309.53)",
+          "oklch(72% 0.08557 309.53)",
+          "oklch(84% 0.08557 309.53)",
+          "oklch(95% 0.08557 309.53)"
+        ]
+      },
+      "bevy-body": {
+        "role": "secondary",
+        "displayName": "Bevy body",
+        "tonalRamp": [
+          "oklch(15% 0.00977 222.08)",
+          "oklch(26% 0.00977 222.08)",
+          "oklch(38% 0.00977 222.08)",
+          "oklch(49% 0.00977 222.08)",
+          "oklch(61% 0.00977 222.08)",
+          "oklch(72% 0.00977 222.08)",
+          "oklch(84% 0.00977 222.08)",
+          "oklch(95% 0.00977 222.08)"
+        ]
+      },
+      "jolt-body": {
+        "role": "secondary",
+        "displayName": "Jolt body",
+        "tonalRamp": [
+          "oklch(15% 0.07666 269.77)",
+          "oklch(26% 0.07666 269.77)",
+          "oklch(38% 0.07666 269.77)",
+          "oklch(49% 0.07666 269.77)",
+          "oklch(61% 0.07666 269.77)",
+          "oklch(72% 0.07666 269.77)",
+          "oklch(84% 0.07666 269.77)",
+          "oklch(95% 0.07666 269.77)"
+        ]
+      },
+      "error-bg": {
+        "role": "neutral",
+        "displayName": "Error bg",
+        "tonalRamp": [
+          "oklch(15% 0.01880 46.81)",
+          "oklch(26% 0.01880 46.81)",
+          "oklch(38% 0.01880 46.81)",
+          "oklch(49% 0.01880 46.81)",
+          "oklch(61% 0.01880 46.81)",
+          "oklch(72% 0.01880 46.81)",
+          "oklch(84% 0.01880 46.81)",
+          "oklch(95% 0.01880 46.81)"
+        ]
+      },
+      "error-text": {
+        "role": "neutral",
+        "displayName": "Error text",
+        "tonalRamp": [
+          "oklch(15% 0.11204 37.76)",
+          "oklch(26% 0.11204 37.76)",
+          "oklch(38% 0.11204 37.76)",
+          "oklch(49% 0.11204 37.76)",
+          "oklch(61% 0.11204 37.76)",
+          "oklch(72% 0.11204 37.76)",
+          "oklch(84% 0.11204 37.76)",
+          "oklch(95% 0.11204 37.76)"
+        ]
+      },
+      "error-border": {
+        "role": "neutral",
+        "displayName": "Error border",
+        "tonalRamp": [
+          "oklch(15% 0.05647 42.17)",
+          "oklch(26% 0.05647 42.17)",
+          "oklch(38% 0.05647 42.17)",
+          "oklch(49% 0.05647 42.17)",
+          "oklch(61% 0.05647 42.17)",
+          "oklch(72% 0.05647 42.17)",
+          "oklch(84% 0.05647 42.17)",
+          "oklch(95% 0.05647 42.17)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "title": {
+        "displayName": "Title"
+      },
+      "section": {
+        "displayName": "Section"
+      },
+      "body": {
+        "displayName": "Body"
+      },
+      "control": {
+        "displayName": "Control"
+      },
+      "label": {
+        "displayName": "Label"
+      },
+      "compact-control": {
+        "displayName": "Compact control"
+      },
+      "metadata": {
+        "displayName": "Metadata"
+      },
+      "document-body": {
+        "displayName": "Document body"
+      }
+    },
+    "shadows": [],
+    "motion": [],
+    "breakpoints": [
+      {
+        "name": "wide-min",
+        "value": "1550px"
+      },
+      {
+        "name": "compact-max",
+        "value": "1180px"
+      },
+      {
+        "name": "settings-below-max",
+        "value": "930px"
+      },
+      {
+        "name": "mobile-max",
+        "value": "680px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary action",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Implemented Run comparison button.",
+      "html": "<div class=\"ds-sample\"><button class=\"ds-primary\">Run comparison</button></div>",
+      "css": ".ds-sample{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif;color:#253039}.ds-primary{font:inherit;font-size:.875rem}.ds-primary{border:1px solid #b9c4bd;border-radius:5px;background:#fff;color:inherit;min-height:36px}.ds-primary{padding:7px 12px;cursor:pointer;font-weight:550}.ds-primary:hover:not(:disabled){background:#eaf0ec;border-color:#8d9e93}.ds-primary:disabled{opacity:.5;cursor:not-allowed}.ds-primary{background:var(--accent,#216b5e);color:#fff;border-color:var(--accent,#216b5e)}.ds-primary:hover:not(:disabled){background:#19584d;color:white}.ds-primary:focus-visible{outline:3px solid var(--focus,#176d9b);outline-offset:3px}"
+    },
+    {
+      "name": "Secondary action",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Implemented Apply and reset button.",
+      "html": "<div class=\"ds-sample\"><button class=\"ds-secondary\">Apply and reset</button></div>",
+      "css": ".ds-sample{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif;color:#253039}.ds-secondary{font:inherit;font-size:.875rem}.ds-secondary{border:1px solid #b9c4bd;border-radius:5px;background:#fff;color:inherit;min-height:36px}.ds-secondary{padding:7px 12px;cursor:pointer;font-weight:550}.ds-secondary:hover:not(:disabled){background:#eaf0ec;border-color:#8d9e93}.ds-secondary:disabled{opacity:.5;cursor:not-allowed}.ds-secondary:focus-visible{outline:3px solid var(--focus,#176d9b);outline-offset:3px}"
+    },
+    {
+      "name": "Text action",
+      "kind": "button",
+      "refersTo": "button-text",
+      "description": "Implemented Defaults button.",
+      "html": "<div class=\"ds-sample\"><button class=\"ds-text\">Defaults</button></div>",
+      "css": ".ds-sample{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif;color:#253039}.ds-text{font:inherit;font-size:.875rem}.ds-text{border:1px solid #b9c4bd;border-radius:5px;background:#fff;color:inherit;min-height:36px}.ds-text{padding:7px 12px;cursor:pointer;font-weight:550}.ds-text:hover:not(:disabled){background:#eaf0ec;border-color:#8d9e93}.ds-text:disabled{opacity:.5;cursor:not-allowed}.ds-text{padding:2px 0;min-height:24px;border:0;background:none;color:var(--accent,#216b5e);font-size:.75rem}.ds-text:focus-visible{outline:3px solid var(--focus,#176d9b);outline-offset:3px}"
+    },
+    {
+      "name": "Numeric field",
+      "kind": "input",
+      "refersTo": "field",
+      "description": "Labeled settings field with tabular numerals.",
+      "html": "<div class=\"ds-sample\"><label class=\"ds-label\">Bodies<input class=\"ds-field\" type=\"number\" min=\"1\" max=\"32768\" step=\"1\" value=\"128\" required></label></div>",
+      "css": ".ds-sample{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif;color:#253039}.ds-field{font:inherit;font-size:.875rem}.ds-field{border:1px solid #b9c4bd;border-radius:5px;background:#fff;color:inherit;min-height:36px}.ds-field{font:inherit;font-size:.875rem}.ds-label{display:flex;flex-direction:column;gap:6px;font-size:.8125rem;font-weight:550}.ds-field[type=number]{font-variant-numeric:tabular-nums}.ds-field:focus-visible{outline:3px solid var(--focus,#176d9b);outline-offset:3px}"
+    },
+    {
+      "name": "Main navigation",
+      "kind": "nav",
+      "refersTo": "navigation",
+      "description": "Current route uses teal text and a bottom border.",
+      "html": "<div class=\"ds-sample\"><nav class=\"ds-nav\" aria-label=\"Main navigation\"><a href=\"#playground\" aria-current=\"page\">Playground</a><a href=\"#results\">Results</a><a href=\"#method\">Method</a></nav></div>",
+      "css": ".ds-sample{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif;color:#253039}.ds-nav a{color:var(--accent,#216b5e);text-underline-offset:3px}.ds-nav{display:flex;align-self:stretch;gap:27px}.ds-nav a{display:flex;align-items:center;text-decoration:none;color:var(--muted,#5e6a70);font-size:.875rem;border-bottom:2px solid transparent;padding-top:2px}.ds-nav a[aria-current=page]{color:var(--accent,#216b5e);border-color:var(--accent,#216b5e);font-weight:650}.ds-nav a:focus-visible{outline:3px solid var(--focus,#176d9b);outline-offset:3px}"
+    },
+    {
+      "name": "Scene navigation",
+      "kind": "nav",
+      "refersTo": "scene-current",
+      "description": "Selected scene uses a tinted row.",
+      "html": "<div class=\"ds-sample\"><nav class=\"ds-scenes\" aria-label=\"Benchmark scenes\"><h2>Benchmarks</h2><button aria-current=\"true\">Pyramid</button><button>Box pile</button><button>Ball pit</button></nav></div>",
+      "css": ".ds-sample{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif;color:#253039}.ds-scenes button{font:inherit;font-size:.875rem}.ds-scenes button{border:1px solid #b9c4bd;border-radius:5px;background:#fff;color:inherit;min-height:36px}.ds-scenes button{padding:7px 12px;cursor:pointer;font-weight:550}.ds-scenes button:hover:not(:disabled){background:#eaf0ec;border-color:#8d9e93}.ds-scenes{padding:28px 12px 30px 18px;border-right:1px solid var(--line,#d9dfdc);background:#f0f3ef}.ds-scenes h2{font-size:.875rem;margin:0 10px 26px}.ds-scenes button{display:block;width:100%;text-align:left;border:0;background:transparent;font-weight:450;padding:9px 11px;font-size:.8125rem}.ds-scenes button[aria-current=true]{color:#174f43;background:#dcebe1;font-weight:650}.ds-scenes button:focus-visible{outline:3px solid var(--focus,#176d9b);outline-offset:3px}"
+    },
+    {
+      "name": "Simulation container",
+      "kind": "custom",
+      "refersTo": "simulation",
+      "description": "Static loading state of the implemented single-view shell; no simulation runtime is included.",
+      "html": "<div class=\"ds-sample\"><div class=\"ds-views\" data-single=\"true\"><section><div class=\"ds-view-toolbar\"><label><span class=\"ds-engine-dot\" aria-hidden=\"true\"></span>Engine A<select aria-label=\"Engine A\"><option>Avian</option><option>Rapier</option></select></label><span class=\"ds-version\">0.7.0</span></div><div class=\"ds-stage\"><p class=\"ds-loading\">Loading WebAssembly…</p></div><div class=\"ds-view-footer\"><span>Ready</span></div></section></div></div>",
+      "css": ".ds-sample{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif;color:#253039}.ds-views{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border:1px solid #cad3cd;border-radius:7px;overflow:hidden;background:#14212b}.ds-views[data-single=true]{grid-template-columns:1fr}.ds-view-toolbar{display:flex;justify-content:space-between;align-items:center;background:#fff;gap:7px;height:56px;padding:0 13px}.ds-view-toolbar label{display:flex;flex-direction:column;gap:6px;font-size:.8125rem;font-weight:550}.ds-view-toolbar label{min-width:0;flex:1;flex-direction:row;align-items:center;gap:7px;white-space:nowrap;font-size:.75rem}.ds-view-toolbar select{font:inherit;font-size:.875rem}.ds-view-toolbar select{border:1px solid #b9c4bd;border-radius:5px;background:#fff;color:inherit;min-height:36px}.ds-view-toolbar select{font:inherit;font-size:.875rem}.ds-view-toolbar select{min-width:0;width:100%;flex:1;border:0;background:#f1f4f1;font-size:.8125rem;font-weight:650;padding:6px 22px 6px 7px}.ds-engine-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#257d66}.ds-version{flex-shrink:0;font-size:.6875rem;font-variant-numeric:tabular-nums;color:var(--muted,#5e6a70)}.ds-stage{height:390px;position:relative;overflow:hidden}.ds-loading{padding:30px;color:#d1dce1;font-size:.875rem}.ds-view-footer{display:flex;justify-content:space-between;gap:6px;background:#192a35;color:#c5d3db;font-size:.6875rem;padding:10px 13px;font-variant-numeric:tabular-nums}.ds-view-toolbar select:focus-visible{outline:3px solid var(--focus,#176d9b);outline-offset:3px}"
+    },
+    {
+      "name": "Error alert",
+      "kind": "custom",
+      "refersTo": "error",
+      "description": "Alert style; runtime supplies the failure detail.",
+      "html": "<div class=\"ds-sample\"><div class=\"ds-error\" role=\"alert\">Comparison failed.</div></div>",
+      "css": ".ds-sample{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif;color:#253039}.ds-error{background:#fff0e9;color:#873a22;padding:13px;border:1px solid #e2b6a5;border-radius:5px;font-size:.8125rem;line-height:1.5;margin:12px 0}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Physics workbench",
+    "overview": "The interface gives Bevy developers direct access to scenes, engine selection, playback, settings, and measured results. A light application frame separates readable controls from dark simulation stages. Compact labels and tabular measurements support comparison without decorative panels.\n\nThe user directed this restrained application through the code-led Operate workflow. The confirmed direction has no concept roll or FORM seed. The playground's composition belongs to `.impeccable/surfaces/playground.md`; its exact layout is not a rule for every future page.",
+    "keyCharacteristics": [
+      "Light controls around dark simulations.",
+      "Engine names accompany engine colors.",
+      "Borders and spacing separate tasks.",
+      "Simulation provides the visible motion."
+    ],
+    "rules": [
+      {
+        "name": "The engine identity rule",
+        "body": "Keep the engine name visible wherever color identifies an engine.",
+        "section": "colors"
+      },
+      {
+        "name": "The flat controls rule",
+        "body": "Separate application controls with tones, borders, and spacing; preserve the dark simulation stage.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do preserve visible engine names beside engine colors.",
+      "Do keep numeric measurements tabular and retain runtime, version, and sampling context.",
+      "Do keep keyboard focus visible on controls, links, summaries, and canvases.",
+      "Do preserve the playground's mobile playback order and reachable scene selector."
+    ],
+    "donts": [
+      "Don't add promotional copy, decorative animation, or nested panels to the workbench.",
+      "Don't present unavailable adapters or empty result states as measured results.",
+      "Don't turn playground column widths or stage heights into layout rules for every page.",
+      "Don't use generated tonal ramps as implemented tokens without an approved design change."
+    ]
+  }
+}

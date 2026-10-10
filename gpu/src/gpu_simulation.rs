@@ -45,7 +45,7 @@ impl GpuSimulation {
     /// device resources.
     pub async fn new(settings: Settings) -> Result<Self, BenchError> {
         let (scene, fingerprint) = describe_validated(&settings)?;
-        let (backend, metadata) = crate::device::create().await?;
+        let (backend, metadata) = crate::device::create(settings.input().count).await?;
         let pipeline = RbdPipeline::new(&backend).map_err(failure)?;
         let state = crate::scene::upload(&backend, &settings, &scene);
         let poses = read_initial_poses(&backend, &state).await?;

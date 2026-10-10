@@ -6,3 +6,9 @@
 /.impeccable/review/
 /coverage/
 /artifacts/
+
+/gpu/target/
+/web/public/results.schema.json
+/rust-coverage.lcov
+/gpu-coverage.lcov
+/release-report.json

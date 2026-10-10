@@ -32,7 +32,7 @@ export const DEFAULT_SETTINGS: Settings = {
 export const ENGINES: Record<Engine, { name: string; version: string; color: string; effort: string }> = {
   avian: { name: 'Avian', version: '0.7.0', color: '#7cdbbc', effort: 'substeps' },
   rapier: { name: 'Rapier', version: '0.36.0', color: '#e8b776', effort: 'solver iterations' },
-  nexus: { name: 'Nexus GPU', version: '0.6.0', color: '#bfa0d8', effort: 'GPU solver substeps' },
+  nexus: { name: 'Nexus GPU', version: '0.6.0', color: '#bfa0d8', effort: 'GPU solver iterations' },
   bevy: { name: 'Bevy IK', version: '0.19.1', color: '#c1c9cc', effort: 'not used by the analytic IK solver' },
   jolt: { name: 'Jolt', version: 'JS 1.1.0', color: '#aabcf0', effort: 'full substeps; 10 velocity / 2 position passes each' },
 };

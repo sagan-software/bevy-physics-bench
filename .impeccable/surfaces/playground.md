@@ -2,6 +2,10 @@
 
 Mode: Operate.
 
+The user directed a restrained, task-focused application and delegated routine
+design choices. This code-led workbench has no concept roll or FORM seed.
+The user instructions and this brief define its form.
+
 The first viewport contains the selected scene, two engine selectors, playback
 controls, and editable settings. A narrow scene list supports quick switching.
 Desktop places settings beside the simulation. Mobile places settings below it.

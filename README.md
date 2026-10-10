@@ -34,6 +34,10 @@ engine, scene, and dimension combinations. Use `--engine rapier`, `--count 1024`
 `--settings settings.json` accepts the validated shared settings described in
 [the result contract](docs/RESULTS.md).
 
+The file supplies physical settings and body count. The command's `--scenario`
+and `--dimension` select the measured row, even when a settings file is supplied.
+`suite` always selects its full scene and dimension matrix.
+
 The baseline disables the optional parallel and SIMD features. `native-tuned`
 enables Avian parallel/SIMD and Rapier parallel/SIMD8. Jolt uses an inline job
 runner in both profiles. These profiles are stored separately in results.
@@ -89,6 +93,10 @@ scenes are boxes, balls, pyramids, stacks, static fields, dominoes, chains, and
 ragdolls. Timings include GPU completion and pose readback. Readback samples are
 also stored as a subset of total step time. Native GPU execution was verified on
 an NVIDIA GeForce RTX 5070 Ti through Vulkan.
+
+The adapter must support the scene's buffer sizes. For 10,000 bodies, the largest
+individual buffer needs 716,871,680 bytes; other buffers add to total memory use.
+Unsupported buffer limits return an error before scene allocation.
 
 ## Results and maintenance
 

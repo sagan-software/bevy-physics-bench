@@ -50,6 +50,15 @@ capacity of 32 times that total, 256 multibody contact constraints, and 64 solve
 colors. Pair-buffer overflow and nonfinite poses fail the step. Other device or
 shader failures propagate as errors. These limits are an experimental local profile.
 
+The device requests enough buffer and storage-binding capacity for the largest
+Nexus 0.6.0 primitive-scene allocation. Its size is `(bodies + 1) × 32 × 2 × 112`
+bytes: one floor, 32 pairs per body, two contacts per pair, and 112 bytes per record.
+For 10,000 bodies, this is 716,871,680 bytes for one buffer; total allocation is larger.
+The adapter must support both requested limits before scene allocation begins.
+This check does not guarantee enough free device memory for every buffer.
+The controlling sources are [Nexus allocations](https://docs.rs/nexus_rbd3d/0.6.0/src/nexus_rbd3d/pipeline/rbd_state_from_rapier.rs.html)
+and [wgpu 30.0.1 limits](https://docs.rs/wgpu/30.0.1/wgpu/struct.Limits.html).
+
 ## Statistics and validity
 
 The median sorts samples and averages the middle pair for an even count. P95 is
