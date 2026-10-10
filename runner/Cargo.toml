@@ -1,0 +1,28 @@
+[package]
+name = "bevy-physics-bench-runner"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.98.1"
+license = "MIT OR Apache-2.0"
+description = "Native collection and rendering for Bevy physics benchmarks"
+repository = "https://github.com/sagan-software/bevy-physics-bench"
+build = "../build.rs"
+
+[[bin]]
+name = "bench"
+path = "src/main.rs"
+
+[features]
+default = ["jolt"]
+jolt = ["bevy-physics-bench/jolt"]
+native-tuned = ["bevy-physics-bench/native-tuned"]
+viewer = ["dep:bevy_math", "dep:minifb"]
+
+[dependencies]
+bevy-physics-bench.workspace = true
+bevy_math = { workspace = true, optional = true }
+chrono.workspace = true
+clap.workspace = true
+minifb = { workspace = true, optional = true }
+serde_json.workspace = true
+sysinfo.workspace = true

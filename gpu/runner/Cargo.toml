@@ -1,0 +1,20 @@
+[package]
+name = "bevy-physics-bench-gpu-runner"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.98.1"
+license = "MIT OR Apache-2.0"
+publish = false
+
+[[bin]]
+name = "gpu-bench"
+path = "src/main.rs"
+
+[dependencies]
+bevy-physics-bench.workspace = true
+bevy-physics-bench-gpu.workspace = true
+chrono.workspace = true
+clap.workspace = true
+futures.workspace = true
+serde_json.workspace = true
+sysinfo.workspace = true

@@ -1,0 +1,58 @@
+[workspace]
+members = ["runner"]
+default-members = [".", "runner"]
+resolver = "3"
+
+[package]
+name = "bevy-physics-bench-gpu"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.98.1"
+license = "MIT OR Apache-2.0"
+description = "Experimental Nexus GPU adapter for shared benchmark scenes"
+repository = "https://github.com/sagan-software/bevy-physics-bench"
+
+[lib]
+crate-type = ["rlib", "cdylib"]
+
+[workspace.dependencies]
+bevy-physics-bench = { version = "0.1.0", path = "..", default-features = false }
+bevy-physics-bench-gpu = { version = "0.1.0", path = "." }
+chrono = "0.4.45"
+clap = { version = "4.6.7", features = ["derive"] }
+console_error_panic_hook = "0.1.7"
+futures = "0.3.34"
+getrandom = { version = "0.2.17", features = ["js"] }
+khal = { version = "=0.4.0", features = ["webgpu"] }
+nexus_rbd3d = "=0.6.0"
+serde_json = "1.0.151"
+sysinfo = "0.38.4"
+wasm-bindgen = "=0.2.129"
+wasm-bindgen-futures = "0.4.79"
+web-time = "1.1.0"
+
+[dependencies]
+bevy-physics-bench.workspace = true
+khal.workspace = true
+nexus_rbd3d.workspace = true
+serde_json.workspace = true
+web-time.workspace = true
+
+[dev-dependencies]
+futures.workspace = true
+
+[profile.dev]
+opt-level = 1
+debug = 0
+incremental = false
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+console_error_panic_hook.workspace = true
+getrandom.workspace = true
+wasm-bindgen.workspace = true
+wasm-bindgen-futures.workspace = true
+
+[profile.release]
+debug = 0
+lto = "thin"
+codegen-units = 1

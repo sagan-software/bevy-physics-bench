@@ -1,0 +1,565 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sagan-software.github.io/bevy-physics-bench/results.schema.json",
+  "title": "Bevy physics benchmark run, version 1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "created_at",
+    "source",
+    "environment",
+    "build",
+    "versions",
+    "measurements"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "created_at": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"
+    },
+    "source": {
+      "enum": [
+        "local",
+        "published"
+      ]
+    },
+    "environment": {
+      "$ref": "#/$defs/environment"
+    },
+    "build": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "compiler",
+        "rustflags",
+        "features"
+      ],
+      "properties": {
+        "compiler": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "rustflags": {
+          "type": "string",
+          "maxLength": 4000
+        },
+        "features": {
+          "type": "array",
+          "maxItems": 50,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          }
+        }
+      }
+    },
+    "versions": {
+      "$ref": "#/$defs/versions"
+    },
+    "measurements": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 500,
+      "items": {
+        "$ref": "#/$defs/measurement"
+      }
+    }
+  },
+  "$defs": {
+    "settings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scenario",
+        "dimension",
+        "count",
+        "seed",
+        "hz",
+        "gravity",
+        "friction",
+        "restitution",
+        "solver_effort",
+        "sleeping",
+        "ccd"
+      ],
+      "properties": {
+        "scenario": {
+          "enum": [
+            "boxes",
+            "balls",
+            "pyramid",
+            "stacks",
+            "static-field",
+            "kinematics",
+            "dominoes",
+            "joint-chain",
+            "ragdolls",
+            "ccd",
+            "queries",
+            "characters",
+            "inverse-kinematics"
+          ]
+        },
+        "dimension": {
+          "enum": [
+            "2d",
+            "3d"
+          ]
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 32768
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "hz": {
+          "enum": [
+            30,
+            60,
+            120,
+            240
+          ]
+        },
+        "gravity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 50
+        },
+        "friction": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 2
+        },
+        "restitution": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "solver_effort": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 32
+        },
+        "sleeping": {
+          "enum": [
+            "disabled",
+            "enabled"
+          ]
+        },
+        "ccd": {
+          "enum": [
+            "discrete",
+            "continuous"
+          ]
+        }
+      }
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "warmup_steps",
+        "samples",
+        "batch_steps",
+        "repeats"
+      ],
+      "properties": {
+        "warmup_steps": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 600
+        },
+        "samples": {
+          "type": "integer",
+          "minimum": 5,
+          "maximum": 1000
+        },
+        "batch_steps": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 60
+        },
+        "repeats": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9
+        }
+      }
+    },
+    "statistics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sample_count",
+        "mean_ms",
+        "median_ms",
+        "p95_ms",
+        "min_ms",
+        "max_ms",
+        "stddev_ms",
+        "cv_percent"
+      ],
+      "properties": {
+        "sample_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9000
+        },
+        "mean_ms": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 600000
+        },
+        "median_ms": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 600000
+        },
+        "p95_ms": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 600000
+        },
+        "min_ms": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 600000
+        },
+        "max_ms": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 600000
+        },
+        "stddev_ms": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 600000
+        },
+        "cv_percent": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 600000
+        }
+      }
+    },
+    "measurement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "engine",
+        "settings",
+        "plan",
+        "samples_ms",
+        "statistics",
+        "awake_bodies",
+        "finite",
+        "min_y",
+        "queries",
+        "scene_fingerprint",
+        "scope",
+        "readback_ms"
+      ],
+      "properties": {
+        "engine": {
+          "enum": [
+            "avian",
+            "rapier",
+            "jolt",
+            "bevy",
+            "nexus"
+          ]
+        },
+        "settings": {
+          "$ref": "#/$defs/settings"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "samples_ms": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 9000,
+          "items": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 600000
+          }
+        },
+        "statistics": {
+          "$ref": "#/$defs/statistics"
+        },
+        "awake_bodies": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 32768
+        },
+        "finite": {
+          "type": "boolean"
+        },
+        "min_y": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "queries": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "rays",
+            "hits"
+          ],
+          "properties": {
+            "rays": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 32768
+            },
+            "hits": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 32768
+            }
+          }
+        },
+        "scene_fingerprint": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "scope": {
+          "enum": [
+            "bevy-step",
+            "binding-step",
+            "gpu-step-readback",
+            "bevy-animation"
+          ]
+        },
+        "readback_ms": {
+          "anyOf": [
+            {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 9000,
+              "items": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 600000
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "runtime",
+        "machine",
+        "cpu",
+        "logical_cores",
+        "memory_bytes",
+        "os",
+        "browser",
+        "target",
+        "profile",
+        "threads",
+        "notes",
+        "gpu"
+      ],
+      "properties": {
+        "runtime": {
+          "enum": [
+            "native",
+            "wasm"
+          ]
+        },
+        "machine": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "cpu": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 300
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "logical_cores": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4096
+        },
+        "memory_bytes": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "os": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "browser": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "target": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "profile": {
+          "enum": [
+            "baseline",
+            "native-tuned",
+            "gpu"
+          ]
+        },
+        "threads": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4096
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 4000
+        },
+        "gpu": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "name",
+                "backend",
+                "driver"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 300
+                },
+                "backend": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 300
+                },
+                "driver": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 300
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "versions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "bevy",
+        "avian",
+        "bevy_rapier",
+        "rapier",
+        "oxijolt",
+        "jolt_js",
+        "nexus",
+        "revision"
+      ],
+      "properties": {
+        "bevy": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "avian": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "bevy_rapier": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "rapier": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "oxijolt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "jolt_js": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "nexus": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "revision": {
+          "type": "string",
+          "pattern": "^([a-f0-9]{40}(-dirty)?|unknown|working-tree)$"
+        }
+      }
+    }
+  }
+}
