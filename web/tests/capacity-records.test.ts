@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest';
-import { validateCapacityRecord, type CapacityRecord } from '../src/capacity-records';
+import { capacityEntries, validateCapacityRecord, type CapacityRecord, type CapacityFilters } from '../src/capacity-records';
 import { DEFAULT_SETTINGS } from '../src/types';
 import run from '../public/results/2026-10-10-5950x-ccd-3d.json' with { type: 'json' };
 import publishedCapacity from '../data/capacity.json';
@@ -12,6 +12,30 @@ function record(): CapacityRecord {
 function reject(change: (value: CapacityRecord) => void): void { const value = record(); change(value); expect(() => validateCapacityRecord(value)).toThrow(); }
 const pass = { frames: 6, elapsed_ms: 100, fps: 60 };
 const gpu = { name: 'test GPU', backend: 'WebGPU', driver: null };
+
+it('filters capacity rows with the same result controls while retaining complete exports', () => {
+  const value = record();
+  const all: CapacityFilters = { runtime: 'all', dimension: 'all', scenario: 'all', machine: 'all', profile: 'all', version: 'all' };
+  expect(capacityEntries([])).toEqual([]);
+  expect(capacityEntries([value])).toEqual([{ record: value, measurement: value.measurements[0] }]);
+  for (const [key, accepted, rejected] of [
+    ['runtime', 'wasm', 'native'], ['dimension', '3d', '2d'], ['scenario', 'boxes', 'balls'],
+    ['machine', 'test', 'another machine'], ['profile', 'baseline', 'gpu'],
+    ['version', value.metadata.versions.revision, '0'.repeat(40)],
+  ]) {
+    expect(capacityEntries([value], { ...all, [key]: accepted })).toHaveLength(1);
+    expect(capacityEntries([value], { ...all, [key]: rejected })).toEqual([]);
+  }
+  const planar = structuredClone(value.measurements[0]); planar.engine = 'rapier'; planar.settings.dimension = '2d'; value.measurements.push(planar);
+  const rows = capacityEntries([value], { ...all, dimension: '2d' });
+  expect(rows).toHaveLength(1); expect(rows[0].measurement).toBe(planar);
+  expect(rows[0].record).toBe(value); expect(rows[0].record.measurements).toHaveLength(2);
+  value.measurements[0].engine = 'nexus'; value.measurements[0].gpu = gpu;
+  expect(capacityEntries([value], { ...all, profile: 'gpu' })).toHaveLength(1);
+  expect(capacityEntries([value], { ...all, profile: 'baseline' })).toHaveLength(1);
+  value.metadata.profile = 'native-tuned';
+  expect(capacityEntries([value], { ...all, profile: 'native-tuned' })).toHaveLength(1);
+});
 
 it('validates scores, exact threshold boundaries, transient retries, and terminal outcomes', () => {
   expect(validateCapacityRecord(record()).measurements[0].score).toBe(1);
@@ -81,5 +105,13 @@ it('rejects missing members and additional members at each object boundary', () 
   reject(value => { (value.measurements[0].gpu as any) = { ...gpu, extra: true }; });
 });
 it('validates every published capacity record before the site uses it', () => {
-  for (const record of publishedCapacity) expect(() => validateCapacityRecord(record)).not.toThrow();
+  const combinations = new Set<string>();
+  for (const record of publishedCapacity) {
+    expect(() => validateCapacityRecord(record)).not.toThrow();
+    expect(record.metadata.versions.revision).toMatch(/^[a-f0-9]{40}$/);
+    for (const measurement of record.measurements) combinations.add(`${measurement.settings.dimension}:${measurement.settings.scenario}:${measurement.engine}`);
+  }
+  for (const dimension of ['2d', '3d']) for (const scenario of ['boxes', 'balls']) {
+    for (const engine of dimension === '2d' ? ['avian', 'rapier'] : ['avian', 'rapier', 'jolt']) expect(combinations.has(`${dimension}:${scenario}:${engine}`)).toBe(true);
+  }
 });

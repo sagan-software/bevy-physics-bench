@@ -192,4 +192,11 @@ Published capacity records live in `web/data/capacity.json`. The Results page
 renders these records separately from saved runs, with the same settings,
 viewport, score, outcome, and JSON export controls. Loading a published record
 does not copy it into local storage. The frontend test suite validates every
-published record against the capacity schema and scoring rules.
+published record against the capacity schema and scoring rules. Published
+capacity records require a 40-character lowercase hexadecimal source revision;
+local records may use `working-tree`.
+
+The Results filters apply to both step timing and capacity rows. Capacity runs use
+the WebAssembly runtime; Nexus measurements use the GPU profile. CPU capacity
+measurements retain their recorded build profile. Filtering changes visible rows
+without removing measurements from the original record's JSON export.

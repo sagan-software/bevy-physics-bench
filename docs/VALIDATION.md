@@ -79,8 +79,8 @@ Nexus hardware tests cover boxes and balls, kicks on appended bodies, static and
 absent targets, retained poses, capacity rejection, and unsupported growth profiles.
 All eight GPU integration tests pass on the RTX 5070 Ti, including 10000 bodies.
 
-The 63 frontend tests pass. Seven measured modules have 100% coverage:
-310 statements, 260 branches, 46 functions, and 215 lines. Cases include transient
+The 64 frontend tests pass. Seven measured modules have 100% coverage:
+319 statements, 273 branches, 48 functions, and 222 lines. Cases include transient
 FPS dips, two-window failure, capped growth, aborted in-flight work, invalid poses,
 wrong body counts, frame stalls, interrupted retries, strict records, and bounded
 telemetry. Test clocks and worlds are synthetic; they are not benchmark results.
@@ -142,3 +142,22 @@ All added native floor and fingerprint branches have coverage hits. Browser
 exports and the published-capacity DOM section remain outside native and unit
 coverage; browser checks cover the actual WASM floor and engine construction.
 The frontend suite validates every bundled published capacity record.
+
+The frozen production build at `33a7573a3dab4b100939e77508737373401c8ab5`
+completed all ten supported CPU capacity combinations: boxes and balls in both
+Avian dimensions, both Rapier dimensions, and Jolt 3D. An additional Rapier 2D
+ball run raised the maximum from 4096 to 8192. All eleven records validate;
+ten reached an FPS threshold and one retains its earlier 4096-body lower bound.
+
+A browser regression showed eleven capacity rows after selecting the 2D filter,
+instead of the five matching rows. Capacity rows now follow runtime, dimension,
+scenario, machine, profile, and revision filters. Browser checks confirm five 2D
+rows, two 2D box rows, no native capacity rows, eleven matching machine/revision
+rows, and no GPU capacity rows. Unit tests preserve the original complete record
+for JSON export when only one of its measurements matches a filter.
+
+The published capacity table passes desktop and 390-pixel mobile visual review.
+The finish reviewer found no clipping, overlap, or unreachable JSON controls.
+The documenter confirmed that the table and filters reuse existing components.
+A browser export check preserved the selected record's source revision, score,
+maximum, and JSON filename.

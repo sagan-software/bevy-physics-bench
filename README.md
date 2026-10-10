@@ -37,9 +37,13 @@ reaching the maximum reports a lower bound. Errors have no valid score.
 Capacity runs include rendering and retain settings, raw windows, browser,
 viewport, versions, and machine metadata. Results appear beneath the views and
 on the Results page. JSON export and import preserve individual runs.
+
 Keep the page visible and its size fixed during collection. Display refresh rate
-limits the measured update rate. The hidden T3 preview could verify behavior but
-could not supply a valid published rendered-capacity score.
+limits the measured update rate.
+
+The Results page includes eleven published
+capacity runs collected after the T3 preview became visible.
+See the [collection conditions](docs/RUNS.md) before comparing scores.
 
 Nexus growth requires WebGPU, 3D boxes or balls, 60 Hz, solver effort 4,
 disabled sleeping, and discrete collision detection. Its current incremental

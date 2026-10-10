@@ -63,3 +63,34 @@ boundary. These scopes do not share speed ratios in the site.
 Raw samples were preserved during publication. Publication changed only the
 source label and appended collection conditions to native environment notes.
 The schema validator recomputed statistics and checked all 13 files before publication.
+
+## Rendered capacity collection
+
+Eleven [capacity records](../web/data/capacity.json) were collected between
+2026-10-10T07:35:33.434Z and 2026-10-10T07:45:21.471Z. The production bundle used
+source revision `33a7573a3dab4b100939e77508737373401c8ab5`. Each engine ran alone
+with a 60 FPS target, 3% tolerance, 128 initial bodies, and increments of 256.
+Each level settled for 1000 ms and sampled for 3000 ms. Two missed windows stopped
+growth; the recorded score is the last passing count.
+
+- 2D boxes: Avian 3200; Rapier 3968 bodies.
+- 2D balls: Avian 3456; Rapier 4480 bodies.
+- 3D boxes: Avian 1408; Rapier 2176; Jolt 640 bodies.
+- 3D balls: Avian 3456; Rapier 3200; Jolt 896 bodies.
+
+The first ten runs used a 4096-body maximum. Rapier's first 2D ball run reached
+that maximum while passing, so its 4096 score remains a lower bound. A separate
+run raised the maximum to 8192 and reached the FPS threshold at 4480 bodies.
+The records preserve both outcomes and every sampled window.
+
+The T3 preview was visible throughout collection. Each simulation viewport was
+947 by 390 CSS pixels with a reported pixel ratio of 1.4500000476837158.
+The browser reported Linux x86_64, 32 logical cores, Chromium 152.0.7977.78,
+and Electron 44.3.0. WebGL reported
+`ANGLE (NVIDIA Corporation, NVIDIA GeForce RTX 5070 Ti/PCIe/SSE2, OpenGL ES 3.2)`.
+The browser still provided no WebGPU adapter; Nexus has no browser capacity record.
+
+Project builds were stopped during collection. Other local work, CPU affinity,
+power settings, and thermals were not controlled. These are single runs per
+configuration, with one higher-cap follow-up. Read the recorded settings and
+[measurement method](METHOD.md) when comparing them.

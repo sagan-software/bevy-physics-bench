@@ -3,6 +3,22 @@ import schema from '../../capacity.schema.json' with { type: 'json' };
 import { validateCapacity, type CapacityMeasurement } from './capacity';
 import type { RunFile } from './results';
 
+/** Shared result controls use exact labels, with `all` disabling one filter. */
+export type CapacityFilters = Record<'runtime' | 'dimension' | 'scenario' | 'machine' | 'profile' | 'version', string>;
+
+/** Select rows without changing the original record used by JSON export. */
+export function capacityEntries(records: CapacityRecord[], filters?: CapacityFilters): { record: CapacityRecord; measurement: CapacityMeasurement }[] {
+  const entries: { record: CapacityRecord; measurement: CapacityMeasurement }[] = [];
+  const matches = (selected: string, actual: string) => selected === 'all' || selected === actual;
+  for (const record of records) for (const measurement of record.measurements) {
+    const profile = measurement.engine === 'nexus' ? 'gpu' : record.metadata.profile;
+    if (!filters || (matches(filters.runtime, 'wasm') && matches(filters.dimension, measurement.settings.dimension)
+      && matches(filters.scenario, measurement.settings.scenario) && matches(filters.machine, record.machine)
+      && matches(filters.profile, profile) && matches(filters.version, record.metadata.versions.revision))) entries.push({ record, measurement });
+  }
+  return entries;
+}
+
 /** Separate wire format for rendered growth scores; fixed-scene v1 records remain unchanged. */
 export interface CapacityRecord {
   kind: 'capacity-v1'; created_at: string; machine: string; browser: string; os: string; logical_cores: number;

@@ -1,1 +1,2197 @@
-[]
+[
+  {
+    "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) T3Code(Alpha)/0.0.45 Chrome/152.0.7977.78 Electron/44.3.0 Safari/537.36",
+    "created_at": "2026-10-10T07:45:21.471Z",
+    "kind": "capacity-v1",
+    "logical_cores": 32,
+    "machine": "T3 Code visible Chromium (production)",
+    "measurements": [
+      {
+        "detail": null,
+        "engine": "rapier",
+        "gpu": null,
+        "levels": [
+          {
+            "count": 128,
+            "windows": [
+              {
+                "elapsed_ms": 3003.399999976158,
+                "fps": 238.06352800348802,
+                "frames": 715
+              }
+            ]
+          },
+          {
+            "count": 384,
+            "windows": [
+              {
+                "elapsed_ms": 3000.300000011921,
+                "fps": 237.97620237881648,
+                "frames": 714
+              }
+            ]
+          },
+          {
+            "count": 640,
+            "windows": [
+              {
+                "elapsed_ms": 3000.800000011921,
+                "fps": 223.27379365413836,
+                "frames": 670
+              }
+            ]
+          },
+          {
+            "count": 896,
+            "windows": [
+              {
+                "elapsed_ms": 3001.699999988079,
+                "fps": 200.21987540473293,
+                "frames": 601
+              }
+            ]
+          },
+          {
+            "count": 1152,
+            "windows": [
+              {
+                "elapsed_ms": 3004.4000000059605,
+                "fps": 181.73345759516602,
+                "frames": 546
+              }
+            ]
+          },
+          {
+            "count": 1408,
+            "windows": [
+              {
+                "elapsed_ms": 3005.7000000178814,
+                "fps": 151.04634527640786,
+                "frames": 454
+              }
+            ]
+          },
+          {
+            "count": 1664,
+            "windows": [
+              {
+                "elapsed_ms": 3006.300000011921,
+                "fps": 130.06020689833002,
+                "frames": 391
+              }
+            ]
+          },
+          {
+            "count": 1920,
+            "windows": [
+              {
+                "elapsed_ms": 3003.699999988079,
+                "fps": 120.85095049486988,
+                "frames": 363
+              }
+            ]
+          },
+          {
+            "count": 2176,
+            "windows": [
+              {
+                "elapsed_ms": 3003.899999976158,
+                "fps": 110.19008622212029,
+                "frames": 331
+              }
+            ]
+          },
+          {
+            "count": 2432,
+            "windows": [
+              {
+                "elapsed_ms": 3001,
+                "fps": 90.3032322559147,
+                "frames": 271
+              }
+            ]
+          },
+          {
+            "count": 2688,
+            "windows": [
+              {
+                "elapsed_ms": 3000.2000000178814,
+                "fps": 88.99406706166545,
+                "frames": 267
+              }
+            ]
+          },
+          {
+            "count": 2944,
+            "windows": [
+              {
+                "elapsed_ms": 3000,
+                "fps": 88,
+                "frames": 264
+              }
+            ]
+          },
+          {
+            "count": 3200,
+            "windows": [
+              {
+                "elapsed_ms": 3009.899999976158,
+                "fps": 83.3914748004878,
+                "frames": 251
+              }
+            ]
+          },
+          {
+            "count": 3456,
+            "windows": [
+              {
+                "elapsed_ms": 3004.899999976158,
+                "fps": 78.53838730136528,
+                "frames": 236
+              }
+            ]
+          },
+          {
+            "count": 3712,
+            "windows": [
+              {
+                "elapsed_ms": 3009,
+                "fps": 69.79062811565304,
+                "frames": 210
+              }
+            ]
+          },
+          {
+            "count": 3968,
+            "windows": [
+              {
+                "elapsed_ms": 3013,
+                "fps": 63.72386325921009,
+                "frames": 192
+              }
+            ]
+          },
+          {
+            "count": 4224,
+            "windows": [
+              {
+                "elapsed_ms": 3012.5999999940395,
+                "fps": 58.753236407206465,
+                "frames": 177
+              }
+            ]
+          },
+          {
+            "count": 4480,
+            "windows": [
+              {
+                "elapsed_ms": 3016,
+                "fps": 58.687002652519894,
+                "frames": 177
+              }
+            ]
+          },
+          {
+            "count": 4736,
+            "windows": [
+              {
+                "elapsed_ms": 3002.2999999821186,
+                "fps": 54.624787663117196,
+                "frames": 164
+              },
+              {
+                "elapsed_ms": 3011.0999999940395,
+                "fps": 56.12566836051096,
+                "frames": 169
+              }
+            ]
+          }
+        ],
+        "outcome": "threshold",
+        "plan": {
+          "increment": 256,
+          "maximum": 8192,
+          "settle_ms": 1000,
+          "target_fps": 60,
+          "tolerance_percent": 3,
+          "window_ms": 3000
+        },
+        "scene_fingerprint": "62884ea66d4d4e488332ef28969e46da95c068b3ad48aaeac58a57c77ec337bc",
+        "score": 4480,
+        "settings": {
+          "ccd": "discrete",
+          "count": 128,
+          "dimension": "2d",
+          "friction": 0.5,
+          "gravity": 9.81,
+          "hz": 60,
+          "restitution": 0,
+          "scenario": "balls",
+          "seed": 42,
+          "sleeping": "disabled",
+          "solver_effort": 4
+        }
+      }
+    ],
+    "metadata": {
+      "build": {
+        "compiler": "rustc 1.98.1 (48a229cea 2026-09-01)",
+        "features": [
+          "avian2d",
+          "avian3d",
+          "bevy_rapier2d",
+          "bevy_rapier3d"
+        ],
+        "rustflags": "-C target-feature=+simd128"
+      },
+      "profile": "baseline",
+      "target": "wasm32-unknown-unknown",
+      "versions": {
+        "avian": "0.7.0",
+        "bevy": "0.19.1",
+        "bevy_rapier": "0.36.0",
+        "jolt_js": "1.1.0",
+        "nexus": "0.6.0",
+        "oxijolt": "1.0.1+jolt-5.6.0",
+        "rapier": "0.35.0-glamx0.2",
+        "revision": "33a7573a3dab4b100939e77508737373401c8ab5"
+      }
+    },
+    "os": "Linux x86_64",
+    "pixel_ratio": 1.4500000476837158,
+    "viewport": [
+      947,
+      390
+    ]
+  },
+  {
+    "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) T3Code(Alpha)/0.0.45 Chrome/152.0.7977.78 Electron/44.3.0 Safari/537.36",
+    "created_at": "2026-10-10T07:43:10.999Z",
+    "kind": "capacity-v1",
+    "logical_cores": 32,
+    "machine": "T3 Code visible Chromium (production)",
+    "measurements": [
+      {
+        "detail": null,
+        "engine": "jolt",
+        "gpu": null,
+        "levels": [
+          {
+            "count": 128,
+            "windows": [
+              {
+                "elapsed_ms": 3002.2000000178814,
+                "fps": 167.2107121434315,
+                "frames": 502
+              }
+            ]
+          },
+          {
+            "count": 384,
+            "windows": [
+              {
+                "elapsed_ms": 3012.5,
+                "fps": 105.22821576763485,
+                "frames": 317
+              }
+            ]
+          },
+          {
+            "count": 640,
+            "windows": [
+              {
+                "elapsed_ms": 3003.2999999821186,
+                "fps": 71.58791995514271,
+                "frames": 215
+              }
+            ]
+          },
+          {
+            "count": 896,
+            "windows": [
+              {
+                "elapsed_ms": 3004.100000023842,
+                "fps": 61.249625511314434,
+                "frames": 184
+              }
+            ]
+          },
+          {
+            "count": 1152,
+            "windows": [
+              {
+                "elapsed_ms": 3003.699999988079,
+                "fps": 48.27379565222075,
+                "frames": 145
+              },
+              {
+                "elapsed_ms": 3006.0999999940395,
+                "fps": 43.91071487983159,
+                "frames": 132
+              }
+            ]
+          }
+        ],
+        "outcome": "threshold",
+        "plan": {
+          "increment": 256,
+          "maximum": 4096,
+          "settle_ms": 1000,
+          "target_fps": 60,
+          "tolerance_percent": 3,
+          "window_ms": 3000
+        },
+        "scene_fingerprint": "bd0f2bd0b5e5ce6bbe0b1ad2a23542ebf9f50d69673bc3259a43b7cedf80392a",
+        "score": 896,
+        "settings": {
+          "ccd": "discrete",
+          "count": 128,
+          "dimension": "3d",
+          "friction": 0.5,
+          "gravity": 9.81,
+          "hz": 60,
+          "restitution": 0,
+          "scenario": "balls",
+          "seed": 42,
+          "sleeping": "disabled",
+          "solver_effort": 4
+        }
+      }
+    ],
+    "metadata": {
+      "build": {
+        "compiler": "rustc 1.98.1 (48a229cea 2026-09-01)",
+        "features": [
+          "avian2d",
+          "avian3d",
+          "bevy_rapier2d",
+          "bevy_rapier3d"
+        ],
+        "rustflags": "-C target-feature=+simd128"
+      },
+      "profile": "baseline",
+      "target": "wasm32-unknown-unknown",
+      "versions": {
+        "avian": "0.7.0",
+        "bevy": "0.19.1",
+        "bevy_rapier": "0.36.0",
+        "jolt_js": "1.1.0",
+        "nexus": "0.6.0",
+        "oxijolt": "1.0.1+jolt-5.6.0",
+        "rapier": "0.35.0-glamx0.2",
+        "revision": "33a7573a3dab4b100939e77508737373401c8ab5"
+      }
+    },
+    "os": "Linux x86_64",
+    "pixel_ratio": 1.4500000476837158,
+    "viewport": [
+      947,
+      390
+    ]
+  },
+  {
+    "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) T3Code(Alpha)/0.0.45 Chrome/152.0.7977.78 Electron/44.3.0 Safari/537.36",
+    "created_at": "2026-10-10T07:42:46.503Z",
+    "kind": "capacity-v1",
+    "logical_cores": 32,
+    "machine": "T3 Code visible Chromium (production)",
+    "measurements": [
+      {
+        "detail": null,
+        "engine": "rapier",
+        "gpu": null,
+        "levels": [
+          {
+            "count": 128,
+            "windows": [
+              {
+                "elapsed_ms": 3003.699999988079,
+                "fps": 239.37144188928772,
+                "frames": 719
+              }
+            ]
+          },
+          {
+            "count": 384,
+            "windows": [
+              {
+                "elapsed_ms": 3003.4000000059605,
+                "fps": 235.39988013537888,
+                "frames": 707
+              }
+            ]
+          },
+          {
+            "count": 640,
+            "windows": [
+              {
+                "elapsed_ms": 3003,
+                "fps": 184.8151848151848,
+                "frames": 555
+              }
+            ]
+          },
+          {
+            "count": 896,
+            "windows": [
+              {
+                "elapsed_ms": 3000,
+                "fps": 185,
+                "frames": 555
+              }
+            ]
+          },
+          {
+            "count": 1152,
+            "windows": [
+              {
+                "elapsed_ms": 3000.9000000059605,
+                "fps": 158.95231430539258,
+                "frames": 477
+              }
+            ]
+          },
+          {
+            "count": 1408,
+            "windows": [
+              {
+                "elapsed_ms": 3000.9000000059605,
+                "fps": 140.6244793225905,
+                "frames": 422
+              }
+            ]
+          },
+          {
+            "count": 1664,
+            "windows": [
+              {
+                "elapsed_ms": 3002.2000000178814,
+                "fps": 122.5767770294478,
+                "frames": 368
+              }
+            ]
+          },
+          {
+            "count": 1920,
+            "windows": [
+              {
+                "elapsed_ms": 3008.7000000178814,
+                "fps": 106.35822780539706,
+                "frames": 320
+              }
+            ]
+          },
+          {
+            "count": 2176,
+            "windows": [
+              {
+                "elapsed_ms": 3006.7999999821186,
+                "fps": 96.4480510847827,
+                "frames": 290
+              }
+            ]
+          },
+          {
+            "count": 2432,
+            "windows": [
+              {
+                "elapsed_ms": 3000,
+                "fps": 94,
+                "frames": 282
+              }
+            ]
+          },
+          {
+            "count": 2688,
+            "windows": [
+              {
+                "elapsed_ms": 3006.4000000059605,
+                "fps": 80.49494411905276,
+                "frames": 242
+              }
+            ]
+          },
+          {
+            "count": 2944,
+            "windows": [
+              {
+                "elapsed_ms": 3012.800000011921,
+                "fps": 75.67711099279668,
+                "frames": 228
+              }
+            ]
+          },
+          {
+            "count": 3200,
+            "windows": [
+              {
+                "elapsed_ms": 3009.2999999821186,
+                "fps": 67.45754826743968,
+                "frames": 203
+              }
+            ]
+          },
+          {
+            "count": 3456,
+            "windows": [
+              {
+                "elapsed_ms": 3006.5,
+                "fps": 49.55928820888076,
+                "frames": 149
+              },
+              {
+                "elapsed_ms": 3010.699999988079,
+                "fps": 47.82940844340857,
+                "frames": 144
+              }
+            ]
+          }
+        ],
+        "outcome": "threshold",
+        "plan": {
+          "increment": 256,
+          "maximum": 4096,
+          "settle_ms": 1000,
+          "target_fps": 60,
+          "tolerance_percent": 3,
+          "window_ms": 3000
+        },
+        "scene_fingerprint": "bd0f2bd0b5e5ce6bbe0b1ad2a23542ebf9f50d69673bc3259a43b7cedf80392a",
+        "score": 3200,
+        "settings": {
+          "ccd": "discrete",
+          "count": 128,
+          "dimension": "3d",
+          "friction": 0.5,
+          "gravity": 9.81,
+          "hz": 60,
+          "restitution": 0,
+          "scenario": "balls",
+          "seed": 42,
+          "sleeping": "disabled",
+          "solver_effort": 4
+        }
+      }
+    ],
+    "metadata": {
+      "build": {
+        "compiler": "rustc 1.98.1 (48a229cea 2026-09-01)",
+        "features": [
+          "avian2d",
+          "avian3d",
+          "bevy_rapier2d",
+          "bevy_rapier3d"
+        ],
+        "rustflags": "-C target-feature=+simd128"
+      },
+      "profile": "baseline",
+      "target": "wasm32-unknown-unknown",
+      "versions": {
+        "avian": "0.7.0",
+        "bevy": "0.19.1",
+        "bevy_rapier": "0.36.0",
+        "jolt_js": "1.1.0",
+        "nexus": "0.6.0",
+        "oxijolt": "1.0.1+jolt-5.6.0",
+        "rapier": "0.35.0-glamx0.2",
+        "revision": "33a7573a3dab4b100939e77508737373401c8ab5"
+      }
+    },
+    "os": "Linux x86_64",
+    "pixel_ratio": 1.4500000476837158,
+    "viewport": [
+      947,
+      390
+    ]
+  },
+  {
+    "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) T3Code(Alpha)/0.0.45 Chrome/152.0.7977.78 Electron/44.3.0 Safari/537.36",
+    "created_at": "2026-10-10T07:41:46.070Z",
+    "kind": "capacity-v1",
+    "logical_cores": 32,
+    "machine": "T3 Code visible Chromium (production)",
+    "measurements": [
+      {
+        "detail": null,
+        "engine": "avian",
+        "gpu": null,
+        "levels": [
+          {
+            "count": 128,
+            "windows": [
+              {
+                "elapsed_ms": 3000,
+                "fps": 239.66666666666666,
+                "frames": 719
+              }
+            ]
+          },
+          {
+            "count": 384,
+            "windows": [
+              {
+                "elapsed_ms": 3000.899999976158,
+                "fps": 218.6010863425012,
+                "frames": 656
+              }
+            ]
+          },
+          {
+            "count": 640,
+            "windows": [
+              {
+                "elapsed_ms": 3003.5,
+                "fps": 178.12552022640253,
+                "frames": 535
+              }
+            ]
+          },
+          {
+            "count": 896,
+            "windows": [
+              {
+                "elapsed_ms": 3000,
+                "fps": 143,
+                "frames": 429
+              }
+            ]
+          },
+          {
+            "count": 1152,
+            "windows": [
+              {
+                "elapsed_ms": 3012.5999999940395,
+                "fps": 131.77985793028796,
+                "frames": 397
+              }
+            ]
+          },
+          {
+            "count": 1408,
+            "windows": [
+              {
+                "elapsed_ms": 3003.9000000059605,
+                "fps": 125.50351210068642,
+                "frames": 377
+              }
+            ]
+          },
+          {
+            "count": 1664,
+            "windows": [
+              {
+                "elapsed_ms": 3005.9000000059605,
+                "fps": 109.7840912869176,
+                "frames": 330
+              }
+            ]
+          },
+          {
+            "count": 1920,
+            "windows": [
+              {
+                "elapsed_ms": 3008.2999999821186,
+                "fps": 95.07030548871455,
+                "frames": 286
+              }
+            ]
+          },
+          {
+            "count": 2176,
+            "windows": [
+              {
+                "elapsed_ms": 3007.899999976158,
+                "fps": 89.09870673962708,
+                "frames": 268
+              }
+            ]
+          },
+          {
+            "count": 2432,
+            "windows": [
+              {
+                "elapsed_ms": 3006.5999999940395,
+                "fps": 83.8156056676976,
+                "frames": 252
+              }
+            ]
+          },
+          {
+            "count": 2688,
+            "windows": [
+              {
+                "elapsed_ms": 3000.9000000059605,
+                "fps": 76.31044020112138,
+                "frames": 229
+              }
+            ]
+          },
+          {
+            "count": 2944,
+            "windows": [
+              {
+                "elapsed_ms": 3011.0999999940395,
+                "fps": 70.40616386052261,
+                "frames": 212
+              }
+            ]
+          },
+          {
+            "count": 3200,
+            "windows": [
+              {
+                "elapsed_ms": 3008.9000000059605,
+                "fps": 48.85506331207711,
+                "frames": 147
+              },
+              {
+                "elapsed_ms": 3010.5,
+                "fps": 66.76631788739412,
+                "frames": 201
+              }
+            ]
+          },
+          {
+            "count": 3456,
+            "windows": [
+              {
+                "elapsed_ms": 3005,
+                "fps": 63.89351081530782,
+                "frames": 192
+              }
+            ]
+          },
+          {
+            "count": 3712,
+            "windows": [
+              {
+                "elapsed_ms": 3007.699999988079,
+                "fps": 56.85407454223418,
+                "frames": 171
+              },
+              {
+                "elapsed_ms": 3004.5,
+                "fps": 55.916125811283074,
+                "frames": 168
+              }
+            ]
+          }
+        ],
+        "outcome": "threshold",
+        "plan": {
+          "increment": 256,
+          "maximum": 4096,
+          "settle_ms": 1000,
+          "target_fps": 60,
+          "tolerance_percent": 3,
+          "window_ms": 3000
+        },
+        "scene_fingerprint": "bd0f2bd0b5e5ce6bbe0b1ad2a23542ebf9f50d69673bc3259a43b7cedf80392a",
+        "score": 3456,
+        "settings": {
+          "ccd": "discrete",
+          "count": 128,
+          "dimension": "3d",
+          "friction": 0.5,
+          "gravity": 9.81,
+          "hz": 60,
+          "restitution": 0,
+          "scenario": "balls",
+          "seed": 42,
+          "sleeping": "disabled",
+          "solver_effort": 4
+        }
+      }
+    ],
+    "metadata": {
+      "build": {
+        "compiler": "rustc 1.98.1 (48a229cea 2026-09-01)",
+        "features": [
+          "avian2d",
+          "avian3d",
+          "bevy_rapier2d",
+          "bevy_rapier3d"
+        ],
+        "rustflags": "-C target-feature=+simd128"
+      },
+      "profile": "baseline",
+      "target": "wasm32-unknown-unknown",
+      "versions": {
+        "avian": "0.7.0",
+        "bevy": "0.19.1",
+        "bevy_rapier": "0.36.0",
+        "jolt_js": "1.1.0",
+        "nexus": "0.6.0",
+        "oxijolt": "1.0.1+jolt-5.6.0",
+        "rapier": "0.35.0-glamx0.2",
+        "revision": "33a7573a3dab4b100939e77508737373401c8ab5"
+      }
+    },
+    "os": "Linux x86_64",
+    "pixel_ratio": 1.4500000476837158,
+    "viewport": [
+      947,
+      390
+    ]
+  },
+  {
+    "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) T3Code(Alpha)/0.0.45 Chrome/152.0.7977.78 Electron/44.3.0 Safari/537.36",
+    "created_at": "2026-10-10T07:40:38.245Z",
+    "kind": "capacity-v1",
+    "logical_cores": 32,
+    "machine": "T3 Code visible Chromium (production)",
+    "measurements": [
+      {
+        "detail": null,
+        "engine": "jolt",
+        "gpu": null,
+        "levels": [
+          {
+            "count": 128,
+            "windows": [
+              {
+                "elapsed_ms": 3004.2000000178814,
+                "fps": 236.6686638691725,
+                "frames": 711
+              }
+            ]
+          },
+          {
+            "count": 384,
+            "windows": [
+              {
+                "elapsed_ms": 3001.9000000059605,
+                "fps": 116.25970218838303,
+                "frames": 349
+              }
+            ]
+          },
+          {
+            "count": 640,
+            "windows": [
+              {
+                "elapsed_ms": 3006.5999999940395,
+                "fps": 69.5137364466222,
+                "frames": 209
+              }
+            ]
+          },
+          {
+            "count": 896,
+            "windows": [
+              {
+                "elapsed_ms": 3006.7999999821186,
+                "fps": 44.565651190899594,
+                "frames": 134
+              },
+              {
+                "elapsed_ms": 3000.5999999940395,
+                "fps": 42.99140171974147,
+                "frames": 129
+              }
+            ]
+          }
+        ],
+        "outcome": "threshold",
+        "plan": {
+          "increment": 256,
+          "maximum": 4096,
+          "settle_ms": 1000,
+          "target_fps": 60,
+          "tolerance_percent": 3,
+          "window_ms": 3000
+        },
+        "scene_fingerprint": "843a71f0bf41d7890b9d0e66d2627efa61402c14d0d5ef2c9b50414576bcb91c",
+        "score": 640,
+        "settings": {
+          "ccd": "discrete",
+          "count": 128,
+          "dimension": "3d",
+          "friction": 0.5,
+          "gravity": 9.81,
+          "hz": 60,
+          "restitution": 0,
+          "scenario": "boxes",
+          "seed": 42,
+          "sleeping": "disabled",
+          "solver_effort": 4
+        }
+      }
+    ],
+    "metadata": {
+      "build": {
+        "compiler": "rustc 1.98.1 (48a229cea 2026-09-01)",
+        "features": [
+          "avian2d",
+          "avian3d",
+          "bevy_rapier2d",
+          "bevy_rapier3d"
+        ],
+        "rustflags": "-C target-feature=+simd128"
+      },
+      "profile": "baseline",
+      "target": "wasm32-unknown-unknown",
+      "versions": {
+        "avian": "0.7.0",
+        "bevy": "0.19.1",
+        "bevy_rapier": "0.36.0",
+        "jolt_js": "1.1.0",
+        "nexus": "0.6.0",
+        "oxijolt": "1.0.1+jolt-5.6.0",
+        "rapier": "0.35.0-glamx0.2",
+        "revision": "33a7573a3dab4b100939e77508737373401c8ab5"
+      }
+    },
+    "os": "Linux x86_64",
+    "pixel_ratio": 1.4500000476837158,
+    "viewport": [
+      947,
+      390
+    ]
+  },
+  {
+    "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) T3Code(Alpha)/0.0.45 Chrome/152.0.7977.78 Electron/44.3.0 Safari/537.36",
+    "created_at": "2026-10-10T07:40:17.897Z",
+    "kind": "capacity-v1",
+    "logical_cores": 32,
+    "machine": "T3 Code visible Chromium (production)",
+    "measurements": [
+      {
+        "detail": null,
+        "engine": "rapier",
+        "gpu": null,
+        "levels": [
+          {
+            "count": 128,
+            "windows": [
+              {
+                "elapsed_ms": 3000.0999999940395,
+                "fps": 239.65867804454135,
+                "frames": 719
+              }
+            ]
+          },
+          {
+            "count": 384,
+            "windows": [
+              {
+                "elapsed_ms": 3000,
+                "fps": 227.66666666666666,
+                "frames": 683
+              }
+            ]
+          },
+          {
+            "count": 640,
+            "windows": [
+              {
+                "elapsed_ms": 3002,
+                "fps": 209.19387075283146,
+                "frames": 628
+              }
+            ]
+          },
+          {
+            "count": 896,
+            "windows": [
+              {
+                "elapsed_ms": 3005.600000023842,
+                "fps": 143.0662762831345,
+                "frames": 430
+              }
+            ]
+          },
+          {
+            "count": 1152,
+            "windows": [
+              {
+                "elapsed_ms": 3002.699999988079,
+                "fps": 121.22423152544214,
+                "frames": 364
+              }
+            ]
+          },
+          {
+            "count": 1408,
+            "windows": [
+              {
+                "elapsed_ms": 3006,
+                "fps": 100.46573519627412,
+                "frames": 302
+              }
+            ]
+          },
+          {
+            "count": 1664,
+            "windows": [
+              {
+                "elapsed_ms": 3006.800000011921,
+                "fps": 91.79193827288339,
+                "frames": 276
+              }
+            ]
+          },
+          {
+            "count": 1920,
+            "windows": [
+              {
+                "elapsed_ms": 3005.9000000059605,
+                "fps": 75.51814764281909,
+                "frames": 227
+              }
+            ]
+          },
+          {
+            "count": 2176,
+            "windows": [
+              {
+                "elapsed_ms": 3019.0999999940395,
+                "fps": 62.601437514614666,
+                "frames": 189
+              }
+            ]
+          },
+          {
+            "count": 2432,
+            "windows": [
+              {
+                "elapsed_ms": 3011.699999988079,
+                "fps": 46.48537370938478,
+                "frames": 140
+              },
+              {
+                "elapsed_ms": 3010.600000023842,
+                "fps": 41.51996279778452,
+                "frames": 125
+              }
+            ]
+          }
+        ],
+        "outcome": "threshold",
+        "plan": {
+          "increment": 256,
+          "maximum": 4096,
+          "settle_ms": 1000,
+          "target_fps": 60,
+          "tolerance_percent": 3,
+          "window_ms": 3000
+        },
+        "scene_fingerprint": "843a71f0bf41d7890b9d0e66d2627efa61402c14d0d5ef2c9b50414576bcb91c",
+        "score": 2176,
+        "settings": {
+          "ccd": "discrete",
+          "count": 128,
+          "dimension": "3d",
+          "friction": 0.5,
+          "gravity": 9.81,
+          "hz": 60,
+          "restitution": 0,
+          "scenario": "boxes",
+          "seed": 42,
+          "sleeping": "disabled",
+          "solver_effort": 4
+        }
+      }
+    ],
+    "metadata": {
+      "build": {
+        "compiler": "rustc 1.98.1 (48a229cea 2026-09-01)",
+        "features": [
+          "avian2d",
+          "avian3d",
+          "bevy_rapier2d",
+          "bevy_rapier3d"
+        ],
+        "rustflags": "-C target-feature=+simd128"
+      },
+      "profile": "baseline",
+      "target": "wasm32-unknown-unknown",
+      "versions": {
+        "avian": "0.7.0",
+        "bevy": "0.19.1",
+        "bevy_rapier": "0.36.0",
+        "jolt_js": "1.1.0",
+        "nexus": "0.6.0",
+        "oxijolt": "1.0.1+jolt-5.6.0",
+        "rapier": "0.35.0-glamx0.2",
+        "revision": "33a7573a3dab4b100939e77508737373401c8ab5"
+      }
+    },
+    "os": "Linux x86_64",
+    "pixel_ratio": 1.4500000476837158,
+    "viewport": [
+      947,
+      390
+    ]
+  },
+  {
+    "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) T3Code(Alpha)/0.0.45 Chrome/152.0.7977.78 Electron/44.3.0 Safari/537.36",
+    "created_at": "2026-10-10T07:39:33.403Z",
+    "kind": "capacity-v1",
+    "logical_cores": 32,
+    "machine": "T3 Code visible Chromium (production)",
+    "measurements": [
+      {
+        "detail": null,
+        "engine": "avian",
+        "gpu": null,
+        "levels": [
+          {
+            "count": 128,
+            "windows": [
+              {
+                "elapsed_ms": 3001,
+                "fps": 238.58713762079307,
+                "frames": 716
+              }
+            ]
+          },
+          {
+            "count": 384,
+            "windows": [
+              {
+                "elapsed_ms": 3003.199999988079,
+                "fps": 186.4677677151781,
+                "frames": 560
+              }
+            ]
+          },
+          {
+            "count": 640,
+            "windows": [
+              {
+                "elapsed_ms": 3002.7999999821186,
+                "fps": 132.8759824172026,
+                "frames": 399
+              }
+            ]
+          },
+          {
+            "count": 896,
+            "windows": [
+              {
+                "elapsed_ms": 3009.699999988079,
+                "fps": 97.0196365090064,
+                "frames": 292
+              }
+            ]
+          },
+          {
+            "count": 1152,
+            "windows": [
+              {
+                "elapsed_ms": 3000.5,
+                "fps": 73.98766872187969,
+                "frames": 222
+              }
+            ]
+          },
+          {
+            "count": 1408,
+            "windows": [
+              {
+                "elapsed_ms": 3017.199999988079,
+                "fps": 62.30942595808789,
+                "frames": 188
+              }
+            ]
+          },
+          {
+            "count": 1664,
+            "windows": [
+              {
+                "elapsed_ms": 3010,
+                "fps": 51.82724252491694,
+                "frames": 156
+              },
+              {
+                "elapsed_ms": 3006.9000000059605,
+                "fps": 47.889853337229226,
+                "frames": 144
+              }
+            ]
+          }
+        ],
+        "outcome": "threshold",
+        "plan": {
+          "increment": 256,
+          "maximum": 4096,
+          "settle_ms": 1000,
+          "target_fps": 60,
+          "tolerance_percent": 3,
+          "window_ms": 3000
+        },
+        "scene_fingerprint": "843a71f0bf41d7890b9d0e66d2627efa61402c14d0d5ef2c9b50414576bcb91c",
+        "score": 1408,
+        "settings": {
+          "ccd": "discrete",
+          "count": 128,
+          "dimension": "3d",
+          "friction": 0.5,
+          "gravity": 9.81,
+          "hz": 60,
+          "restitution": 0,
+          "scenario": "boxes",
+          "seed": 42,
+          "sleeping": "disabled",
+          "solver_effort": 4
+        }
+      }
+    ],
+    "metadata": {
+      "build": {
+        "compiler": "rustc 1.98.1 (48a229cea 2026-09-01)",
+        "features": [
+          "avian2d",
+          "avian3d",
+          "bevy_rapier2d",
+          "bevy_rapier3d"
+        ],
+        "rustflags": "-C target-feature=+simd128"
+      },
+      "profile": "baseline",
+      "target": "wasm32-unknown-unknown",
+      "versions": {
+        "avian": "0.7.0",
+        "bevy": "0.19.1",
+        "bevy_rapier": "0.36.0",
+        "jolt_js": "1.1.0",
+        "nexus": "0.6.0",
+        "oxijolt": "1.0.1+jolt-5.6.0",
+        "rapier": "0.35.0-glamx0.2",
+        "revision": "33a7573a3dab4b100939e77508737373401c8ab5"
+      }
+    },
+    "os": "Linux x86_64",
+    "pixel_ratio": 1.4500000476837158,
+    "viewport": [
+      947,
+      390
+    ]
+  },
+  {
+    "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) T3Code(Alpha)/0.0.45 Chrome/152.0.7977.78 Electron/44.3.0 Safari/537.36",
+    "created_at": "2026-10-10T07:39:00.460Z",
+    "kind": "capacity-v1",
+    "logical_cores": 32,
+    "machine": "T3 Code visible Chromium (production)",
+    "measurements": [
+      {
+        "detail": null,
+        "engine": "rapier",
+        "gpu": null,
+        "levels": [
+          {
+            "count": 128,
+            "windows": [
+              {
+                "elapsed_ms": 3001.7000000178814,
+                "fps": 238.53149881591588,
+                "frames": 716
+              }
+            ]
+          },
+          {
+            "count": 384,
+            "windows": [
+              {
+                "elapsed_ms": 3004.699999988079,
+                "fps": 238.95896429022818,
+                "frames": 718
+              }
+            ]
+          },
+          {
+            "count": 640,
+            "windows": [
+              {
+                "elapsed_ms": 3003.4000000059605,
+                "fps": 231.73736431997693,
+                "frames": 696
+              }
+            ]
+          },
+          {
+            "count": 896,
+            "windows": [
+              {
+                "elapsed_ms": 3003.7999999821186,
+                "fps": 223.05080231839287,
+                "frames": 670
+              }
+            ]
+          },
+          {
+            "count": 1152,
+            "windows": [
+              {
+                "elapsed_ms": 3001.9000000059605,
+                "fps": 183.2172957123515,
+                "frames": 550
+              }
+            ]
+          },
+          {
+            "count": 1408,
+            "windows": [
+              {
+                "elapsed_ms": 3001.800000011921,
+                "fps": 168.23239389632704,
+                "frames": 505
+              }
+            ]
+          },
+          {
+            "count": 1664,
+            "windows": [
+              {
+                "elapsed_ms": 3004.4000000059605,
+                "fps": 151.11170283554097,
+                "frames": 454
+              }
+            ]
+          },
+          {
+            "count": 1920,
+            "windows": [
+              {
+                "elapsed_ms": 3003.0999999940395,
+                "fps": 136.52559022370676,
+                "frames": 410
+              }
+            ]
+          },
+          {
+            "count": 2176,
+            "windows": [
+              {
+                "elapsed_ms": 3000.800000011921,
+                "fps": 102.97254065541604,
+                "frames": 309
+              }
+            ]
+          },
+          {
+            "count": 2432,
+            "windows": [
+              {
+                "elapsed_ms": 3005.4000000059605,
+                "fps": 85.51274372778676,
+                "frames": 257
+              }
+            ]
+          },
+          {
+            "count": 2688,
+            "windows": [
+              {
+                "elapsed_ms": 3003.4000000059605,
+                "fps": 79.24352400596912,
+                "frames": 238
+              }
+            ]
+          },
+          {
+            "count": 2944,
+            "windows": [
+              {
+                "elapsed_ms": 3009.0999999940395,
+                "fps": 73.11156159663547,
+                "frames": 220
+              }
+            ]
+          },
+          {
+            "count": 3200,
+            "windows": [
+              {
+                "elapsed_ms": 3007.2000000178814,
+                "fps": 74.48789571650308,
+                "frames": 224
+              }
+            ]
+          },
+          {
+            "count": 3456,
+            "windows": [
+              {
+                "elapsed_ms": 3011.5,
+                "fps": 72.05711439481986,
+                "frames": 217
+              }
+            ]
+          },
+          {
+            "count": 3712,
+            "windows": [
+              {
+                "elapsed_ms": 3008.9000000059605,
+                "fps": 68.79590548027184,
+                "frames": 207
+              }
+            ]
+          },
+          {
+            "count": 3968,
+            "windows": [
+              {
+                "elapsed_ms": 3009.7000000178814,
+                "fps": 65.12276971088,
+                "frames": 196
+              }
+            ]
+          },
+          {
+            "count": 4096,
+            "windows": [
+              {
+                "elapsed_ms": 3005.5,
+                "fps": 61.88654134087506,
+                "frames": 186
+              }
+            ]
+          }
+        ],
+        "outcome": "limit",
+        "plan": {
+          "increment": 256,
+          "maximum": 4096,
+          "settle_ms": 1000,
+          "target_fps": 60,
+          "tolerance_percent": 3,
+          "window_ms": 3000
+        },
+        "scene_fingerprint": "62884ea66d4d4e488332ef28969e46da95c068b3ad48aaeac58a57c77ec337bc",
+        "score": 4096,
+        "settings": {
+          "ccd": "discrete",
+          "count": 128,
+          "dimension": "2d",
+          "friction": 0.5,
+          "gravity": 9.81,
+          "hz": 60,
+          "restitution": 0,
+          "scenario": "balls",
+          "seed": 42,
+          "sleeping": "disabled",
+          "solver_effort": 4
+        }
+      }
+    ],
+    "metadata": {
+      "build": {
+        "compiler": "rustc 1.98.1 (48a229cea 2026-09-01)",
+        "features": [
+          "avian2d",
+          "avian3d",
+          "bevy_rapier2d",
+          "bevy_rapier3d"
+        ],
+        "rustflags": "-C target-feature=+simd128"
+      },
+      "profile": "baseline",
+      "target": "wasm32-unknown-unknown",
+      "versions": {
+        "avian": "0.7.0",
+        "bevy": "0.19.1",
+        "bevy_rapier": "0.36.0",
+        "jolt_js": "1.1.0",
+        "nexus": "0.6.0",
+        "oxijolt": "1.0.1+jolt-5.6.0",
+        "rapier": "0.35.0-glamx0.2",
+        "revision": "33a7573a3dab4b100939e77508737373401c8ab5"
+      }
+    },
+    "os": "Linux x86_64",
+    "pixel_ratio": 1.4500000476837158,
+    "viewport": [
+      947,
+      390
+    ]
+  },
+  {
+    "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) T3Code(Alpha)/0.0.45 Chrome/152.0.7977.78 Electron/44.3.0 Safari/537.36",
+    "created_at": "2026-10-10T07:37:50.803Z",
+    "kind": "capacity-v1",
+    "logical_cores": 32,
+    "machine": "T3 Code visible Chromium (production)",
+    "measurements": [
+      {
+        "detail": null,
+        "engine": "avian",
+        "gpu": null,
+        "levels": [
+          {
+            "count": 128,
+            "windows": [
+              {
+                "elapsed_ms": 3000.2999999821186,
+                "fps": 239.30940239452028,
+                "frames": 718
+              }
+            ]
+          },
+          {
+            "count": 384,
+            "windows": [
+              {
+                "elapsed_ms": 3002.7999999821186,
+                "fps": 237.44505128688087,
+                "frames": 713
+              }
+            ]
+          },
+          {
+            "count": 640,
+            "windows": [
+              {
+                "elapsed_ms": 3004.4000000059605,
+                "fps": 211.68952203392965,
+                "frames": 636
+              }
+            ]
+          },
+          {
+            "count": 896,
+            "windows": [
+              {
+                "elapsed_ms": 3000.7000000178814,
+                "fps": 187.28963241798613,
+                "frames": 562
+              }
+            ]
+          },
+          {
+            "count": 1152,
+            "windows": [
+              {
+                "elapsed_ms": 3003.699999988079,
+                "fps": 154.80906881574242,
+                "frames": 465
+              }
+            ]
+          },
+          {
+            "count": 1408,
+            "windows": [
+              {
+                "elapsed_ms": 3006.399999976158,
+                "fps": 130.38850452471684,
+                "frames": 392
+              }
+            ]
+          },
+          {
+            "count": 1664,
+            "windows": [
+              {
+                "elapsed_ms": 3004.5999999940395,
+                "fps": 109.49876855509973,
+                "frames": 329
+              }
+            ]
+          },
+          {
+            "count": 1920,
+            "windows": [
+              {
+                "elapsed_ms": 3007.699999988079,
+                "fps": 103.4012700738879,
+                "frames": 311
+              }
+            ]
+          },
+          {
+            "count": 2176,
+            "windows": [
+              {
+                "elapsed_ms": 3002.5,
+                "fps": 93.255620316403,
+                "frames": 280
+              }
+            ]
+          },
+          {
+            "count": 2432,
+            "windows": [
+              {
+                "elapsed_ms": 3003.7999999821186,
+                "fps": 78.90005992456584,
+                "frames": 237
+              }
+            ]
+          },
+          {
+            "count": 2688,
+            "windows": [
+              {
+                "elapsed_ms": 3006.9000000059605,
+                "fps": 70.17193787607893,
+                "frames": 211
+              }
+            ]
+          },
+          {
+            "count": 2944,
+            "windows": [
+              {
+                "elapsed_ms": 3000.2000000178814,
+                "fps": 67.66215585587298,
+                "frames": 203
+              }
+            ]
+          },
+          {
+            "count": 3200,
+            "windows": [
+              {
+                "elapsed_ms": 3016.2000000178814,
+                "fps": 63.987799217179166,
+                "frames": 193
+              }
+            ]
+          },
+          {
+            "count": 3456,
+            "windows": [
+              {
+                "elapsed_ms": 3002.5,
+                "fps": 58.95087427144047,
+                "frames": 177
+              }
+            ]
+          },
+          {
+            "count": 3712,
+            "windows": [
+              {
+                "elapsed_ms": 3009.2000000178814,
+                "fps": 57.49036288680446,
+                "frames": 173
+              },
+              {
+                "elapsed_ms": 3014,
+                "fps": 54.080955540809555,
+                "frames": 163
+              }
+            ]
+          }
+        ],
+        "outcome": "threshold",
+        "plan": {
+          "increment": 256,
+          "maximum": 4096,
+          "settle_ms": 1000,
+          "target_fps": 60,
+          "tolerance_percent": 3,
+          "window_ms": 3000
+        },
+        "scene_fingerprint": "62884ea66d4d4e488332ef28969e46da95c068b3ad48aaeac58a57c77ec337bc",
+        "score": 3456,
+        "settings": {
+          "ccd": "discrete",
+          "count": 128,
+          "dimension": "2d",
+          "friction": 0.5,
+          "gravity": 9.81,
+          "hz": 60,
+          "restitution": 0,
+          "scenario": "balls",
+          "seed": 42,
+          "sleeping": "disabled",
+          "solver_effort": 4
+        }
+      }
+    ],
+    "metadata": {
+      "build": {
+        "compiler": "rustc 1.98.1 (48a229cea 2026-09-01)",
+        "features": [
+          "avian2d",
+          "avian3d",
+          "bevy_rapier2d",
+          "bevy_rapier3d"
+        ],
+        "rustflags": "-C target-feature=+simd128"
+      },
+      "profile": "baseline",
+      "target": "wasm32-unknown-unknown",
+      "versions": {
+        "avian": "0.7.0",
+        "bevy": "0.19.1",
+        "bevy_rapier": "0.36.0",
+        "jolt_js": "1.1.0",
+        "nexus": "0.6.0",
+        "oxijolt": "1.0.1+jolt-5.6.0",
+        "rapier": "0.35.0-glamx0.2",
+        "revision": "33a7573a3dab4b100939e77508737373401c8ab5"
+      }
+    },
+    "os": "Linux x86_64",
+    "pixel_ratio": 1.4500000476837158,
+    "viewport": [
+      947,
+      390
+    ]
+  },
+  {
+    "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) T3Code(Alpha)/0.0.45 Chrome/152.0.7977.78 Electron/44.3.0 Safari/537.36",
+    "created_at": "2026-10-10T07:36:45.921Z",
+    "kind": "capacity-v1",
+    "logical_cores": 32,
+    "machine": "T3 Code visible Chromium (production)",
+    "measurements": [
+      {
+        "detail": null,
+        "engine": "rapier",
+        "gpu": null,
+        "levels": [
+          {
+            "count": 128,
+            "windows": [
+              {
+                "elapsed_ms": 3002.9000000059605,
+                "fps": 240.1012354719001,
+                "frames": 721
+              }
+            ]
+          },
+          {
+            "count": 384,
+            "windows": [
+              {
+                "elapsed_ms": 3000.600000023842,
+                "fps": 236.28607611623227,
+                "frames": 709
+              }
+            ]
+          },
+          {
+            "count": 640,
+            "windows": [
+              {
+                "elapsed_ms": 3001.5,
+                "fps": 219.22372147259705,
+                "frames": 658
+              }
+            ]
+          },
+          {
+            "count": 896,
+            "windows": [
+              {
+                "elapsed_ms": 3003.300000011921,
+                "fps": 215.09672693285248,
+                "frames": 646
+              }
+            ]
+          },
+          {
+            "count": 1152,
+            "windows": [
+              {
+                "elapsed_ms": 3003.9000000059605,
+                "fps": 173.7740936778735,
+                "frames": 522
+              }
+            ]
+          },
+          {
+            "count": 1408,
+            "windows": [
+              {
+                "elapsed_ms": 3005.2000000178814,
+                "fps": 155.06455477080635,
+                "frames": 466
+              }
+            ]
+          },
+          {
+            "count": 1664,
+            "windows": [
+              {
+                "elapsed_ms": 3005.4000000059605,
+                "fps": 130.09915485433703,
+                "frames": 391
+              }
+            ]
+          },
+          {
+            "count": 1920,
+            "windows": [
+              {
+                "elapsed_ms": 3000.4000000059605,
+                "fps": 129.6493800823981,
+                "frames": 389
+              }
+            ]
+          },
+          {
+            "count": 2176,
+            "windows": [
+              {
+                "elapsed_ms": 3001.5999999940395,
+                "fps": 119.60287846505626,
+                "frames": 359
+              }
+            ]
+          },
+          {
+            "count": 2432,
+            "windows": [
+              {
+                "elapsed_ms": 3011.0999999940395,
+                "fps": 104.94503669776013,
+                "frames": 316
+              }
+            ]
+          },
+          {
+            "count": 2688,
+            "windows": [
+              {
+                "elapsed_ms": 3005.5999999940395,
+                "fps": 90.16502528631136,
+                "frames": 271
+              }
+            ]
+          },
+          {
+            "count": 2944,
+            "windows": [
+              {
+                "elapsed_ms": 3005.2999999821186,
+                "fps": 80.52440688165571,
+                "frames": 242
+              }
+            ]
+          },
+          {
+            "count": 3200,
+            "windows": [
+              {
+                "elapsed_ms": 3007.699999988079,
+                "fps": 75.47295275489567,
+                "frames": 227
+              }
+            ]
+          },
+          {
+            "count": 3456,
+            "windows": [
+              {
+                "elapsed_ms": 3001.7000000178814,
+                "fps": 71.62607855505854,
+                "frames": 215
+              }
+            ]
+          },
+          {
+            "count": 3712,
+            "windows": [
+              {
+                "elapsed_ms": 3008.5999999940395,
+                "fps": 68.13800438755771,
+                "frames": 205
+              }
+            ]
+          },
+          {
+            "count": 3968,
+            "windows": [
+              {
+                "elapsed_ms": 3007.800000011921,
+                "fps": 60.17687346209277,
+                "frames": 181
+              }
+            ]
+          },
+          {
+            "count": 4096,
+            "windows": [
+              {
+                "elapsed_ms": 3019,
+                "fps": 55.31632991056641,
+                "frames": 167
+              },
+              {
+                "elapsed_ms": 3018.2999999821186,
+                "fps": 57.648345095262506,
+                "frames": 174
+              }
+            ]
+          }
+        ],
+        "outcome": "threshold",
+        "plan": {
+          "increment": 256,
+          "maximum": 4096,
+          "settle_ms": 1000,
+          "target_fps": 60,
+          "tolerance_percent": 3,
+          "window_ms": 3000
+        },
+        "scene_fingerprint": "f1fd753cb0390f9430ca75ec92c2a3beee505b9e729a4159a5b44e1f55330656",
+        "score": 3968,
+        "settings": {
+          "ccd": "discrete",
+          "count": 128,
+          "dimension": "2d",
+          "friction": 0.5,
+          "gravity": 9.81,
+          "hz": 60,
+          "restitution": 0,
+          "scenario": "boxes",
+          "seed": 42,
+          "sleeping": "disabled",
+          "solver_effort": 4
+        }
+      }
+    ],
+    "metadata": {
+      "build": {
+        "compiler": "rustc 1.98.1 (48a229cea 2026-09-01)",
+        "features": [
+          "avian2d",
+          "avian3d",
+          "bevy_rapier2d",
+          "bevy_rapier3d"
+        ],
+        "rustflags": "-C target-feature=+simd128"
+      },
+      "profile": "baseline",
+      "target": "wasm32-unknown-unknown",
+      "versions": {
+        "avian": "0.7.0",
+        "bevy": "0.19.1",
+        "bevy_rapier": "0.36.0",
+        "jolt_js": "1.1.0",
+        "nexus": "0.6.0",
+        "oxijolt": "1.0.1+jolt-5.6.0",
+        "rapier": "0.35.0-glamx0.2",
+        "revision": "33a7573a3dab4b100939e77508737373401c8ab5"
+      }
+    },
+    "os": "Linux x86_64",
+    "pixel_ratio": 1.4500000476837158,
+    "viewport": [
+      947,
+      390
+    ]
+  },
+  {
+    "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) T3Code(Alpha)/0.0.45 Chrome/152.0.7977.78 Electron/44.3.0 Safari/537.36",
+    "created_at": "2026-10-10T07:35:33.434Z",
+    "kind": "capacity-v1",
+    "logical_cores": 32,
+    "machine": "T3 Code visible Chromium (production)",
+    "measurements": [
+      {
+        "detail": null,
+        "engine": "avian",
+        "gpu": null,
+        "levels": [
+          {
+            "count": 128,
+            "windows": [
+              {
+                "elapsed_ms": 3002.300000011921,
+                "fps": 239.48306298409392,
+                "frames": 719
+              }
+            ]
+          },
+          {
+            "count": 384,
+            "windows": [
+              {
+                "elapsed_ms": 3000.2999999821186,
+                "fps": 233.6433023378255,
+                "frames": 701
+              }
+            ]
+          },
+          {
+            "count": 640,
+            "windows": [
+              {
+                "elapsed_ms": 3003.2000000178814,
+                "fps": 200.11987213519632,
+                "frames": 601
+              }
+            ]
+          },
+          {
+            "count": 896,
+            "windows": [
+              {
+                "elapsed_ms": 3002.300000011921,
+                "fps": 157.21280351667917,
+                "frames": 472
+              }
+            ]
+          },
+          {
+            "count": 1152,
+            "windows": [
+              {
+                "elapsed_ms": 3003.600000023842,
+                "fps": 140.1651351700154,
+                "frames": 421
+              }
+            ]
+          },
+          {
+            "count": 1408,
+            "windows": [
+              {
+                "elapsed_ms": 3002.5999999940395,
+                "fps": 120.56217944472078,
+                "frames": 362
+              }
+            ]
+          },
+          {
+            "count": 1664,
+            "windows": [
+              {
+                "elapsed_ms": 3010,
+                "fps": 106.64451827242524,
+                "frames": 321
+              }
+            ]
+          },
+          {
+            "count": 1920,
+            "windows": [
+              {
+                "elapsed_ms": 3000,
+                "fps": 99,
+                "frames": 297
+              }
+            ]
+          },
+          {
+            "count": 2176,
+            "windows": [
+              {
+                "elapsed_ms": 3008.699999988079,
+                "fps": 83.42473493568468,
+                "frames": 251
+              }
+            ]
+          },
+          {
+            "count": 2432,
+            "windows": [
+              {
+                "elapsed_ms": 3010.600000023842,
+                "fps": 74.07161363124759,
+                "frames": 223
+              }
+            ]
+          },
+          {
+            "count": 2688,
+            "windows": [
+              {
+                "elapsed_ms": 3009.5,
+                "fps": 70.11131417178933,
+                "frames": 211
+              }
+            ]
+          },
+          {
+            "count": 2944,
+            "windows": [
+              {
+                "elapsed_ms": 3002.7999999821186,
+                "fps": 61.609164779905974,
+                "frames": 185
+              }
+            ]
+          },
+          {
+            "count": 3200,
+            "windows": [
+              {
+                "elapsed_ms": 3003.5999999940395,
+                "fps": 58.26341723276977,
+                "frames": 175
+              }
+            ]
+          },
+          {
+            "count": 3456,
+            "windows": [
+              {
+                "elapsed_ms": 3000.7999999821186,
+                "fps": 51.652892562291264,
+                "frames": 155
+              },
+              {
+                "elapsed_ms": 3015.9000000059605,
+                "fps": 53.715308862919805,
+                "frames": 162
+              }
+            ]
+          }
+        ],
+        "outcome": "threshold",
+        "plan": {
+          "increment": 256,
+          "maximum": 4096,
+          "settle_ms": 1000,
+          "target_fps": 60,
+          "tolerance_percent": 3,
+          "window_ms": 3000
+        },
+        "scene_fingerprint": "f1fd753cb0390f9430ca75ec92c2a3beee505b9e729a4159a5b44e1f55330656",
+        "score": 3200,
+        "settings": {
+          "ccd": "discrete",
+          "count": 128,
+          "dimension": "2d",
+          "friction": 0.5,
+          "gravity": 9.81,
+          "hz": 60,
+          "restitution": 0,
+          "scenario": "boxes",
+          "seed": 42,
+          "sleeping": "disabled",
+          "solver_effort": 4
+        }
+      }
+    ],
+    "metadata": {
+      "build": {
+        "compiler": "rustc 1.98.1 (48a229cea 2026-09-01)",
+        "features": [
+          "avian2d",
+          "avian3d",
+          "bevy_rapier2d",
+          "bevy_rapier3d"
+        ],
+        "rustflags": "-C target-feature=+simd128"
+      },
+      "profile": "baseline",
+      "target": "wasm32-unknown-unknown",
+      "versions": {
+        "avian": "0.7.0",
+        "bevy": "0.19.1",
+        "bevy_rapier": "0.36.0",
+        "jolt_js": "1.1.0",
+        "nexus": "0.6.0",
+        "oxijolt": "1.0.1+jolt-5.6.0",
+        "rapier": "0.35.0-glamx0.2",
+        "revision": "33a7573a3dab4b100939e77508737373401c8ab5"
+      }
+    },
+    "os": "Linux x86_64",
+    "pixel_ratio": 1.4500000476837158,
+    "viewport": [
+      947,
+      390
+    ]
+  }
+]

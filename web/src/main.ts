@@ -6,7 +6,7 @@ import { groupMeasurements, historySeries } from './series';
 import { PhysicsView } from './view';
 import { LiveChart } from './live-chart';
 import { runCapacity, type CapacityMeasurement, type CapacityPlan } from './capacity';
-import { validateCapacityRecord, type CapacityRecord } from './capacity-records';
+import { capacityEntries, validateCapacityRecord, type CapacityRecord, type CapacityFilters } from './capacity-records';
 import capacitySamples from '../data/capacity.json';
 import { DEFAULT_PLAN, RunCoordinator, runComparison } from './benchmark';
 import { comparable, validateRun, type Measurement, type Plan, type RunFile } from './results';
@@ -254,7 +254,7 @@ function download(run: RunFile): void {
   anchor.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 async function loadResults(): Promise<void> {
-  const label = element('results-status'); label.textContent = 'Loading published results…';
+  const label = element('results-status'); label.textContent = 'Loading step timing results…';
   try {
     const response = await fetch(`${import.meta.env.BASE_URL}results/index.json`, { cache: 'no-cache' });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -267,15 +267,16 @@ async function loadResults(): Promise<void> {
       const run = validateRun(await response.json());
       return { ...run, source: 'published' } as RunFile;
     }));
-    label.textContent = `Published runs: ${published.length}. Runs on this device: ${storedRuns().length}.`;
-  } catch (cause) { label.textContent = `Published results could not be loaded: ${String(cause)}. Use Refresh to retry.`; }
+    label.textContent = `Published step timing runs: ${published.length}. Saved step timing runs: ${storedRuns().length}.`;
+  } catch (cause) { label.textContent = `Step timing results could not be loaded: ${String(cause)}. Use Refresh to retry.`; }
   updateFilters(); renderResults();
 }
 function updateFilters(): void {
   const all = [...storedRuns(), ...published];
+  const capacity = [...capacityRecords, ...publishedCapacity];
   for (const [id, values] of [
-    ['filter-machine', all.map(run => run.environment.machine)],
-    ['filter-version', all.map(run => run.versions.revision)],
+    ['filter-machine', [...all.map(run => run.environment.machine), ...capacity.map(run => run.machine)]],
+    ['filter-version', [...all.map(run => run.versions.revision), ...capacity.map(run => run.metadata.versions.revision)]],
   ] as [string, string[]][]) {
     const select = element<HTMLSelectElement>(id); const selected = select.value;
     while (select.options.length > 1) select.remove(1);
@@ -283,8 +284,11 @@ function updateFilters(): void {
     select.value = [...select.options].some(option => option.value === selected) ? selected : 'all';
   }
 }
+function resultFilters(): CapacityFilters {
+  return Object.fromEntries(['runtime', 'dimension', 'scenario', 'machine', 'profile', 'version'].map(key => [key, element<HTMLSelectElement>(`filter-${key}`).value])) as CapacityFilters;
+}
 function filteredRuns(): RunFile[] {
-  const filters = Object.fromEntries(['runtime', 'dimension', 'scenario', 'machine', 'profile', 'version'].map(key => [key, element<HTMLSelectElement>(`filter-${key}`).value]));
+  const filters = resultFilters();
   return [...storedRuns(), ...published].filter(run =>
     (filters.runtime === 'all' || run.environment.runtime === filters.runtime) &&
     (filters.machine === 'all' || run.environment.machine === filters.machine) &&
@@ -296,6 +300,7 @@ function filteredRuns(): RunFile[] {
     .filter(run => run.measurements.length).sort((a, b) => b.created_at.localeCompare(a.created_at));
 }
 function renderResults(): void {
+  showCapacity();
   const root = element('results-list'); root.replaceChildren();
   const all = filteredRuns();
   const history = element('history-list'); history.replaceChildren();
@@ -335,7 +340,7 @@ function renderResults(): void {
       details.append(summary, machine, data); article.append(heading, meta, scroll, details); root.append(article);
     }
   }
-  if (!root.childElementCount) root.append(Object.assign(document.createElement('p'), { textContent: 'No runs match these filters. Run a comparison or choose different filters.' }));
+  if (!root.childElementCount) root.append(Object.assign(document.createElement('p'), { textContent: 'No step timing runs match these filters.' }));
 }
 function showTab(): void {
   const route = location.hash.split('?')[0].slice(1); const tab = ['results', 'method'].includes(route) ? route : 'playground';
@@ -397,13 +402,14 @@ function showCapacity(): void {
 }
 function renderCapacity(root: HTMLElement, records = capacityRecords, title = 'Saved capacity runs'): void {
   root.replaceChildren();
-  if (!records.length) return;
+  const entries = capacityEntries(records, root.id === 'capacity-results' ? undefined : resultFilters());
+  if (!entries.length) return;
   const heading = document.createElement('h3'); heading.textContent = title; root.append(heading);
   const scroll = document.createElement('div'); scroll.className = 'table-scroll';
   const table = document.createElement('table'); table.className = 'capacity-history';
   const row = table.createTHead().insertRow();
   for (const title of ['Engine', 'Score', 'Target', 'Outcome', 'Result']) { const th = document.createElement('th'); th.textContent = title; th.scope = 'col'; row.append(th); }
-  for (const record of records) for (const measurement of record.measurements) {
+  for (const { record, measurement } of entries) {
     const row = table.createTBody().insertRow();
     for (const text of [ENGINES[measurement.engine].name, measurement.outcome === 'error' ? '—' : `${measurement.score} bodies`, `${measurement.plan.target_fps} FPS (${measurement.plan.tolerance_percent}% tolerance)`, measurement.outcome === 'threshold' ? 'FPS limit' : measurement.outcome === 'limit' ? 'Body limit reached' : 'Run error']) row.insertCell().textContent = text;
     const button = document.createElement('button'); button.textContent = 'JSON'; button.setAttribute('aria-label', `Export ${ENGINES[measurement.engine].name} capacity run`);
@@ -474,7 +480,7 @@ async function measureCapacity(): Promise<void> {
       const record = validateCapacityRecord({ kind: 'capacity-v1', created_at: new Date().toISOString(), machine: field('machine').value.trim(), browser: navigator.userAgent, os: navigator.platform, logical_cores: navigator.hardwareConcurrency || 1, viewport: [views[engines.length - 1].canvas.clientWidth, views[engines.length - 1].canvas.clientHeight], pixel_ratio: Math.min(devicePixelRatio, 2), metadata, measurements });
       capacityRecords.unshift(record); capacityRecords = capacityRecords.slice(0, 20);
       try { localStorage.setItem('bevy-capacity-v1', JSON.stringify(capacityRecords)); } catch { /* JSON export remains available. */ }
-      showCapacity();
+      updateFilters(); showCapacity();
       status(measurements.some(measurement => measurement.outcome === 'error') ? 'Capacity run ended with errors. Inspect the results below.' : 'Capacity run complete. Play or Reset starts the configured scene again.');
     } catch (cause) {
       if (!controller.signal.aborted && request === runGeneration) { error(`Capacity run failed. ${String(cause)} Reduce the maximum or choose a supported scene.`); status('No capacity result was saved.'); }
@@ -545,7 +551,7 @@ element('import-results').addEventListener('change', async event => {
     if (decoded && typeof decoded === 'object' && 'kind' in decoded && decoded.kind === 'capacity-v1') {
       const record = validateCapacityRecord(decoded); capacityRecords.unshift(record); capacityRecords = capacityRecords.slice(0, 20);
       try { localStorage.setItem('bevy-capacity-v1', JSON.stringify(capacityRecords)); } catch { /* Export remains available. */ }
-      showCapacity(); element('results-status').textContent = 'Imported capacity run on this device.'; return;
+      updateFilters(); renderResults(); element('results-status').textContent = 'Imported capacity run on this device.'; return;
     }
     const run = validateRun(decoded);
     saveRun({ ...run, source: 'local' }); updateFilters(); renderResults();
