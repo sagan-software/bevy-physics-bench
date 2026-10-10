@@ -52,6 +52,8 @@ switching, settings, comparison, and results. A separate finish reviewer confirm
 the mobile control placement, complete engine metadata, and source-link fixes.
 The design detector ran once; its flat-heading report was checked against the
 rendered hierarchy. Design tokens and the accepted layout are recorded in DESIGN.md.
+The 13 published records also loaded in desktop and mobile Results views. Filters
+selected the two native pyramid records, and history displayed one series per engine.
 
 Coverage is execution evidence. Physical assertions, identical generated inputs,
 raw timing samples, and result validation establish separate properties. Release

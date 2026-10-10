@@ -1,1 +1,15 @@
-[]
+[
+  "2026-10-10-5070ti-10000-boxes.json",
+  "2026-10-10-5070ti-nexus-initial.json",
+  "2026-10-10-5070ti-nexus-repeat.json",
+  "2026-10-10-5950x-10000-boxes-avian.json",
+  "2026-10-10-5950x-10000-boxes-rapier.json",
+  "2026-10-10-5950x-ccd-2d.json",
+  "2026-10-10-5950x-ccd-3d.json",
+  "2026-10-10-5950x-native-baseline.json",
+  "2026-10-10-5950x-native-pyramid-repeat.json",
+  "2026-10-10-5950x-native-tuned.json",
+  "2026-10-10-github-epyc-7763-baseline.json",
+  "2026-10-10-github-xeon-8573c-native-tuned.json",
+  "2026-10-10-t3-chromium-wasm.json"
+]

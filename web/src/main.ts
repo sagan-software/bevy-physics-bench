@@ -230,7 +230,7 @@ async function loadResults(): Promise<void> {
       const run = validateRun(await response.json());
       return { ...run, source: 'published' } as RunFile;
     }));
-    label.textContent = `${published.length} published runs. ${storedRuns().length} runs stored on this device.`;
+    label.textContent = `Published runs: ${published.length}. Runs on this device: ${storedRuns().length}.`;
   } catch (cause) { label.textContent = `Published results could not be loaded: ${String(cause)}. Use Refresh to retry.`; }
   updateFilters(); renderResults();
 }

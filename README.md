@@ -105,6 +105,7 @@ and revision. It retains raw samples and shows history when comparable records
 exist. Browser measurements remain in local storage until exported.
 
 [Contributing](CONTRIBUTING.md) explains publication and validation.
+[The initial collection](docs/RUNS.md) records 342 measurements and observed failures.
 [Validation](docs/VALIDATION.md) records checks and remaining coverage boundaries.
 The weekly collection workflow produces baseline and tuned CI artifacts plus a
 release report. Maintainers review those artifacts before publishing them.
